@@ -3,7 +3,8 @@ import './LoginPage.scss';
 
 function LoginPage() {
   return (
-    <div>  
+    <div>
+    login
     </div>
   );
 }

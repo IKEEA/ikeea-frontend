@@ -4,6 +4,7 @@ import './RegistrationPage.scss';
 function RegistrationPage() {
   return (
     <div>
+    registration
     </div>
   );
 }

@@ -4,6 +4,7 @@ import './ProfilePage.scss';
 function ProfilePage() {
   return (
     <div>
+    profile
     </div>
   );
 }
