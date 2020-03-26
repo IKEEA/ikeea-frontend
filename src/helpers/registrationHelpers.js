@@ -1,9 +1,9 @@
-export const getEmailFromToken = async () => {
+export const getEmailFromToken = async (token) => {
     // TO DO 
     // Implement server-side fetching of the email
     return new Promise((resolve, reject) => {
-        setTimeout(5000, () => {
-            resolve("test@email.com");
-        })
+        setTimeout(() => {
+            resolve({value: "test@email.com"});
+        }, 500)
     })
 }
