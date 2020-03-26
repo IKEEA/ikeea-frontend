@@ -49,6 +49,8 @@ function RegistrationPage() {
   const classes = useStyles();
 
   const register = e => {
+    // TO DO
+    // implement field validation
     e.preventDefault();
     history.push("/");
   }
@@ -68,9 +70,7 @@ function RegistrationPage() {
               <TextField
                 className={classes.textField}
                 defaultValue={email}
-                InputProps={{
-                  readOnly: true,
-                }}
+                
                 fullWidth
                 autoFocus
                 required
