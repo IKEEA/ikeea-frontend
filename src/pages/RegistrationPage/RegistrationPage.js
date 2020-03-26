@@ -102,6 +102,7 @@ function RegistrationPage() {
                 inputRef={input => password.value = input}
                 error={password.error}
                 helperText={password.helperText}
+                type="password"
               />
               <TextField
                 className={classes.textField}
@@ -111,6 +112,7 @@ function RegistrationPage() {
                 inputRef={input => repeatPassword.value = input}
                 error={repeatPassword.error}
                 helperText={repeatPassword.helperText}
+                type="password"
               />
             </CardContent>
             <CardActions>
