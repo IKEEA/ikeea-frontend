@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 //components
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,13 +20,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfilePage() {
   const classes = useStyles();
+  const [userName, setUserName] = useState('Test Name Surname');
+  const [oldPassword, setOldPassword] = useState({ value: null, error: false, helperText: null });
+  const [newPassword, setNewPassword] = useState({ value: null, error: false, helperText: null });
+  const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
+  const [daysLimit, setDaysLimit] = useState({ value: null, error: false, helperText: null });
+
+  useEffect(() => {
+    //TODO
+    // get user name and limit
+  }, []);
 
   return (
     <div>
       <Menu>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>Name surname</Paper>
+              <Paper className={classes.paper}>{userName}</Paper>
             </Grid>
             <Grid item xs={6}>
               <Paper className={classes.paper}>
@@ -35,16 +45,31 @@ export default function ProfilePage() {
                 label="Current password"
                 fullWidth
                 required
+                autoFocus
+                type="password"
+                inputRef={input => oldPassword.value = input}
+                error={oldPassword.error}
+                helperText={oldPassword.helperText}
               />
               <TextField
                 label="New password"
                 fullWidth
                 required
+                autoFocus
+                type="password"
+                inputRef={input => newPassword.value = input}
+                error={newPassword.error}
+                helperText={newPassword.helperText}
               />
               <TextField
                 label="Repeat new password"
                 fullWidth
                 required
+                autoFocus
+                type="password"
+                inputRef={input => repeatPassword.value = input}
+                error={repeatPassword.error}
+                helperText={repeatPassword.helperText}
               />
               <Button
                 type="submit"
@@ -64,7 +89,11 @@ export default function ProfilePage() {
                   label="Your limit"
                   fullWidth
                   type="number"
+                  autoFocus
                   required
+                  inputRef={input => daysLimit.value = input}
+                  error={daysLimit.error}
+                  helperText={daysLimit.helperText}
                 />
                 <Button
                   type="submit"
