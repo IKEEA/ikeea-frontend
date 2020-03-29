@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 function RegistrationPage() {
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState({ value: null, isLocked: false });
   const [firstName, setFirstName] = useState({ value: null, error: false, helperText: null });
   const [lastName, setLastName] = useState({ value: null, error: false, helperText: null });
   const [password, setPassword] = useState({ value: null, error: false, helperText: null });
@@ -47,6 +47,14 @@ function RegistrationPage() {
   const params = useParams();
   const history = useHistory();
   const classes = useStyles();
+
+  useEffect(() => {
+    async function getEmail(token) {
+      const response = await getEmailFromToken(token);
+      setEmail({ value: response.value, isLocked: true });
+    }
+    getEmail(params.token);
+  }, [])
 
   const register = e => {
     // TO DO
@@ -68,11 +76,12 @@ function RegistrationPage() {
                 <AccountBox fontSize="large" />
               </Avatar>
               <TextField
+                value={email.value}
                 className={classes.textField}
-                defaultValue={email}
-                
+                InputProps={{
+                  readOnly: email.isLocked,
+                }}
                 fullWidth
-                autoFocus
                 required
               />
               <TextField
