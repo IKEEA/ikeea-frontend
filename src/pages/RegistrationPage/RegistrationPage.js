@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './RegistrationPage.scss';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as constants from '../../constants/RegistrationPage.constants.js';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
+import { ErrorsContext } from '../../context/ErrorsContext';
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +46,7 @@ function RegistrationPage() {
   const [password, setPassword] = useState({ value: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: ''});
+  const [errors, setErrors] = useContext(ErrorsContext);
   const params = useParams();
   const history = useHistory();
   const classes = useStyles();
@@ -53,6 +55,7 @@ function RegistrationPage() {
     async function getEmail(token) {
       const response = await getEmailFromToken(token);
       if (response.errors) {
+        setErrors({ errors: response.errors });
         setRedirect({shouldRedirect: true, route: '/error'});
       }
       setEmail({ value: response.value, isLocked: true });

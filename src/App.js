@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Redirect } from 'react-router';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage';
@@ -6,14 +6,17 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import { ErrorsContext } from './context/ErrorsContext';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme();
 
-class App extends React.Component {
+export default function App() {
 
-  render() {
-    return (
+  const [errors, setErrors] = useState({});
+
+  return (
+    <ErrorsContext.Provider value={[errors, setErrors]}>
       <MuiThemeProvider theme={theme}>
         <BrowserRouter>
           <Switch>
@@ -26,8 +29,6 @@ class App extends React.Component {
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
-    );
-  }
+    </ErrorsContext.Provider>
+  );
 }
-
-export default withStore(App, initialState);
