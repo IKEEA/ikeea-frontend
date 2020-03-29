@@ -24,7 +24,7 @@ export default function ProfilePage() {
   const [oldPassword, setOldPassword] = useState({ value: null, error: false, helperText: null });
   const [newPassword, setNewPassword] = useState({ value: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
-  const [daysLimit, setDaysLimit] = useState({ value: null, error: false, helperText: null });
+  const [daysLimit, setDaysLimit] = useState(3);
 
   useEffect(() => {
     //TODO
@@ -86,24 +86,12 @@ export default function ProfilePage() {
               <Paper className={classes.paper}>
                 Your monthly learning days limit
                 <TextField
-                  label="Your limit"
                   fullWidth
-                  type="number"
-                  autoFocus
-                  required
-                  inputRef={input => daysLimit.value = input}
-                  error={daysLimit.error}
-                  helperText={daysLimit.helperText}
+                  defaultValue={daysLimit}
+                  InputProps={{
+                    readOnly: true
+                  }}
                 />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  raised
-                  className={classes.submitButton}
-                >
-                  Change
-                </Button>
               </Paper>
             </Grid>
           </Grid>
