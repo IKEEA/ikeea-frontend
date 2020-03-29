@@ -10,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { makeStyles } from '@material-ui/core/styles';
 import * as constants from '../../constants/RegistrationPage.constants.js';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
 
 
@@ -44,6 +44,7 @@ function RegistrationPage() {
   const [lastName, setLastName] = useState({ value: null, error: false, helperText: null });
   const [password, setPassword] = useState({ value: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
+  const [redirect, setRedirect] = useState({ shouldRedirect: false, route: ''});
   const params = useParams();
   const history = useHistory();
   const classes = useStyles();
@@ -51,6 +52,9 @@ function RegistrationPage() {
   useEffect(() => {
     async function getEmail(token) {
       const response = await getEmailFromToken(token);
+      if (response.errors) {
+        setRedirect({shouldRedirect: true, route: '/error'});
+      }
       setEmail({ value: response.value, isLocked: true });
     }
     getEmail(params.token);
@@ -60,11 +64,12 @@ function RegistrationPage() {
     // TO DO
     // implement field validation
     e.preventDefault();
-    history.push("/");
+    setRedirect({shouldRedirect: true, route: '/'});
   }
 
   return (
     <div>
+      {redirect.shouldRedirect ? <Redirect to={redirect.route}/> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
           <Card className={classes.card}>
@@ -76,7 +81,7 @@ function RegistrationPage() {
                 <AccountBox fontSize="large" />
               </Avatar>
               <TextField
-                value={email.value}
+                value={email.value || ''}
                 className={classes.textField}
                 InputProps={{
                   readOnly: email.isLocked,

@@ -5,7 +5,8 @@ import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme();
 
@@ -20,6 +21,7 @@ class App extends React.Component {
             <Route path='/login' component={LoginPage} />
             <Route path='/registration/:token' component={RegistrationPage} />
             <Route path='/profile' component={ProfilePage} />
+            <Route path='/error' component={ErrorPage} />
             <Redirect to='/' />
           </Switch>
         </BrowserRouter>
@@ -28,4 +30,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withStore(App, initialState);
