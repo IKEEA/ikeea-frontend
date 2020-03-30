@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { makeStyles } from '@material-ui/core/styles';
-import * as constants from '../../constants/RegistrationPage.constants.js';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
+import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import { ErrorsContext } from '../../context/ErrorsContext';
 
 
@@ -40,12 +40,12 @@ const useStyles = makeStyles(theme => ({
 
 function RegistrationPage() {
 
-  const [email, setEmail] = useState({ value: null, isLocked: false });
-  const [firstName, setFirstName] = useState({ value: null, error: false, helperText: null });
-  const [lastName, setLastName] = useState({ value: null, error: false, helperText: null });
-  const [password, setPassword] = useState({ value: null, error: false, helperText: null });
-  const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
-  const [redirect, setRedirect] = useState({ shouldRedirect: false, route: ''});
+  const [email, setEmail] = useState({ value: '', isLocked: false });
+  const [firstName, setFirstName] = useState({ value: '', error: false, helperText: null });
+  const [lastName, setLastName] = useState({ value: '', error: false, helperText: null });
+  const [password, setPassword] = useState({ value: '', error: false, helperText: null });
+  const [repeatPassword, setRepeatPassword] = useState({ value: '', error: false, helperText: null });
+  const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [errors, setErrors] = useContext(ErrorsContext);
   const params = useParams();
   const history = useHistory();
@@ -56,7 +56,7 @@ function RegistrationPage() {
       const response = await getEmailFromToken(token);
       if (response.errors) {
         setErrors({ errors: response.errors });
-        setRedirect({shouldRedirect: true, route: '/error'});
+        setRedirect({ shouldRedirect: true, route: '/error' });
       }
       setEmail({ value: response.value, isLocked: true });
     }
@@ -64,15 +64,22 @@ function RegistrationPage() {
   }, [])
 
   const register = e => {
-    // TO DO
-    // implement field validation
+    const haveErrors = [];
+    haveErrors.push(inputValidationHelpers.validateField(firstName.value, setFirstName, inputValidationHelpers.validateName));
+    haveErrors.push(inputValidationHelpers.validateField(lastName.value, setLastName, inputValidationHelpers.validateName));
+    haveErrors.push(inputValidationHelpers.validateField(password.value, setPassword, inputValidationHelpers.validatePassword));
+    haveErrors.push(inputValidationHelpers.validateField(repeatPassword.value, setRepeatPassword, inputValidationHelpers.validatePassword));
     e.preventDefault();
-    setRedirect({shouldRedirect: true, route: '/'});
+    console.log(haveErrors);
+    if (!haveErrors.find(hasError => hasError = true)) {
+      setRedirect({ shouldRedirect: true, route: '/' });
+    }
+
   }
 
   return (
     <div>
-      {redirect.shouldRedirect ? <Redirect to={redirect.route}/> : null}
+      {redirect.shouldRedirect ? <Redirect to={redirect.route} /> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
           <Card className={classes.card}>
