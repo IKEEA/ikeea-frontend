@@ -9,6 +9,15 @@ export const validateName = (value) => {
     }
 }
 
+export const validateEmail = (value) => {
+    console.log(value);
+    if (!value) {
+        return constants.REQUIRED_FIELD;
+    } else {
+        return null;
+    }
+}
+
 export const validatePassword = (value) => {
     console.log(value);
     if (!value) {
@@ -19,12 +28,13 @@ export const validatePassword = (value) => {
 }
 
 export const validateField = (input, setter, validatingFunction) => {
+    console.log(input);
     const errorText = validatingFunction(input.value);
     if (errorText) {
-        setter({ value: input.value, error: true, helperText: errorText });
+        setter({ input: input, error: true, helperText: errorText });
         return true;
     } else {
-        setter({ value: input.value, error: false, helperText: null });
+        setter({ input: input, error: false, helperText: null });
         return false;
     }
 }

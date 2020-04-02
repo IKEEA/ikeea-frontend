@@ -40,11 +40,11 @@ const useStyles = makeStyles(theme => ({
 
 function RegistrationPage() {
 
-  const [email, setEmail] = useState({ value: '', isLocked: false });
-  const [firstName, setFirstName] = useState({ value: '', error: false, helperText: null });
-  const [lastName, setLastName] = useState({ value: '', error: false, helperText: null });
-  const [password, setPassword] = useState({ value: '', error: false, helperText: null });
-  const [repeatPassword, setRepeatPassword] = useState({ value: '', error: false, helperText: null });
+  const [email, setEmail] = useState({ input: {value: ''}, isLocked: false });
+  const [firstName, setFirstName] = useState({ input: null, error: false, helperText: null });
+  const [lastName, setLastName] = useState({ input: null, error: false, helperText: null });
+  const [password, setPassword] = useState({ input: null, error: false, helperText: null });
+  const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [errors, setErrors] = useContext(ErrorsContext);
   const params = useParams();
@@ -65,10 +65,10 @@ function RegistrationPage() {
 
   const register = e => {
     const haveErrors = [];
-    haveErrors.push(inputValidationHelpers.validateField(firstName.value, setFirstName, inputValidationHelpers.validateName));
-    haveErrors.push(inputValidationHelpers.validateField(lastName.value, setLastName, inputValidationHelpers.validateName));
-    haveErrors.push(inputValidationHelpers.validateField(password.value, setPassword, inputValidationHelpers.validatePassword));
-    haveErrors.push(inputValidationHelpers.validateField(repeatPassword.value, setRepeatPassword, inputValidationHelpers.validatePassword));
+    haveErrors.push(inputValidationHelpers.validateField(firstName.input, setFirstName, inputValidationHelpers.validateName));
+    haveErrors.push(inputValidationHelpers.validateField(lastName.input, setLastName, inputValidationHelpers.validateName));
+    haveErrors.push(inputValidationHelpers.validateField(password.input, setPassword, inputValidationHelpers.validatePassword));
+    haveErrors.push(inputValidationHelpers.validateField(repeatPassword.input, setRepeatPassword, inputValidationHelpers.validatePassword));
     e.preventDefault();
     console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError = true)) {
@@ -105,7 +105,7 @@ function RegistrationPage() {
                 fullWidth
                 autoFocus
                 required
-                inputRef={input => firstName.value = input}
+                inputRef={input => firstName.input = input}
                 error={firstName.error}
                 helperText={firstName.helperText}
               />
@@ -114,7 +114,7 @@ function RegistrationPage() {
                 label="Enter your last name"
                 fullWidth
                 required
-                inputRef={input => lastName.value = input}
+                inputRef={input => lastName.input = input}
                 error={lastName.error}
                 helperText={lastName.helperText}
               />
@@ -123,7 +123,7 @@ function RegistrationPage() {
                 label="Enter the password"
                 fullWidth
                 required
-                inputRef={input => password.value = input}
+                inputRef={input => password.input = input}
                 error={password.error}
                 helperText={password.helperText}
                 type="password"
@@ -133,7 +133,7 @@ function RegistrationPage() {
                 label="Repeat the password"
                 fullWidth
                 required
-                inputRef={input => repeatPassword.value = input}
+                inputRef={input => repeatPassword.input = input}
                 error={repeatPassword.error}
                 helperText={repeatPassword.helperText}
                 type="password"
