@@ -13,6 +13,7 @@ import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
 import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import { ErrorsContext } from '../../context/ErrorsContext';
+import Logo from '../../components/Logo';
 
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   card: {
-    marginTop: '30px',
+    marginTop: '15px',
     alignContent: 'center',
   },
   textField: {
@@ -82,14 +83,11 @@ function RegistrationPage() {
       {redirect.shouldRedirect ? <Redirect to={redirect.route} /> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
+          <Logo/>
           <Card className={classes.card}>
             <CardHeader>
-
             </CardHeader>
             <CardContent>
-              <Avatar className={classes.avatar}>
-                <AccountBox fontSize="large" />
-              </Avatar>
               <TextField
                 value={email.value || ''}
                 className={classes.textField}

@@ -3,9 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
-import { CardHeader, CardContent, CardActions } from '@material-ui/core';
+import { CardHeader, CardContent, CardActions, Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
@@ -13,6 +12,7 @@ import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import * as loginHelpers from '../../helpers/loginHelpers';
 import { Alert } from '@material-ui/lab';
 import { UserContext } from '../../context/UserContext';
+import Logo from '../../components/Logo';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -21,16 +21,11 @@ const useStyles = makeStyles(theme => ({
     }
   },
   card: {
-    marginTop: '30px',
+    marginTop: '15px',
     alignContent: 'center',
   },
   textField: {
     marginBottom: '10px'
-  },
-  avatar: {
-    margin: 'auto',
-    marginBottom: '20px',
-    backgroundColor: theme.palette.primary.main
   },
   button: {
     margin: 'auto'
@@ -75,14 +70,11 @@ function LoginPage() {
       {redirect.shouldRedirect ? <Redirect to={redirect.route} /> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
+          <Logo/>
           <Card className={classes.card}>
             <CardHeader>
-
             </CardHeader>
             <CardContent>
-              <Avatar className={classes.avatar}>
-                <AccountBox fontSize="large" />
-              </Avatar>
               <TextField
                 className={classes.textField}
                 label="Enter your first name"
