@@ -51,6 +51,7 @@ function LoginPage() {
     haveErrors.push(inputValidationHelpers.validateField(email.input, setEmail, inputValidationHelpers.validateEmail));
     haveErrors.push(inputValidationHelpers.validateField(password.input, setPassword, inputValidationHelpers.validatePassword));
     e.preventDefault();
+    console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError === true)) {
       const response = await loginHelpers.login(email.input.value, password.input.value);
       if (response.error) {
