@@ -70,7 +70,6 @@ function RegistrationPage() {
     haveErrors.push(inputValidationHelpers.validateField(password.value, setPassword, inputValidationHelpers.validatePassword));
     haveErrors.push(inputValidationHelpers.validateField(repeatPassword.value, setRepeatPassword, inputValidationHelpers.validatePassword));
     e.preventDefault();
-    console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError = true)) {
       setRedirect({ shouldRedirect: true, route: '/' });
     }

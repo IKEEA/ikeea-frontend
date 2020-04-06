@@ -1,7 +1,7 @@
 import * as constants from '../constants/InputValidation.constants.js';
 
 export const validateName = (value) => {
-    console.log(value);
+    // Placeholder functionality, should be extended in the future according to our needs
     if (!value) {
         return constants.REQUIRED_FIELD;
     } else {
@@ -10,7 +10,7 @@ export const validateName = (value) => {
 }
 
 export const validatePassword = (value) => {
-    console.log(value);
+    // Placeholder functionality, should be extended in the future according to our needs
     if (!value) {
         return constants.REQUIRED_FIELD;
     } else {
