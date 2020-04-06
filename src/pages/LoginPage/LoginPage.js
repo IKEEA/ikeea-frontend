@@ -8,12 +8,11 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { getEmailFromToken } from '../../helpers/registrationHelpers';
+import { Redirect } from 'react-router-dom';
 import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import * as loginHelpers from '../../helpers/loginHelpers';
-import { ErrorsContext } from '../../context/ErrorsContext';
-
+import { Alert } from '@material-ui/lab';
+import { UserContext } from '../../context/UserContext';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -35,6 +34,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: 'auto'
+  },
+  alert: {
+    margin: '10px'
   }
 }))
 
@@ -43,17 +45,27 @@ function LoginPage() {
   const [email, setEmail] = useState({ input: null, error: false, helperText: null });
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
-  const [errors, setErrors] = useContext(ErrorsContext);
+  const [loginError, setLoginError] = useState('');
+  const [user, setUser] = useState(UserContext);
+
   const classes = useStyles();
 
   const login = async (e) => {
+    setLoginError('');
     const haveErrors = [];
     haveErrors.push(inputValidationHelpers.validateField(email.input, setEmail, inputValidationHelpers.validateEmail));
     haveErrors.push(inputValidationHelpers.validateField(password.input, setPassword, inputValidationHelpers.validatePassword));
     e.preventDefault();
-    if (!haveErrors.find(hasError => hasError = true)) {
+    if (!haveErrors.find(hasError => hasError === true)) {
       const response = await loginHelpers.login(email.input.value, password.input.value);
-      setRedirect({ shouldRedirect: true, route: '/' });
+      if (response.error) {
+        setLoginError(`${response.error}: ${response.message}`)
+      } else if (response.accessToken) {
+        setUser({ accessToken: response.accessToken });
+        setRedirect({ shouldRedirect: true, route: '/' });
+      } else {
+        setLoginError('Something went terribly wrong');
+      }
     }
 
   }
@@ -93,6 +105,9 @@ function LoginPage() {
             <CardActions>
               <Button className={classes.button} type="submit" variant="contained" color="primary" onClick={(e) => login(e)} raised>Login</Button>
             </CardActions>
+            <Alert className={classes.alert} severity="error" style={{ display: loginError ? 'flex' : 'none' }}>
+              {loginError}
+            </Alert>
           </Card>
         </Grid>
       </Container>
