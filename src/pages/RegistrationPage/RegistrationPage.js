@@ -70,6 +70,7 @@ function RegistrationPage() {
     haveErrors.push(inputValidationHelpers.validateField(lastName.input, setLastName, inputValidationHelpers.validateName));
     haveErrors.push(inputValidationHelpers.validateField(password.input, setPassword, inputValidationHelpers.validatePassword));
     haveErrors.push(inputValidationHelpers.validateField(repeatPassword.input, setRepeatPassword, inputValidationHelpers.validatePassword));
+    haveErrors.push(inputValidationHelpers.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));
     e.preventDefault();
     console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError == true)) {
