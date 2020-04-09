@@ -9,10 +9,11 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { makeStyles } from '@material-ui/core/styles';
-import * as constants from '../../constants/RegistrationPage.constants.js';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
+import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import { ErrorsContext } from '../../context/ErrorsContext';
+import Logo from '../../components/Logo';
 
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   card: {
-    marginTop: '30px',
+    marginTop: '15px',
     alignContent: 'center',
   },
   textField: {
@@ -40,12 +41,12 @@ const useStyles = makeStyles(theme => ({
 
 function RegistrationPage() {
 
-  const [email, setEmail] = useState({ value: null, isLocked: false });
-  const [firstName, setFirstName] = useState({ value: null, error: false, helperText: null });
-  const [lastName, setLastName] = useState({ value: null, error: false, helperText: null });
-  const [password, setPassword] = useState({ value: null, error: false, helperText: null });
-  const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
-  const [redirect, setRedirect] = useState({ shouldRedirect: false, route: ''});
+  const [email, setEmail] = useState({ input: {value: ''}, isLocked: false });
+  const [firstName, setFirstName] = useState({ input: null, error: false, helperText: null });
+  const [lastName, setLastName] = useState({ input: null, error: false, helperText: null });
+  const [password, setPassword] = useState({ input: null, error: false, helperText: null });
+  const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
+  const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [errors, setErrors] = useContext(ErrorsContext);
   const params = useParams();
   const history = useHistory();
@@ -56,7 +57,7 @@ function RegistrationPage() {
       const response = await getEmailFromToken(token);
       if (response.errors) {
         setErrors({ errors: response.errors });
-        setRedirect({shouldRedirect: true, route: '/error'});
+        setRedirect({ shouldRedirect: true, route: '/error' });
       }
       setEmail({ value: response.value, isLocked: true });
     }
@@ -64,25 +65,30 @@ function RegistrationPage() {
   }, [])
 
   const register = e => {
-    // TO DO
-    // implement field validation
+    const haveErrors = [];
+    haveErrors.push(inputValidationHelpers.validateField(firstName.input, setFirstName, inputValidationHelpers.validateName));
+    haveErrors.push(inputValidationHelpers.validateField(lastName.input, setLastName, inputValidationHelpers.validateName));
+    haveErrors.push(inputValidationHelpers.validateField(password.input, setPassword, inputValidationHelpers.validatePassword));
+    haveErrors.push(inputValidationHelpers.validateField(repeatPassword.input, setRepeatPassword, inputValidationHelpers.validatePassword));
+    haveErrors.push(inputValidationHelpers.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));
     e.preventDefault();
-    setRedirect({shouldRedirect: true, route: '/'});
+    console.log(haveErrors);
+    if (!haveErrors.find(hasError => hasError == true)) {
+      setRedirect({ shouldRedirect: true, route: '/' });
+    }
+
   }
 
   return (
     <div>
-      {redirect.shouldRedirect ? <Redirect to={redirect.route}/> : null}
+      {redirect.shouldRedirect ? <Redirect to={redirect.route} /> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
+          <Logo/>
           <Card className={classes.card}>
             <CardHeader>
-
             </CardHeader>
             <CardContent>
-              <Avatar className={classes.avatar}>
-                <AccountBox fontSize="large" />
-              </Avatar>
               <TextField
                 value={email.value || ''}
                 className={classes.textField}
@@ -98,7 +104,7 @@ function RegistrationPage() {
                 fullWidth
                 autoFocus
                 required
-                inputRef={input => firstName.value = input}
+                inputRef={input => firstName.input = input}
                 error={firstName.error}
                 helperText={firstName.helperText}
               />
@@ -107,7 +113,7 @@ function RegistrationPage() {
                 label="Enter your last name"
                 fullWidth
                 required
-                inputRef={input => lastName.value = input}
+                inputRef={input => lastName.input = input}
                 error={lastName.error}
                 helperText={lastName.helperText}
               />
@@ -116,7 +122,7 @@ function RegistrationPage() {
                 label="Enter the password"
                 fullWidth
                 required
-                inputRef={input => password.value = input}
+                inputRef={input => password.input = input}
                 error={password.error}
                 helperText={password.helperText}
                 type="password"
@@ -126,7 +132,7 @@ function RegistrationPage() {
                 label="Repeat the password"
                 fullWidth
                 required
-                inputRef={input => repeatPassword.value = input}
+                inputRef={input => repeatPassword.input = input}
                 error={repeatPassword.error}
                 helperText={repeatPassword.helperText}
                 type="password"
