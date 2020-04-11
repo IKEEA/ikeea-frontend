@@ -41,7 +41,7 @@ function LoginPage() {
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [loginError, setLoginError] = useState('');
-  const [user, setUser] = useState(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   const classes = useStyles();
 
