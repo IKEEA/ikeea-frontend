@@ -12,7 +12,7 @@ import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import * as loginHelpers from '../../helpers/loginHelpers';
 import { Alert } from '@material-ui/lab';
 import { UserContext } from '../../context/UserContext';
-import Logo from '../../components/Logo';
+import Logo from '../../components/Logo/Logo';
 
 const useStyles = makeStyles(theme => ({
   '@global': {

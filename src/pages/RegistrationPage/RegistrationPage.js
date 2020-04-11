@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './RegistrationPage.scss';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
@@ -13,7 +12,7 @@ import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
 import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
 import { ErrorsContext } from '../../context/ErrorsContext';
-import Logo from '../../components/Logo';
+import Logo from '../../components/Logo/Logo';
 
 
 const useStyles = makeStyles(theme => ({
