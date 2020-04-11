@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 export default function App() {
 
   const [errors, setErrors] = useState({});
-  const [user, setUser] = useState({ token: '' });
+  const [user, setUser] = useState({});
 
   return (
     <UserContext.Provider value={[user, setUser]}>
