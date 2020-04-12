@@ -32,6 +32,11 @@ const Menu = ({ children }) => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    history.push('/login');
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -89,7 +94,7 @@ const Menu = ({ children }) => {
           ))}
         </List>
         <Divider />
-        <ListItem button onClick={() => history.push('/login')}>
+        <ListItem button onClick={() => logout()}>
               <ListItemIcon><ExitToApp/></ListItemIcon>
               <ListItemText primary='Logout' />
             </ListItem>

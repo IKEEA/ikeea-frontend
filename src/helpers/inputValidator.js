@@ -35,7 +35,7 @@ export const validatePassword = (value, feedback) => {
     }
 }
 
-export const validateName = (value) => {
+export const validateRequiredField = (value) => {
     if (!value) {
         return constants.REQUIRED_FIELD;
     } else {
@@ -44,6 +44,11 @@ export const validateName = (value) => {
 }
 
 export const ensurePasswordMatching = (passwordInput, repeatPasswordInput, setPassword, setRepeatPassword) => {
+    if (!passwordInput.value || !repeatPasswordInput.value) {
+        setPassword({ input: passwordInput.value, error: true, helperText: constants.REQUIRED_FIELD});
+        setRepeatPassword({ input: repeatPasswordInput.value, error: true, helperText: constants.REQUIRED_FIELD });
+        return true;
+    }
     if (passwordInput.value !== repeatPasswordInput.value) {
         setPassword({ input: passwordInput.value, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
         setRepeatPassword({ input: repeatPasswordInput.value, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });

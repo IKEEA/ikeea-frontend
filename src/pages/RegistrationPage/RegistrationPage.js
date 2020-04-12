@@ -41,8 +41,8 @@ const RegistrationPage = () => {
 
   const register = e => {
     const haveErrors = [];
-    haveErrors.push(validator.validateField(firstName.input, setFirstName, validator.validateName));
-    haveErrors.push(validator.validateField(lastName.input, setLastName, validator.validateName));
+    haveErrors.push(validator.validateField(firstName.input, setFirstName, validator.validateRequiredField));
+    haveErrors.push(validator.validateField(lastName.input, setLastName, validator.validateRequiredField));
     haveErrors.push(validator.validateField(password.input, setPassword, validator.validatePassword));
     haveErrors.push(validator.validateField(repeatPassword.input, setRepeatPassword, validator.validatePassword));
     haveErrors.push(validator.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));

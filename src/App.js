@@ -48,6 +48,7 @@ const App = () => {
        .post(`${process.env.REACT_APP_SERVER_URL}/api/login`, { email: email, password: password })
        .then(res => {
           localStorage.setItem('token', `Bearer ${res.data.accessToken}`);
+          axios.defaults.headers.common = {'Authorization': localStorage.getItem('token')}
           getUserProfile();
        })
        .catch(err => {

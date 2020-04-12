@@ -17,7 +17,7 @@ import { useStyles } from './ProfilePage.styles';
 
 export default function ProfilePage() {
   const classes = useStyles();
-  const [oldPassword, setOldPassword] = useState(null);
+  const [oldPassword, setOldPassword] = useState({ input: null, error: false, helperText: null });
   const [newPassword, setNewPassword] = useState({ input: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
@@ -29,10 +29,11 @@ export default function ProfilePage() {
   const changePassword = () => {
     
     const errors = [];
+    errors.push(validator.validateField(oldPassword.input, setOldPassword, validator.validateRequiredField));
     errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
     if (!errors.find(error => error === true)) {
       axios
-       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update-password?password=${newPassword.input.value}&oldPassword=${oldPassword}`)
+       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update-password?password=${newPassword.input.value}&oldPassword=${oldPassword.input.value}`)
        .then(res => {
           setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' })
        })
@@ -86,7 +87,9 @@ export default function ProfilePage() {
                 label="Current password"
                 fullWidth
                 type="password"
-                onChange={e => setOldPassword(e.target.value)}
+                inputRef={input => oldPassword.input = input}
+                error={oldPassword.error}
+                helperText={oldPassword.helperText}
               />
               <TextField
                 label="New password"
