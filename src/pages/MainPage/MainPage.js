@@ -1,16 +1,14 @@
 import React, {useContext} from 'react';
-import {UserContext} from './../../context/UserContext';
+import { UserContext } from './../../context/UserContext';
+import Menu from '../../components/Menu/Menu';
 
-function MainPage() {
-
+const MainPage = () => {
   const user = useContext(UserContext);
-
   console.log(user);
-
   return (
-    <div>
-    main
-    </div>
+    <Menu>
+      Main page
+    </Menu>
   );
 }
 

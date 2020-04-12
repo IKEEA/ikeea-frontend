@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useStyles } from './ProfilePage.styles';
-import {UserContext} from './../../context/UserContext';
-//components
+import { UserContext } from './../../context/UserContext';
 
+//components
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Menu from '../../components/Menu/Menu';
 
-
+import { useStyles } from './ProfilePage.styles';
 
 export default function ProfilePage() {
   const classes = useStyles();

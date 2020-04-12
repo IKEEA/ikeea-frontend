@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useStyles } from './Menu.styles';
 import { userMenuItems, adminMenuItems } from './Menu.constants';
 
 //components
@@ -25,9 +24,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 
-const Menu = ({ children }) =>{
-  const classes = useStyles();
+import { useStyles } from './Menu.styles';
+
+const Menu = ({ children }) => {
   const theme = useTheme();
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const history = useHistory();
 

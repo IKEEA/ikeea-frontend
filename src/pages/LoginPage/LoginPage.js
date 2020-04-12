@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as validator from '../../helpers/inputValidator';
-import { useStyles } from './LoginPage.styles';
 
 //components
 import TextField from '@material-ui/core/TextField';
@@ -12,14 +11,12 @@ import Button from '@material-ui/core/Button';
 import { Alert } from '@material-ui/lab';
 import Logo from '../../components/Logo/Logo';
 
+import { useStyles } from './LoginPage.styles';
+
 const LoginPage = ({userLogin, loginError}) => {
 
   const [email, setEmail] = useState({ input: null, error: false, helperText: null });
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
- // const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
-  
-  //const [user, setUser] = useContext(UserContext);
-
   const classes = useStyles();
 
   const login = () => {

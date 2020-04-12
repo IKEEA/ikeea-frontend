@@ -3,7 +3,6 @@ import { useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
 import * as validator from '../../helpers/inputValidator';
 import { ErrorsContext } from '../../context/ErrorsContext';
-import { useStyles } from './RegistrationPage.styles';
 
 //components
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +12,8 @@ import Card from '@material-ui/core/Card';
 import { CardHeader, CardContent, CardActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Logo from '../../components/Logo/Logo';
+
+import { useStyles } from './RegistrationPage.styles';
 
 const RegistrationPage = () => {
   const [email, setEmail] = useState({ input: {value: ''}, isLocked: false });
