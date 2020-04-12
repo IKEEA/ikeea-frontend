@@ -6,17 +6,16 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import Menu from '../../components/Menu/Menu';
 
 import { useStyles } from './ProfilePage.styles';
 
 export default function ProfilePage() {
   const classes = useStyles();
-  const [userName, setUserName] = useState('Test Name Surname');
   const [oldPassword, setOldPassword] = useState({ value: null, error: false, helperText: null });
   const [newPassword, setNewPassword] = useState({ value: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
-  const [daysLimit, setDaysLimit] = useState(3);
 
   const user = useContext(UserContext);
 
@@ -33,7 +32,32 @@ export default function ProfilePage() {
       <Menu>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>{userName}</Paper>
+              <Typography variant="h5">
+                  User profile
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <div>{user.firstName} {user.lastName}</div>
+                    <div>{user.email}</div>
+                    <div>{user.roles[0]}</div>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <div>Learning days limit this quarter</div>
+                    <div>{user.learningDays}</div>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <div>MANAGER</div>
+                    <div>{user.managerFirstName} {user.managerLastName}</div>
+                  </Paper>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={6}>
               <Paper className={classes.paper}>
@@ -71,18 +95,6 @@ export default function ProfilePage() {
               >
                 Change
               </Button>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                Your monthly learning days limit
-                <TextField
-                  fullWidth
-                  defaultValue={daysLimit}
-                  InputProps={{
-                    readOnly: true
-                  }}
-                />
               </Paper>
             </Grid>
           </Grid>
