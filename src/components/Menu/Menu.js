@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { userMenuItems, adminMenuItems } from './Menu.constants';
+import { UserContext } from './../../context/UserContext';
 
 //components
 import Drawer from '@material-ui/core/Drawer';
@@ -29,8 +30,10 @@ import { useStyles } from './Menu.styles';
 const Menu = ({ children }) => {
   const theme = useTheme();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const history = useHistory();
+  const user = useContext(UserContext);
+
+  const [open, setOpen] = useState(false);
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -84,15 +87,21 @@ const Menu = ({ children }) => {
             </ListItem>
           ))}
         </List>
-        <Divider />
-        <List>
-          {adminMenuItems.map(item => (
-            <ListItem button key={item.title} onClick={() => history.push(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.title} />
-            </ListItem>
-          ))}
-        </List>
+        {
+          user.roles.includes('LEADER') ? 
+          <>
+            <Divider />
+            <List>
+              {adminMenuItems.map(item => (
+                <ListItem button key={item.title} onClick={() => history.push(item.path)}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.title} />
+                </ListItem>
+              ))}
+            </List>
+          </> :
+          null
+        }
         <Divider />
         <ListItem button onClick={() => logout()}>
               <ListItemIcon><ExitToApp/></ListItemIcon>
