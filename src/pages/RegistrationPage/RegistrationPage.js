@@ -1,45 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useParams, Redirect } from 'react-router-dom';
+import { getEmailFromToken } from '../../helpers/registrationHelpers';
+import * as validator from '../../helpers/inputValidator';
+import { ErrorsContext } from '../../context/ErrorsContext';
+import { useStyles } from './RegistrationPage.styles';
+
+//components
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import { CardHeader, CardContent, CardActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import AccountBox from '@material-ui/icons/AccountBox';
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { getEmailFromToken } from '../../helpers/registrationHelpers';
-import * as inputValidationHelpers from '../../helpers/inputValidator';
-import { ErrorsContext } from '../../context/ErrorsContext';
 import Logo from '../../components/Logo/Logo';
 
-
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.background.default
-    }
-  },
-  card: {
-    marginTop: '15px',
-    alignContent: 'center',
-  },
-  textField: {
-    marginBottom: '10px'
-  },
-  avatar: {
-    margin: 'auto',
-    marginBottom: '20px',
-    backgroundColor: theme.palette.primary.main
-  },
-  button: {
-    margin: 'auto'
-  }
-}))
-
-function RegistrationPage() {
-
+const RegistrationPage = () => {
   const [email, setEmail] = useState({ input: {value: ''}, isLocked: false });
   const [firstName, setFirstName] = useState({ input: null, error: false, helperText: null });
   const [lastName, setLastName] = useState({ input: null, error: false, helperText: null });
@@ -47,8 +22,8 @@ function RegistrationPage() {
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [errors, setErrors] = useContext(ErrorsContext);
+
   const params = useParams();
-  const history = useHistory();
   const classes = useStyles();
 
   useEffect(() => {
@@ -65,17 +40,16 @@ function RegistrationPage() {
 
   const register = e => {
     const haveErrors = [];
-    haveErrors.push(inputValidationHelpers.validateField(firstName.input, setFirstName, inputValidationHelpers.validateName));
-    haveErrors.push(inputValidationHelpers.validateField(lastName.input, setLastName, inputValidationHelpers.validateName));
-    haveErrors.push(inputValidationHelpers.validateField(password.input, setPassword, inputValidationHelpers.validatePassword));
-    haveErrors.push(inputValidationHelpers.validateField(repeatPassword.input, setRepeatPassword, inputValidationHelpers.validatePassword));
-    haveErrors.push(inputValidationHelpers.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));
+    haveErrors.push(validator.validateField(firstName.input, setFirstName, validator.validateName));
+    haveErrors.push(validator.validateField(lastName.input, setLastName, validator.validateName));
+    haveErrors.push(validator.validateField(password.input, setPassword, validator.validatePassword));
+    haveErrors.push(validator.validateField(repeatPassword.input, setRepeatPassword, validator.validatePassword));
+    haveErrors.push(validator.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));
     e.preventDefault();
     console.log(haveErrors);
-    if (!haveErrors.find(hasError => hasError == true)) {
+    if (!haveErrors.find(hasError => hasError === true)) {
       setRedirect({ shouldRedirect: true, route: '/' });
     }
-
   }
 
   return (
@@ -99,7 +73,7 @@ function RegistrationPage() {
               />
               <TextField
                 className={classes.textField}
-                label="Enter your first name"
+                label="First name"
                 fullWidth
                 autoFocus
                 required
@@ -109,7 +83,7 @@ function RegistrationPage() {
               />
               <TextField
                 className={classes.textField}
-                label="Enter your last name"
+                label="Last name"
                 fullWidth
                 required
                 inputRef={input => lastName.input = input}
@@ -118,7 +92,7 @@ function RegistrationPage() {
               />
               <TextField
                 className={classes.textField}
-                label="Enter the password"
+                label="Password"
                 fullWidth
                 required
                 inputRef={input => password.input = input}
@@ -128,7 +102,7 @@ function RegistrationPage() {
               />
               <TextField
                 className={classes.textField}
-                label="Repeat the password"
+                label="Repeat password"
                 fullWidth
                 required
                 inputRef={input => repeatPassword.input = input}
