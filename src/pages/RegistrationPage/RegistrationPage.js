@@ -10,7 +10,7 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
-import * as inputValidationHelpers from '../../helpers/inputValidationHelpers';
+import * as inputValidationHelpers from '../../helpers/inputValidator';
 import { ErrorsContext } from '../../context/ErrorsContext';
 import Logo from '../../components/Logo/Logo';
 

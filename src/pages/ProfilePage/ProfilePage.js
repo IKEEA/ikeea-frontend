@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useContext } from 'react';
+import { useStyles } from './ProfilePage.styles';
+import {UserContext} from './../../context/UserContext';
 //components
-import { makeStyles } from '@material-ui/core/styles';
+
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Menu from '../../components/Menu/Menu';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-    color: theme.palette.text.secondary,
-  },
-  submitButton: {
-    marginTop: theme.spacing(2),
-  },
-}));
+
 
 export default function ProfilePage() {
   const classes = useStyles();
@@ -25,6 +18,11 @@ export default function ProfilePage() {
   const [newPassword, setNewPassword] = useState({ value: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
   const [daysLimit, setDaysLimit] = useState(3);
+
+  const user = useContext(UserContext);
+
+  console.log(user);
+
 
   useEffect(() => {
     //TODO
@@ -44,8 +42,6 @@ export default function ProfilePage() {
               <TextField
                 label="Current password"
                 fullWidth
-                required
-                autoFocus
                 type="password"
                 inputRef={input => oldPassword.value = input}
                 error={oldPassword.error}
@@ -54,8 +50,6 @@ export default function ProfilePage() {
               <TextField
                 label="New password"
                 fullWidth
-                required
-                autoFocus
                 type="password"
                 inputRef={input => newPassword.value = input}
                 error={newPassword.error}
@@ -64,8 +58,6 @@ export default function ProfilePage() {
               <TextField
                 label="Repeat new password"
                 fullWidth
-                required
-                autoFocus
                 type="password"
                 inputRef={input => repeatPassword.value = input}
                 error={repeatPassword.error}
