@@ -25,7 +25,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 
-export default function Menu(props) {
+const Menu = ({ children }) =>{
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -99,11 +99,13 @@ export default function Menu(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        {props.children}
+        {children}
       </main>
     </div>
   );
 }
+
+export default Menu;
 
 Menu.propTypes = {
   children: PropTypes.any
