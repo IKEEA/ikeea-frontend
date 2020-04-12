@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useStyles } from './Menu.styles';
+import { userMenuItems, adminMenuItems } from './Menu.constants';
 
 //components
 import Drawer from '@material-ui/core/Drawer';
@@ -21,94 +23,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import PermContactCalendar from '@material-ui/icons/PermContactCalendar';
-import EventNote from '@material-ui/icons/EventNote';
-import AccountTree from '@material-ui/icons/AccountTree';
-import Group from '@material-ui/icons/Group';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-
-const drawerWidth = 240;
-
-const menuItems = [
-  {
-    title: 'My Calendar',
-    icon: <PermContactCalendar />,
-    path: '/'
-  }, {
-    title: 'Team Calendar',
-    icon: <EventNote />,
-    path: '/teamCalendar'
-  }, {
-    title: 'Learning Tree',
-    icon: <AccountTree />,
-    path: '/learningTree'
-  }, {
-    title: 'My Team',
-    icon: <Group />,
-    path: '/myTeam'
-  }, {
-    title: 'Profile',
-    icon: <AccountCircle />,
-    path: '/profile'
-  }
-];
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-}));
+import ExitToApp from '@material-ui/icons/ExitToApp';
 
 export default function Menu(props) {
   const classes = useStyles();
@@ -156,13 +71,27 @@ export default function Menu(props) {
         </div>
         <Divider />
         <List>
-          {menuItems.map((item, index) => (
+          {userMenuItems.map(item => (
             <ListItem button key={item.title} onClick={() => history.push(item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.title} />
             </ListItem>
           ))}
         </List>
+        <Divider />
+        <List>
+          {adminMenuItems.map(item => (
+            <ListItem button key={item.title} onClick={() => history.push(item.path)}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.title} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <ListItem button onClick={() => history.push('/login')}>
+              <ListItemIcon><ExitToApp/></ListItemIcon>
+              <ListItemText primary='Logout' />
+            </ListItem>
       </Drawer>
       <main
         className={clsx(classes.content, {
