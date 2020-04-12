@@ -113,7 +113,7 @@ const RegistrationPage = () => {
               />
             </CardContent>
             <CardActions>
-              <Button className={classes.button} type="submit" variant="contained" color="primary" onClick={(e) => register(e)} raised>Register</Button>
+              <Button className={classes.button} type="submit" variant="contained" color="primary" onClick={(e) => register(e)} raised="true">Register</Button>
             </CardActions>
           </Card>
         </Grid>

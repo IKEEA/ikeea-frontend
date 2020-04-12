@@ -51,7 +51,7 @@ const LoginPage = ({userLogin, loginError}) => {
               />
             </CardContent>
             <CardActions className={classes.buttonContainer}>
-              <Button type="submit" variant="contained" color="primary" onClick={() => login()} raised>Login</Button>
+              <Button type="submit" variant="contained" color="primary" onClick={() => login()} raised="true">Login</Button>
             </CardActions>
             <Alert className={classes.alert} severity="error" style={{ display: loginError ? 'flex' : 'none' }}>
               {loginError}

@@ -66,7 +66,7 @@ export default function ProfilePage() {
                 type="submit"
                 variant="contained"
                 color="primary"
-                raised
+                raised="true"
                 className={classes.submitButton}
               >
                 Change
