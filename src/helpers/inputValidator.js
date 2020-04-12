@@ -45,8 +45,8 @@ export const validateName = (value) => {
 
 export const ensurePasswordMatching = (passwordInput, repeatPasswordInput, setPassword, setRepeatPassword) => {
     if (passwordInput.value !== repeatPasswordInput.value) {
-        setPassword({ input: passwordInput, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
-        setRepeatPassword({ input: repeatPasswordInput, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
+        setPassword({ input: passwordInput.value, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
+        setRepeatPassword({ input: repeatPasswordInput.value, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
         return true;
     } else {
         return false;

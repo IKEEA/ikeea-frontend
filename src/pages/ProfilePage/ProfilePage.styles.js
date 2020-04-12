@@ -6,5 +6,5 @@ export const useStyles = makeStyles(theme => ({
     },
     submitButton: {
       marginTop: theme.spacing(2)
-    },
+    }
   }));

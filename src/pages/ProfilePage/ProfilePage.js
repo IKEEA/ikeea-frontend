@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
+import * as validator from '../../helpers/inputValidator';
+import axios from 'axios';
 
 //components
 import Paper from '@material-ui/core/Paper';
@@ -8,28 +10,46 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Menu from '../../components/Menu/Menu';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 import { useStyles } from './ProfilePage.styles';
 
 export default function ProfilePage() {
   const classes = useStyles();
-  const [oldPassword, setOldPassword] = useState({ value: null, error: false, helperText: null });
-  const [newPassword, setNewPassword] = useState({ value: null, error: false, helperText: null });
-  const [repeatPassword, setRepeatPassword] = useState({ value: null, error: false, helperText: null });
+  const [oldPassword, setOldPassword] = useState(null);
+  const [newPassword, setNewPassword] = useState({ input: null, error: false, helperText: null });
+  const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
+  const [alert, setAlert] = useState({ open: false, message: null, severity: null });
 
   const user = useContext(UserContext);
 
   console.log(user);
 
-
-  useEffect(() => {
-    //TODO
-    // get user name and limit
-  }, []);
+  const changePassword = () => {
+    
+    const errors = [];
+    errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
+    if (!errors.find(error => error === true)) {
+      axios
+       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update-password?password=${newPassword.input.value}&oldPassword=${oldPassword}`)
+       .then(res => {
+          setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' })
+       })
+       .catch(err => {
+          setAlert({ open: true, message: 'Password was not changed, because your old password is incorrect!', severity: 'error' })
+       });
+    }
+  }
 
   return (
     <div>
       <Menu>
+        <Snackbar open={alert.open} autoHideDuration={600000} onClose={() => setAlert({ open: false, message: null })} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+          <Alert onClose={() => setAlert({ open: false, message: null })} severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h5">
@@ -66,15 +86,13 @@ export default function ProfilePage() {
                 label="Current password"
                 fullWidth
                 type="password"
-                inputRef={input => oldPassword.value = input}
-                error={oldPassword.error}
-                helperText={oldPassword.helperText}
+                onChange={e => setOldPassword(e.target.value)}
               />
               <TextField
                 label="New password"
                 fullWidth
                 type="password"
-                inputRef={input => newPassword.value = input}
+                inputRef={input => newPassword.input = input}
                 error={newPassword.error}
                 helperText={newPassword.helperText}
               />
@@ -82,7 +100,7 @@ export default function ProfilePage() {
                 label="Repeat new password"
                 fullWidth
                 type="password"
-                inputRef={input => repeatPassword.value = input}
+                inputRef={input => repeatPassword.input = input}
                 error={repeatPassword.error}
                 helperText={repeatPassword.helperText}
               />
@@ -92,6 +110,7 @@ export default function ProfilePage() {
                 color="primary"
                 raised="true"
                 className={classes.submitButton}
+                onClick={() => changePassword()} 
               >
                 Change
               </Button>
