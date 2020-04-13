@@ -31,11 +31,12 @@ const Menu = ({ children }) => {
   const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
-  const user = useContext(UserContext);
 
+  const [user, setUser] = useContext(UserContext);
   const [open, setOpen] = useState(false);
 
   const logout = () => {
+    setUser({ roles: ['UNAUTHORIZED'] });
     localStorage.removeItem('token');
     history.push('/login');
   }

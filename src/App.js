@@ -73,7 +73,7 @@ const App = () => {
   }
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={[user, setUser]}>
       <ErrorsContext.Provider value={[errors, setErrors]}>
         <MuiThemeProvider theme={theme}>
           {

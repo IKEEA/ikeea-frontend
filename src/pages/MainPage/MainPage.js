@@ -3,7 +3,7 @@ import { UserContext } from './../../context/UserContext';
 import Menu from '../../components/Menu/Menu';
 
 const MainPage = () => {
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   console.log(user);
   return (
     <Menu>

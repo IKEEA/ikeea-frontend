@@ -22,7 +22,7 @@ export default function ProfilePage() {
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
 
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   console.log(user);
 
