@@ -1,11 +1,14 @@
-import React from 'react';
-import './MainPage.scss';
+import React, {useContext} from 'react';
+import { UserContext } from './../../context/UserContext';
+import Menu from '../../components/Menu/Menu';
 
-function MainPage() {
+const MainPage = () => {
+  const [user, setUser] = useContext(UserContext);
+  console.log(user);
   return (
-    <div>
-    main
-    </div>
+    <Menu>
+      Main page
+    </Menu>
   );
 }
 
