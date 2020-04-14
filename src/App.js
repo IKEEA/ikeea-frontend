@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import TeamPage from './pages/TeamPage/TeamPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { ErrorsContext } from './context/ErrorsContext';
@@ -25,9 +26,14 @@ const theme = createMuiTheme({
 });
 
 const AuthRoute = props => {
-  if (!props.user.roles.includes('UNAUTHORIZED')) return <Redirect to="/" />;
-  return <Route {...props} />;
-};
+  let hasRole = props.roles.some(role => props.user.roles.includes(role));
+  if (hasRole) 
+    return <Route {...props} />;
+  else if (props.user.roles.includes('UNAUTHORIZED'))
+    return <Redirect to='/login' />;
+  else 
+    return <Redirect to='/' />;
+}
 
 const App = () => {
   const [errors, setErrors] = useState({});
@@ -38,8 +44,10 @@ const App = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    axios.defaults.headers.common = {'Authorization': localStorage.getItem('token')}
-    getUserProfile();
+    if(localStorage.getItem('token') !== null){
+      axios.defaults.headers.common = {'Authorization': localStorage.getItem('token')}
+      getUserProfile();
+    }
   }, [])
 
   function userLogin(email, password) {
@@ -81,12 +89,13 @@ const App = () => {
             <CircularProgress size={100} thickness={5} className={classes.spinner}/> :
             <BrowserRouter>
             <Switch>
-              <Route exact path='/' component={MainPage} />
-              <AuthRoute path='/login' user={user}>
-                <LoginPage userLogin={userLogin} loginError={loginError}/>
-              </AuthRoute>
+              <AuthRoute exact path='/' user={user} roles={['DEVELOPER', 'LEADER']}><MainPage/></AuthRoute>
+              <AuthRoute path='/login' user={user} roles={['UNAUTHORIZED']}><LoginPage userLogin={userLogin} loginError={loginError}/></AuthRoute>
+              {/*TBD AuthRoute for registration page*/}
               <Route path='/registration/:token' component={RegistrationPage} />
-              <Route path='/profile' component={ProfilePage} />
+              <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
+              <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
+              <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
               <Route path='/error' component={ErrorPage} />
               <Redirect to='/' />
             </Switch>
