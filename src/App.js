@@ -92,7 +92,7 @@ const App = () => {
               <AuthRoute exact path='/' user={user} roles={['DEVELOPER', 'LEADER']}><MainPage/></AuthRoute>
               <AuthRoute path='/login' user={user} roles={['UNAUTHORIZED']}><LoginPage userLogin={userLogin} loginError={loginError}/></AuthRoute>
               {/*TBD AuthRoute for registration page*/}
-              <Route path='/registration/:token' component={RegistrationPage} />
+              <AuthRoute path='/registration/:token' user={user} roles={['UNAUTHORIZED']}><RegistrationPage/></AuthRoute>
               <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
               <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
               <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
