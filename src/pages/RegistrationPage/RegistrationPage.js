@@ -43,15 +43,8 @@ const RegistrationPage = () => {
       })
       .catch(err => {
         const errors = [];
-        if (err.response.data.message) {
-          errors.push(err.response.data.message);
-        } else {
-          errors.push('Unknown error');
-        }
-        setErrors({ errors: errors });
+        err.response.data.message ? setErrors({ errors: [err.response.data.message] }) : setErrors({ errors: ['Unknown error'] });
         setRedirect({ shouldRedirect: true, route: '/error' });
-
-
       });
   }
 
