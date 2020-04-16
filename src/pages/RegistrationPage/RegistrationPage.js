@@ -3,6 +3,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
 import * as validator from '../../helpers/inputValidator';
 import { ErrorsContext } from '../../context/ErrorsContext';
+import axios from 'axios';
 
 //components
 import TextField from '@material-ui/core/TextField';
@@ -16,7 +17,7 @@ import Logo from '../../components/Logo/Logo';
 import { useStyles } from './RegistrationPage.styles';
 
 const RegistrationPage = () => {
-  const [email, setEmail] = useState({ input: {value: ''}, isLocked: false });
+  const [email, setEmail] = useState({ input: { value: '' }, isLocked: false });
   const [firstName, setFirstName] = useState({ input: null, error: false, helperText: null });
   const [lastName, setLastName] = useState({ input: null, error: false, helperText: null });
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
@@ -28,16 +29,29 @@ const RegistrationPage = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    async function getEmail(token) {
-      const response = await getEmailFromToken(token);
-      if (response.errors) {
-        setErrors({ errors: response.errors });
-        setRedirect({ shouldRedirect: true, route: '/error' });
-      }
-      setEmail({ value: response.value, isLocked: true });
-    }
-    getEmail(params.token);
+    verifyToken(params.token);
   }, [])
+
+  const verifyToken = token => {
+
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/verify/${token}`)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        const errors = [];
+        if (err.response.data.message) {
+          errors.push(err.response.data.message);
+        } else {
+          errors.push('Unknown error');
+        }
+        setErrors({ errors: errors });
+        setRedirect({ shouldRedirect: true, route: '/error' });
+
+
+      });
+  }
 
   const register = e => {
     const haveErrors = [];
@@ -58,7 +72,7 @@ const RegistrationPage = () => {
       {redirect.shouldRedirect ? <Redirect to={redirect.route} /> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
-          <Logo/>
+          <Logo />
           <Card className={classes.card}>
             <CardHeader>
             </CardHeader>
