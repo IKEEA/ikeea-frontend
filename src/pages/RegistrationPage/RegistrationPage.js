@@ -74,8 +74,7 @@ const RegistrationPage = () => {
           password: password.input.value
         })
         .then(res => {
-          console.log(res);
-          // setRedirect({ shouldRedirect: true, route: '/' });
+          setRedirect({ shouldRedirect: true, route: '/login' });
         })
         .catch(err => {
           err.response ?
