@@ -13,6 +13,7 @@ import Card from '@material-ui/core/Card';
 import { CardHeader, CardContent, CardActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Logo from '../../components/Logo/Logo';
+import { Alert } from '@material-ui/lab';
 
 import { useStyles } from './RegistrationPage.styles';
 
@@ -23,6 +24,7 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
+  const [registrationError, setRegistrationError] = useState('');
   const [errors, setErrors] = useContext(ErrorsContext);
 
   const params = useParams();
@@ -63,7 +65,23 @@ const RegistrationPage = () => {
     e.preventDefault();
     console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError === true)) {
-      setRedirect({ shouldRedirect: true, route: '/' });
+      setRegistrationError('');
+      axios
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/register`, {
+          firstName: firstName.input.value,
+          lastName: lastName.input.value,
+          email: email.value,
+          password: password.input.value
+        })
+        .then(res => {
+          console.log(res);
+          // setRedirect({ shouldRedirect: true, route: '/' });
+        })
+        .catch(err => {
+          err.response ?
+            setRegistrationError(`${err.response.data.error}: ${err.response.data.message}`) :
+            setRegistrationError('System error, please try again later.');
+        });
     }
   }
 
@@ -129,6 +147,9 @@ const RegistrationPage = () => {
             <CardActions>
               <Button className={classes.button} type="submit" variant="contained" color="primary" onClick={(e) => register(e)} raised="true">Register</Button>
             </CardActions>
+            <Alert className={classes.alert} severity="error" style={{ display: registrationError ? 'flex' : 'none' }}>
+              {registrationError}
+            </Alert>
           </Card>
         </Grid>
       </Container>
