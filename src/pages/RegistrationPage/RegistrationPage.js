@@ -17,7 +17,7 @@ import Logo from '../../components/Logo/Logo';
 import { useStyles } from './RegistrationPage.styles';
 
 const RegistrationPage = () => {
-  const [email, setEmail] = useState({ input: { value: '' }, isLocked: false });
+  const [email, setEmail] = useState({ value: '', isLocked: false });
   const [firstName, setFirstName] = useState({ input: null, error: false, helperText: null });
   const [lastName, setLastName] = useState({ input: null, error: false, helperText: null });
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
@@ -37,7 +37,7 @@ const RegistrationPage = () => {
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/api/verify/${token}`)
       .then(res => {
-        console.log(res);
+        setEmail({ value: res.data.message, isLocked: true });
       })
       .catch(err => {
         const errors = [];
