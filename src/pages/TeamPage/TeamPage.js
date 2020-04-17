@@ -23,14 +23,6 @@ const TeamPage = () => {
 
   const classes = useStyles();
 
-  const handleInviationDialogOpen = () => {
-    setInvitationDialog(true);
-  };
-
-  const handleInviationDialogClose = () => {
-    setInvitationDialog(false);
-  };
-
   const sendInvitation = () => {
 
     const errors = [];
@@ -39,11 +31,11 @@ const TeamPage = () => {
       axios
         .post(`${process.env.REACT_APP_SERVER_URL}/api/user/invite?email=${email.input.value}`)
         .then(res => {
-          handleInviationDialogClose();
+          setInvitationDialog(false);
           setAlert({ open: true, message: 'An invitation email for the employee was sent successfully!', severity: 'success' });
         })
         .catch(err => {
-          handleInviationDialogClose();
+          setInvitationDialog(false);
           console.log(err);
           setAlert({ open: true, message: err.message, severity: 'error' });
         });
@@ -58,9 +50,9 @@ const TeamPage = () => {
         </Alert>
       </Snackbar>
       <Menu>
-        <Button variant="contained" color="primary" raised="true" onClick={handleInviationDialogOpen}>Invite</Button>
+        <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>Invite</Button>
       </Menu>
-      <Dialog open={invitationDialog} onClose={handleInviationDialogClose} aria-labelledby="form-dialog-title">
+      <Dialog open={invitationDialog} onClose={() => setInvitationDialog(false)} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Send Invitation</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -76,7 +68,7 @@ const TeamPage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleInviationDialogClose} color="primary">
+          <Button onClick={() => setInvitationDialog(false)} color="primary">
             Cancel
           </Button>
           <Button onClick={sendInvitation} color="primary">
