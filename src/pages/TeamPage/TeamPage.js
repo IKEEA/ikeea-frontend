@@ -2,16 +2,11 @@ import React, { useState, useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
 import Menu from '../../components/Menu/Menu';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { useStyles } from './TeamPage.styles';
 import * as validator from '../../helpers/inputValidator';
+import InvitationDialog from '../../components/InvitationDialog/InvitationDialog'
 import axios from 'axios';
 
 
@@ -52,30 +47,7 @@ const TeamPage = () => {
       <Menu>
         <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>Invite</Button>
       </Menu>
-      <Dialog open={invitationDialog} onClose={() => setInvitationDialog(false)} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Send Invitation</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To send an invitation to a new employee, please enter their email address:
-          </DialogContentText>
-          <TextField
-            label="Email"
-            fullWidth
-            type="email"
-            inputRef={input => email.input = input}
-            error={email.error}
-            helperText={email.helperText}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setInvitationDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={sendInvitation} color="primary">
-            Invite
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <InvitationDialog invitationDialog={invitationDialog} setInvitationDialog={setInvitationDialog} email={email} sendInvitation={sendInvitation} />
     </div>
   );
 }
