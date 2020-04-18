@@ -37,17 +37,15 @@ const AuthRoute = props => {
 
 const App = () => {
   const [errors, setErrors] = useState({});
-  const [user, setUser] = useState({ roles: ['UNAUTHORIZED'] });
+  const [user, setUser] = useState();
   const [loginError, setLoginError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const classes = useStyles();
 
   useEffect(() => {
-    if(localStorage.getItem('token') !== null){
-      axios.defaults.headers.common = {'Authorization': localStorage.getItem('token')}
-      getUserProfile();
-    }
+    axios.defaults.headers.common = {'Authorization': localStorage.getItem('token')}
+    getUserProfile();
   }, [])
 
   function userLogin(email, password) {
@@ -67,7 +65,6 @@ const App = () => {
    }
 
   function getUserProfile() {
-    setLoading(true);
     axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/user/profile`)
     .then(res => {
@@ -75,8 +72,8 @@ const App = () => {
       setLoading(false);
     })
     .catch(err => {
+      setUser({ roles: ['UNAUTHORIZED'] });
       setLoading(false);
-      // setLoginError('Error while getting profile information, please try again later.');
     });
   }
 
@@ -88,17 +85,17 @@ const App = () => {
             loading ?
             <CircularProgress size={100} thickness={5} className={classes.spinner}/> :
             <BrowserRouter>
-            <Switch>
-              <AuthRoute exact path='/' user={user} roles={['DEVELOPER', 'LEADER']}><MainPage/></AuthRoute>
-              <AuthRoute path='/login' user={user} roles={['UNAUTHORIZED']}><LoginPage userLogin={userLogin} loginError={loginError}/></AuthRoute>
-              <AuthRoute path='/registration/:token' user={user} roles={['UNAUTHORIZED']}><RegistrationPage/></AuthRoute>
-              <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
-              <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
-              <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
-              <Route path='/error' component={ErrorPage} />
-              <Redirect to='/' />
-            </Switch>
-          </BrowserRouter>
+              <Switch>
+                <AuthRoute exact path='/' user={user} roles={['DEVELOPER', 'LEADER']}><MainPage/></AuthRoute>
+                <AuthRoute path='/login' user={user} roles={['UNAUTHORIZED']}><LoginPage userLogin={userLogin} loginError={loginError}/></AuthRoute>
+                <AuthRoute path='/registration/:token' user={user} roles={['UNAUTHORIZED']}><RegistrationPage/></AuthRoute>
+                <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
+                <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
+                <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
+                <Route path='/error' component={ErrorPage} />
+                <Redirect to='/' />
+              </Switch>
+            </BrowserRouter>
           }
         </MuiThemeProvider>
       </ErrorsContext.Provider>
