@@ -3,6 +3,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import { getEmailFromToken } from '../../helpers/registrationHelpers';
 import * as validator from '../../helpers/inputValidator';
 import { ErrorsContext } from '../../context/ErrorsContext';
+import axios from 'axios';
 
 //components
 import TextField from '@material-ui/core/TextField';
@@ -12,32 +13,40 @@ import Card from '@material-ui/core/Card';
 import { CardHeader, CardContent, CardActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Logo from '../../components/Logo/Logo';
+import { Alert } from '@material-ui/lab';
 
 import { useStyles } from './RegistrationPage.styles';
 
 const RegistrationPage = () => {
-  const [email, setEmail] = useState({ input: {value: ''}, isLocked: false });
+  const [email, setEmail] = useState({ value: '' });
   const [firstName, setFirstName] = useState({ input: null, error: false, helperText: null });
   const [lastName, setLastName] = useState({ input: null, error: false, helperText: null });
   const [password, setPassword] = useState({ input: null, error: false, helperText: null });
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
+  const [registrationError, setRegistrationError] = useState('');
   const [errors, setErrors] = useContext(ErrorsContext);
 
   const params = useParams();
   const classes = useStyles();
 
   useEffect(() => {
-    async function getEmail(token) {
-      const response = await getEmailFromToken(token);
-      if (response.errors) {
-        setErrors({ errors: response.errors });
-        setRedirect({ shouldRedirect: true, route: '/error' });
-      }
-      setEmail({ value: response.value, isLocked: true });
-    }
-    getEmail(params.token);
+    verifyToken(params.token);
   }, [])
+
+  const verifyToken = token => {
+
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/verify/${token}`)
+      .then(res => {
+        setEmail({ value: res.data.message });
+      })
+      .catch(err => {
+        const errors = [];
+        err.response.data.message ? setErrors({ errors: [err.response.data.message] }) : setErrors({ errors: ['Unknown error'] });
+        setRedirect({ shouldRedirect: true, route: '/error' });
+      });
+  }
 
   const register = e => {
     const haveErrors = [];
@@ -49,7 +58,22 @@ const RegistrationPage = () => {
     e.preventDefault();
     console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError === true)) {
-      setRedirect({ shouldRedirect: true, route: '/' });
+      setRegistrationError('');
+      axios
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/register`, {
+          firstName: firstName.input.value,
+          lastName: lastName.input.value,
+          email: email.value,
+          password: password.input.value
+        })
+        .then(res => {
+          setRedirect({ shouldRedirect: true, route: '/login' });
+        })
+        .catch(err => {
+          err.response ?
+            setRegistrationError(`${err.response.data.error}: ${err.response.data.message}`) :
+            setRegistrationError('System error, please try again later.');
+        });
     }
   }
 
@@ -58,7 +82,7 @@ const RegistrationPage = () => {
       {redirect.shouldRedirect ? <Redirect to={redirect.route} /> : null}
       <Container maxWidth="xs">
         <Grid container item justify="center">
-          <Logo/>
+          <Logo />
           <Card className={classes.card}>
             <CardHeader>
             </CardHeader>
@@ -67,7 +91,7 @@ const RegistrationPage = () => {
                 value={email.value || ''}
                 className={classes.textField}
                 InputProps={{
-                  readOnly: email.isLocked,
+                  readOnly: true,
                 }}
                 fullWidth
                 required
@@ -115,6 +139,9 @@ const RegistrationPage = () => {
             <CardActions>
               <Button className={classes.button} type="submit" variant="contained" color="primary" onClick={(e) => register(e)} raised="true">Register</Button>
             </CardActions>
+            <Alert className={classes.alert} severity="error" style={{ display: registrationError ? 'flex' : 'none' }}>
+              {registrationError}
+            </Alert>
           </Card>
         </Grid>
       </Container>
