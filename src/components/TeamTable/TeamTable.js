@@ -12,14 +12,16 @@ import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Chip from '@material-ui/core/Chip';
 import TablePagination from '@material-ui/core/TablePagination';
+import UserEditDialog from './../UserEditDialog/UserEditDialog'
 
 import { useStyles } from './TeamTable.styles';
 
 const TeamTable = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -45,6 +47,10 @@ const TeamTable = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const editUser = () => {
+
   };
 
   return (
@@ -75,8 +81,8 @@ const TeamTable = () => {
                     <TableCell align="left">{user.roles[0].name}</TableCell>
                     <TableCell align="left">{user.enabled ? <Chip size="small" label="Active" color="secondary" /> : <Chip size="small" label="Not active" />}</TableCell>
                     <TableCell align="left">{user.learningDays}</TableCell>
-                    <TableCell align="left">Goals</TableCell>
-                    <TableCell align="left">Edit</TableCell>
+                    <TableCell align="left" className={classes.clickable}>Goals</TableCell>
+                    <TableCell align="left" className={classes.clickable} onClick={() => setEditModalOpen(true)}>Edit</TableCell>
                     </TableRow>
                 )) : 
                 <tr>
@@ -97,6 +103,7 @@ const TeamTable = () => {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <UserEditDialog open={editModalOpen} setOpen={setEditModalOpen} />
     </Paper>
   );
 }

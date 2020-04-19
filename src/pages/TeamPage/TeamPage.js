@@ -41,7 +41,7 @@ const TeamPage = () => {
 
   return (
     <div>
-      <Snackbar open={alert.open} autoHideDuration={600000} onClose={() => setAlert({ open: false, message: null })} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Snackbar open={alert.open} autoHideDuration={600000} onClose={() => setAlert({ open: false, message: null })} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
         <Alert onClose={() => setAlert({ open: false, message: null })} severity={alert.severity}>
           {alert.message}
         </Alert>
