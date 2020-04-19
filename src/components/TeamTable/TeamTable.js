@@ -22,6 +22,7 @@ const TeamTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
   const classes = useStyles();
 
   useEffect(() => {
@@ -49,8 +50,16 @@ const TeamTable = () => {
     setPage(0);
   };
 
-  const editUser = () => {
-
+  const getUserInfoForEdit = (userId) => {
+    axios
+    .get(`${process.env.REACT_APP_SERVER_URL}/api/user/${userId}/get`)
+    .then(res => {
+      setSelectedUser(res.data);
+      setEditModalOpen(true);
+    })
+    .catch(err => {
+      console.log(err.response);
+    });
   };
 
   return (
@@ -82,7 +91,7 @@ const TeamTable = () => {
                     <TableCell align="left">{user.enabled ? <Chip size="small" label="Active" color="secondary" /> : <Chip size="small" label="Not active" />}</TableCell>
                     <TableCell align="left">{user.learningDays}</TableCell>
                     <TableCell align="left" className={classes.clickable}>Goals</TableCell>
-                    <TableCell align="left" className={classes.clickable} onClick={() => setEditModalOpen(true)}>Edit</TableCell>
+                    <TableCell align="left" className={classes.clickable} onClick={() => getUserInfoForEdit(user.id)}>Edit</TableCell>
                     </TableRow>
                 )) : 
                 <tr>
@@ -103,7 +112,7 @@ const TeamTable = () => {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-        <UserEditDialog open={editModalOpen} setOpen={setEditModalOpen} />
+        <UserEditDialog open={editModalOpen} setOpen={setEditModalOpen} user={selectedUser}/>
     </Paper>
   );
 }

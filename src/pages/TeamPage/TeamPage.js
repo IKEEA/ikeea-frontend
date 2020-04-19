@@ -18,7 +18,6 @@ const TeamPage = () => {
   const [email, setEmail] = useState({ input: null, error: false, helperText: null });
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
 
-
   const classes = useStyles();
 
   const sendInvitation = () => {
