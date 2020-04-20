@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 //components
@@ -13,10 +13,12 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import Chip from '@material-ui/core/Chip';
 import TablePagination from '@material-ui/core/TablePagination';
 import UserEditDialog from './../UserEditDialog/UserEditDialog'
+import { UserContext } from './../../context/UserContext';
 
 import { useStyles } from './TeamTable.styles';
 
-const TeamTable = () => {
+const TeamTable = ({setAlert}) => {
+  const [user, setUser] = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -31,7 +33,7 @@ const TeamTable = () => {
 
   function getUsers() {
     axios
-    .get(`${process.env.REACT_APP_SERVER_URL}/api/user/list`)
+    .get(`${process.env.REACT_APP_SERVER_URL}/api/manager/${user.id}/users`)
     .then(res => {
       setUsers(res.data);
       setLoading(false);
@@ -59,6 +61,7 @@ const TeamTable = () => {
     })
     .catch(err => {
       console.log(err.response);
+      setAlert({ open: true, message: err.message, severity: 'error' });
     });
   };
 
@@ -89,7 +92,7 @@ const TeamTable = () => {
                     <TableCell align="left">{user.email}</TableCell>
                     <TableCell align="left">{user.roles[0].name}</TableCell>
                     <TableCell align="left">{user.enabled ? <Chip size="small" label="Active" color="secondary" /> : <Chip size="small" label="Not active" />}</TableCell>
-                    <TableCell align="left">{user.learningDays}</TableCell>
+                    <TableCell align="left">{user.restrictionDays}</TableCell>
                     <TableCell align="left" className={classes.clickable}>Goals</TableCell>
                     <TableCell align="left" className={classes.clickable} onClick={() => getUserInfoForEdit(user.id)}>Edit</TableCell>
                     </TableRow>
@@ -112,7 +115,7 @@ const TeamTable = () => {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-        <UserEditDialog open={editModalOpen} setOpen={setEditModalOpen} user={selectedUser}/>
+        <UserEditDialog open={editModalOpen} setOpen={setEditModalOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
     </Paper>
   );
 }

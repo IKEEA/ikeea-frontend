@@ -52,7 +52,7 @@ const TeamPage = () => {
           </Typography>
           <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>INVITE NEW EMPLOYEE</Button>
         </div>
-        <TeamTable/>
+        <TeamTable setAlert={setAlert}/>
       </Menu>
       <InvitationDialog invitationDialog={invitationDialog} setInvitationDialog={setInvitationDialog} email={email} sendInvitation={sendInvitation} />
     </div>
