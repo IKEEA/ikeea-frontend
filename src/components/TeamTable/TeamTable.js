@@ -12,7 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Chip from '@material-ui/core/Chip';
 import TablePagination from '@material-ui/core/TablePagination';
-import UserEditDialog from './../UserEditDialog/UserEditDialog'
+import UserEditDialog from './../UserEditDialog/UserEditDialog';
+import UserDeleteDialog from './../UserDeleteDialog/UserDeleteDialog';
 import { UserContext } from './../../context/UserContext';
 
 import { useStyles } from './TeamTable.styles';
@@ -24,6 +25,7 @@ const TeamTable = ({setAlert}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const classes = useStyles();
 
@@ -65,6 +67,19 @@ const TeamTable = ({setAlert}) => {
     });
   };
 
+  const deleteUser = (userId) => {
+    axios
+    .get(`${process.env.REACT_APP_SERVER_URL}/api/user/${userId}/get`)
+    .then(res => {
+      setSelectedUser(res.data);
+      setDeleteModalOpen(true);
+    })
+    .catch(err => {
+      console.log(err.response);
+      setAlert({ open: true, message: err.message, severity: 'error' });
+    });
+  }
+
   return (
     <Paper>
         <TableContainer className={classes.table}>
@@ -77,6 +92,7 @@ const TeamTable = ({setAlert}) => {
                 <TableCell align="left">Role</TableCell>
                 <TableCell align="left">Status</TableCell>
                 <TableCell align="left">Learning days left</TableCell>
+                <TableCell align="left"></TableCell>
                 <TableCell align="left"></TableCell>
                 <TableCell align="left"></TableCell>
                 </TableRow>
@@ -95,6 +111,7 @@ const TeamTable = ({setAlert}) => {
                     <TableCell align="left">{user.restrictionDays}</TableCell>
                     <TableCell align="left" className={classes.clickable}>Goals</TableCell>
                     <TableCell align="left" className={classes.clickable} onClick={() => getUserInfoForEdit(user.id)}>Edit</TableCell>
+                    <TableCell align="left" className={classes.clickable} onClick={() => deleteUser(user.id)}>Delete</TableCell>
                     </TableRow>
                 )) : 
                 <tr>
@@ -116,6 +133,7 @@ const TeamTable = ({setAlert}) => {
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
         <UserEditDialog open={editModalOpen} setOpen={setEditModalOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
+        <UserDeleteDialog open={deleteModalOpen} setOpen={setDeleteModalOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
     </Paper>
   );
 }
