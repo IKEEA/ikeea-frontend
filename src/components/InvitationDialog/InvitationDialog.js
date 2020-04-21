@@ -10,8 +10,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const InvitationDialog = ({ invitationDialog, setInvitationDialog, email, sendInvitation }) => {
-
-
     return (
         <Dialog open={invitationDialog} onClose={() => setInvitationDialog(false)} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Send Invitation</DialogTitle>

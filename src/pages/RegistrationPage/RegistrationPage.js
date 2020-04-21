@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
-import { getEmailFromToken } from '../../helpers/registrationHelpers';
 import * as validator from '../../helpers/inputValidator';
 import { ErrorsContext } from '../../context/ErrorsContext';
 import axios from 'axios';
@@ -35,14 +34,12 @@ const RegistrationPage = () => {
   }, [])
 
   const verifyToken = token => {
-
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/api/verify/${token}`)
       .then(res => {
         setEmail({ value: res.data.message });
       })
       .catch(err => {
-        const errors = [];
         err.response.data.message ? setErrors({ errors: [err.response.data.message] }) : setErrors({ errors: ['Unknown error'] });
         setRedirect({ shouldRedirect: true, route: '/error' });
       });

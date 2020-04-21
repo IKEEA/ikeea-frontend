@@ -1,17 +1,19 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from './../../context/UserContext';
+import React, { useState } from 'react';
+import axios from 'axios';
+import * as validator from '../../helpers/inputValidator';
+
+//components
 import Menu from '../../components/Menu/Menu';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import { useStyles } from './TeamPage.styles';
-import * as validator from '../../helpers/inputValidator';
+import Typography from '@material-ui/core/Typography';
 import InvitationDialog from '../../components/InvitationDialog/InvitationDialog'
-import axios from 'axios';
+import TeamTable from '../../components/TeamTable/TeamTable'
 
+import { useStyles } from './TeamPage.styles';
 
 const TeamPage = () => {
-  const [user, setUser] = useContext(UserContext);
   const [invitationDialog, setInvitationDialog] = useState(false);
   const [email, setEmail] = useState({ input: null, error: false, helperText: null });
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
@@ -19,7 +21,6 @@ const TeamPage = () => {
   const classes = useStyles();
 
   const sendInvitation = () => {
-
     const errors = [];
     errors.push(validator.validateField(email.input, setEmail, validator.validateEmail));
     if (!errors.find(error => error === true)) {
@@ -39,13 +40,19 @@ const TeamPage = () => {
 
   return (
     <div>
-      <Snackbar open={alert.open} autoHideDuration={600000} onClose={() => setAlert({ open: false, message: null })} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Snackbar open={alert.open} autoHideDuration={600000} onClose={() => setAlert({ open: false, message: null })} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
         <Alert onClose={() => setAlert({ open: false, message: null })} severity={alert.severity}>
           {alert.message}
         </Alert>
       </Snackbar>
       <Menu>
-        <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>Invite</Button>
+        <div className={classes.header}>
+          <Typography variant="h5" className={classes.title}>
+            My Team
+          </Typography>
+          <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>INVITE NEW EMPLOYEE</Button>
+        </div>
+        <TeamTable setAlert={setAlert}/>
       </Menu>
       <InvitationDialog invitationDialog={invitationDialog} setInvitationDialog={setInvitationDialog} email={email} sendInvitation={sendInvitation} />
     </div>

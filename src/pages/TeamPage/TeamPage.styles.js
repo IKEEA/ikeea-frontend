@@ -5,5 +5,11 @@ export const useStyles = makeStyles(theme => ({
       body: {
         backgroundColor: theme.palette.background.default
       }
+    },
+    header: {
+      display: 'flex'
+    },
+    title: {
+      paddingRight: '16px'
     }
-  }));
+}));
