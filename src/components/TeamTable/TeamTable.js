@@ -106,7 +106,7 @@ const TeamTable = ({setAlert}) => {
                     <TableCell align="left">{user.firstName}</TableCell>
                     <TableCell align="left">{user.lastName}</TableCell>
                     <TableCell align="left">{user.email}</TableCell>
-                    <TableCell align="left">{user.roles[0].name}</TableCell>
+                    <TableCell align="left">{user.roles[0]}</TableCell>
                     <TableCell align="left">{user.enabled ? <Chip size="small" label="Active" color="secondary" /> : <Chip size="small" label="Not active" />}</TableCell>
                     <TableCell align="left">{user.restrictionDays}</TableCell>
                     <TableCell align="left" className={classes.clickable}>Goals</TableCell>
