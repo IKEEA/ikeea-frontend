@@ -8,8 +8,8 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import Typography from '@material-ui/core/Typography';
-import InvitationDialog from '../../components/InvitationDialog/InvitationDialog'
-import TeamTable from '../../components/TeamTable/TeamTable'
+import InvitationDialog from '../../components/InvitationDialog/InvitationDialog';
+import TeamTable from '../../components/TeamTable/TeamTable';
 
 import { useStyles } from './TeamPage.styles';
 
@@ -50,7 +50,8 @@ const TeamPage = () => {
           <Typography variant="h5" className={classes.title}>
             My Team
           </Typography>
-          <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>INVITE NEW EMPLOYEE</Button>
+          <Button variant="contained" color="primary" raised="true" onClick={() => setInvitationDialog(true)}>Invite new employee</Button>
+          <Button className={classes.limitButton} variant="contained" color="primary" raised="true">Change all team learning days limit</Button>
         </div>
         <TeamTable setAlert={setAlert}/>
       </Menu>

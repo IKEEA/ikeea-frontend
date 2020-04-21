@@ -76,6 +76,7 @@ export default function ProfilePage() {
                   <Paper className={classes.paper}>
                     <div>MANAGER</div>
                     <div>{user.managerFirstName} {user.managerLastName}</div>
+                    <div>{user.managerEmail}</div>
                   </Paper>
                 </Grid>
               </Grid>

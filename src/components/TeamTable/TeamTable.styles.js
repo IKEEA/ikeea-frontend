@@ -5,6 +5,9 @@ export const useStyles = makeStyles(theme => ({
       marginTop: '16px'
     },
     clickable: {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      '&:hover': {
+        color: '#0426D6'
+      }
     }
 }));
