@@ -15,10 +15,12 @@ import UserEditDialog from './../UserEditDialog/UserEditDialog';
 import UserDeleteDialog from './../UserDeleteDialog/UserDeleteDialog';
 
 import { useStyles } from './TeamTable.styles';
+import AddGoalsDialog from '../AddGoalsDialog/AddGoalsDialog';
 
 const TeamTable = ({ users, getUsers, setAlert }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [goalsDialogOpen, setGoalsDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
@@ -33,24 +35,21 @@ const TeamTable = ({ users, getUsers, setAlert }) => {
     setPage(0);
   };
 
-  const getUserInfoForEdit = (userId) => {
+  const openDialog = (userId, dialogType) => {
     axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/user/${userId}/get`)
     .then(res => {
       setSelectedUser(res.data);
-      setEditDialogOpen(true);
-    })
-    .catch(err => {
-      setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-    });
-  };
-
-  const deleteUser = (userId) => {
-    axios
-    .get(`${process.env.REACT_APP_SERVER_URL}/api/user/${userId}/get`)
-    .then(res => {
-      setSelectedUser(res.data);
-      setDeleteDialogOpen(true);
+      switch(dialogType) {
+        case 'goals':
+          setGoalsDialogOpen(true);
+          break;
+        case 'edit':
+          setEditDialogOpen(true);
+          break;
+        default:
+          setDeleteDialogOpen(true);
+      } 
     })
     .catch(err => {
       setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -85,9 +84,9 @@ const TeamTable = ({ users, getUsers, setAlert }) => {
                     <TableCell align="left">{user.roles[0]}</TableCell>
                     <TableCell align="left">{user.enabled ? <Chip size="small" label="Active" color="secondary" /> : <Chip size="small" label="Not active" />}</TableCell>
                     <TableCell align="left">{user.restrictionDays}</TableCell>
-                    <TableCell align="left" className={classes.clickable}>Goals</TableCell>
-                    <TableCell align="left" className={classes.clickable} onClick={() => getUserInfoForEdit(user.id)}>Edit</TableCell>
-                    <TableCell align="left" className={classes.clickable} onClick={() => deleteUser(user.id)}>Delete</TableCell>
+                    <TableCell align="left" className={classes.clickable} onClick={() => openDialog(user.id, 'goals')}>Goals</TableCell>
+                    <TableCell align="left" className={classes.clickable} onClick={() => openDialog(user.id, 'edit')}>Edit</TableCell>
+                    <TableCell align="left" className={classes.clickable} onClick={() => openDialog(user.id, 'delete')}>Delete</TableCell>
                     </TableRow>
                 ))}
             </TableBody>
@@ -102,6 +101,7 @@ const TeamTable = ({ users, getUsers, setAlert }) => {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <AddGoalsDialog open={goalsDialogOpen} setOpen={setGoalsDialogOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
         <UserEditDialog open={editDialogOpen} setOpen={setEditDialogOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
         <UserDeleteDialog open={deleteDialogOpen} setOpen={setDeleteDialogOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
     </Paper>
