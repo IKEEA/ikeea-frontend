@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { LoadingContext } from '../../context/LoadingContext';
 import axios from 'axios';
 
 //components
@@ -11,6 +12,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
   const [currentUser, setCurrentUser] = useState({});
+  const [setLoading] = useContext(LoadingContext);
 
   useEffect(() => {
     setCurrentUser(user);
@@ -23,15 +25,18 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
   }
 
   const editUser = () => {
+    setLoading(true);
     axios
         .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${currentUser.id}/update-restriction-days?restrictionDays=${currentUser.restrictionDays}`)
         .then(res => {
           getUsers();
           setOpen(false);
+          setLoading(false);
           setAlert({ open: true, message: 'Learning days limit updated successfully!', severity: 'success' });
         })
         .catch(err => {
           setOpen(false);
+          setLoading(false);
           setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
   };
