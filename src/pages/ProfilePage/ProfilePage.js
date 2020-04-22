@@ -24,21 +24,18 @@ export default function ProfilePage() {
 
   const [user, setUser] = useContext(UserContext);
 
-  console.log(user);
-
   const changePassword = () => {
-    
     const errors = [];
     errors.push(validator.validateField(oldPassword.input, setOldPassword, validator.validateRequiredField));
     errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
     if (!errors.find(error => error === true)) {
       axios
-       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update-password?password=${newPassword.input.value}&oldPassword=${oldPassword.input.value}`)
+       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update`, {password: newPassword.input.value, oldPassword: oldPassword.input.value})
        .then(res => {
           setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' })
        })
        .catch(err => {
-          setAlert({ open: true, message: 'Password was not changed, because your old password is incorrect!', severity: 'error' })
+          setAlert({ open: true, message: err.message, severity: 'error' })
        });
     }
   }
