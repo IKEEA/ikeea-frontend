@@ -33,6 +33,7 @@ const TeamPage = () => {
   }, [])
 
   function getUsers() {
+    setLoading(true);
     axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/manager/${user.id}/users`)
     .then(res => {
@@ -40,11 +41,13 @@ const TeamPage = () => {
       setLoading(false);
     })
     .catch(err => {
+      setAlert({ open: true, message: err.response.data.message, severity: 'error' });
       setLoading(false);
     });
   }
 
   const sendInvitation = () => {
+    setLoading(true);
     const errors = [];
     errors.push(validator.validateField(email.input, setEmail, validator.validateEmail));
     if (!errors.find(error => error === true)) {
@@ -52,13 +55,16 @@ const TeamPage = () => {
         .post(`${process.env.REACT_APP_SERVER_URL}/api/user/invite?email=${email.input.value}`)
         .then(res => {
           setInvitationDialog(false);
+          setLoading(false);
           setAlert({ open: true, message: 'An invitation email for the employee was sent successfully!', severity: 'success' });
         })
         .catch(err => {
           setInvitationDialog(false);
-          console.log(err);
-          setAlert({ open: true, message: err.message, severity: 'error' });
+          setLoading(false);
+          setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
+    } else {
+      setLoading(false);
     }
   }
 
