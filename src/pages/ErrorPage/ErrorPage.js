@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { ErrorsContext } from '../../context/ErrorsContext';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
-function ErrorPage() {
-
-    const [errors, setErrors] = useContext(ErrorsContext);
+const ErrorPage = () => {
+    const [errors] = useContext(ErrorsContext);
 
     return (
         <div>

@@ -24,13 +24,14 @@ const RegistrationPage = () => {
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [registrationError, setRegistrationError] = useState('');
-  const [errors, setErrors] = useContext(ErrorsContext);
+  const [setErrors] = useContext(ErrorsContext);
 
   const params = useParams();
   const classes = useStyles();
 
   useEffect(() => {
     verifyToken(params.token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const verifyToken = token => {
