@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
+import { LoadingContext } from './../../context/LoadingContext';
 import * as validator from '../../helpers/inputValidator';
 import axios from 'axios';
 
@@ -22,9 +23,11 @@ export default function ProfilePage() {
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
 
-  const [user, setUser] = useContext(UserContext);
+  const [user] = useContext(UserContext);
+  const [setLoading] = useContext(LoadingContext);
 
   const changePassword = () => {
+    setLoading(true);
     const errors = [];
     errors.push(validator.validateField(oldPassword.input, setOldPassword, validator.validateRequiredField));
     errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
@@ -32,11 +35,15 @@ export default function ProfilePage() {
       axios
        .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update`, {password: newPassword.input.value, oldPassword: oldPassword.input.value})
        .then(res => {
-          setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' })
+          setLoading(false);
+          setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' }); 
        })
        .catch(err => {
+          setLoading(false);
           setAlert({ open: true, message: err.message, severity: 'error' })
        });
+    } else {
+      setLoading(false);
     }
   }
 
