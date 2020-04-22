@@ -80,7 +80,7 @@ const App = () => {
       setHaveRoles(true);
     });
   }
-s
+
   return (
     <LoadingContext.Provider value={[setLoading]}>
       <UserContext.Provider value={[user, setUser]}>
