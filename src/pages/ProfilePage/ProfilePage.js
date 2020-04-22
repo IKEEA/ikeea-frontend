@@ -40,7 +40,7 @@ export default function ProfilePage() {
        })
        .catch(err => {
           setLoading(false);
-          setAlert({ open: true, message: err.message, severity: 'error' })
+          setAlert({ open: true, message: err.response.data.message, severity: 'error' })
        });
     } else {
       setLoading(false);

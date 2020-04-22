@@ -101,7 +101,7 @@ const TeamTable = ({ users, getUsers, setAlert }) => {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-        <AddGoalsDialog open={goalsDialogOpen} setOpen={setGoalsDialogOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
+        <AddGoalsDialog open={goalsDialogOpen} setOpen={setGoalsDialogOpen} user={selectedUser} setAlert={setAlert}/>
         <UserEditDialog open={editDialogOpen} setOpen={setEditDialogOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
         <UserDeleteDialog open={deleteDialogOpen} setOpen={setDeleteDialogOpen} user={selectedUser} getUsers={getUsers} setAlert={setAlert}/>
     </Paper>

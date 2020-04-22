@@ -54,7 +54,6 @@ const RegistrationPage = () => {
     haveErrors.push(validator.validateField(repeatPassword.input, setRepeatPassword, validator.validatePassword));
     haveErrors.push(validator.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));
     e.preventDefault();
-    console.log(haveErrors);
     if (!haveErrors.find(hasError => hasError === true)) {
       setRegistrationError('');
       axios

@@ -15,9 +15,10 @@ import Select from '@material-ui/core/Select';
 
 import { useStyles } from './AllGoalsDialog.styles';
 
-const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
+const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
   const [setLoading] = useContext(LoadingContext);
   const [goals, setGoals] = useState([]);
+
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(0);
 
@@ -30,7 +31,7 @@ const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
-
+  
   const getGoals = (userId) => {
     axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${userId}/list`)
@@ -39,7 +40,7 @@ const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
       console.log(res.data);
     })
     .catch(err => {
-      console.log(err);
+      setAlert({ open: true, message: err.response.data.message, severity: 'error' });
     });
   }
 
@@ -51,14 +52,14 @@ const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
       console.log(res.data);
     })
     .catch(err => {
-      console.log(err);
+      setAlert({ open: true, message: err.response.data.message, severity: 'error' });
     });
   }
 
   const addGoal = () => {
     setLoading(true);
     axios
-        .put(`${process.env.REACT_APP_SERVER_URL}/api/goal/add`, {topicId: selectedTopic, userId: user.id })
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/goal/add`, {topicId: selectedTopic, userId: user.id })
         .then(res => {
           setOpen(false);
           setLoading(false);
