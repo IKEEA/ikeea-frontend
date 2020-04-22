@@ -19,12 +19,15 @@ const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
   const [setLoading] = useContext(LoadingContext);
   const [goals, setGoals] = useState([]);
   const [topics, setTopics] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState(0);
 
   const classes = useStyles();
 
   useEffect(() => {
-    getGoals(user.id);
-    getTopics();
+    if(user.id){
+        getGoals(user.id);
+        getTopics();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
@@ -55,12 +58,11 @@ const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
   const addGoal = () => {
     setLoading(true);
     axios
-        .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}`)
+        .put(`${process.env.REACT_APP_SERVER_URL}/api/goal/add`, {topicId: selectedTopic, userId: user.id })
         .then(res => {
-          getUsers();
           setOpen(false);
           setLoading(false);
-          setAlert({ open: true, message: 'Learning days limit updated successfully!', severity: 'success' });
+          setAlert({ open: true, message: 'Goal added successfully!', severity: 'success' });
         })
         .catch(err => {
           setOpen(false);
@@ -81,10 +83,10 @@ const AddGoalsDialog = ({open, setOpen, user, getUsers, setAlert}) => {
         <DialogContent>
             <FormControl className={classes.select}>
                 <InputLabel>Topics</InputLabel>
-                <Select>
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
+                <Select onChange={(e) => setSelectedTopic(e.target.value)}>
+                    {topics.map(topic =>{
+                        return <option value={topic.id}>{topic.title}</option>
+                    }) }
                 </Select>
             </FormControl>
         </DialogContent>
