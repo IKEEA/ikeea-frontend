@@ -33,7 +33,7 @@ const UserDeleteDialog = ({open, setOpen, user, getUsers, setAlert}) => {
     <Dialog open={open} onClose={() => setOpen(false)} fullWidth={true}>
         <DialogTitle>Delete user</DialogTitle>
         <DialogContent>
-            <div>{`Are you sure you want to delete ${user.firstName} ${user.lastName}?`}</div>
+            <div>{`Are you sure you want to delete ${user.email}?`}</div>
         </DialogContent>
         <DialogActions>
             <Button onClick={() => setOpen(false)} color="primary">

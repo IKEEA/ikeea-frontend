@@ -18,7 +18,6 @@ import { useStyles } from './AllGoalsDialog.styles';
 const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
   const [setLoading] = useContext(LoadingContext);
   const [goals, setGoals] = useState([]);
-
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(0);
 
@@ -37,7 +36,6 @@ const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
     .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${userId}/list`)
     .then(res => {
       setGoals(res.data);
-      console.log(res.data);
     })
     .catch(err => {
       setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -48,8 +46,7 @@ const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
     axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
     .then(res => {
-      setTopics(res.data);
-      console.log(res.data);
+        setTopics(res.data);
     })
     .catch(err => {
       setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -72,22 +69,34 @@ const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
         });
   };
 
+  let filteredTopics = topics.filter((topic) => {
+    let has = 0;
+    goals.filter((goal) => {
+      if (topic.id === goal.topicId) {
+        has = 1;
+      }
+    })
+    if(has === 0) {
+      return topic;
+    }
+  });
+
   return (
     <Dialog open={open} onClose={() => setOpen(false)} fullWidth={true}>
         <DialogTitle>User Goals</DialogTitle>
         <DialogContent>
             {goals.length !== 0 ? goals.map(goal =>{
-                return <Chip label={goal.topicTitle}/>
+                return <Chip key={goal.id} label={goal.topicTitle} className={classes.chip}/>
             }) : <div>User do not have any goals.</div>}
         </DialogContent>
         <DialogTitle>Add new goal</DialogTitle>
         <DialogContent>
             <FormControl className={classes.select}>
                 <InputLabel>Topics</InputLabel>
-                <Select onChange={(e) => setSelectedTopic(e.target.value)}>
-                    {topics.map(topic =>{
-                        return <option value={topic.id}>{topic.title}</option>
-                    }) }
+                <Select onChange={(e) => setSelectedTopic(e.target.value)} value={selectedTopic}>
+                  {filteredTopics.map(topic => {
+                    return <option key={topic.id} value={topic.id}>{topic.title}</option>
+                  })}
                 </Select>
             </FormControl>
         </DialogContent>
