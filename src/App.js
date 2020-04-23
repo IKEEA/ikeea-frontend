@@ -12,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { ErrorsContext } from './context/ErrorsContext';
 import { UserContext } from './context/UserContext';
+import { LoadingContext } from './context/LoadingContext';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
 
@@ -37,9 +38,10 @@ const AuthRoute = props => {
 
 const App = () => {
   const [errors, setErrors] = useState({});
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [loginError, setLoginError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [haveRoles, setHaveRoles] = useState(false);
 
   const classes = useStyles();
 
@@ -70,36 +72,37 @@ const App = () => {
     .then(res => {
       setUser(res.data);
       setLoading(false);
+      setHaveRoles(true);
     })
     .catch(err => {
       setUser({ roles: ['UNAUTHORIZED'] });
       setLoading(false);
+      setHaveRoles(true);
     });
   }
 
   return (
-    <UserContext.Provider value={[user, setUser]}>
-      <ErrorsContext.Provider value={[errors, setErrors]}>
-        <MuiThemeProvider theme={theme}>
-          {
-            loading ?
-            <CircularProgress size={100} thickness={5} className={classes.spinner}/> :
-            <BrowserRouter>
-              <Switch>
-                <AuthRoute exact path='/' user={user} roles={['DEVELOPER', 'LEADER']}><MainPage/></AuthRoute>
-                <AuthRoute path='/login' user={user} roles={['UNAUTHORIZED']}><LoginPage userLogin={userLogin} loginError={loginError}/></AuthRoute>
-                <AuthRoute path='/registration/:token' user={user} roles={['UNAUTHORIZED']}><RegistrationPage/></AuthRoute>
-                <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
-                <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
-                <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
-                <Route path='/error' component={ErrorPage} />
-                <Redirect to='/' />
-              </Switch>
-            </BrowserRouter>
-          }
-        </MuiThemeProvider>
-      </ErrorsContext.Provider>
-    </UserContext.Provider>
+    <LoadingContext.Provider value={[setLoading]}>
+      <UserContext.Provider value={[user, setUser]}>
+        <ErrorsContext.Provider value={[errors, setErrors]}>
+          <MuiThemeProvider theme={theme}>
+              {loading && <div className={classes.overlay}><CircularProgress size={100} thickness={5} className={classes.spinner}/></div>}
+              {haveRoles && <BrowserRouter>
+                <Switch>
+                  <AuthRoute exact path='/' user={user} roles={['DEVELOPER', 'LEADER']}><MainPage/></AuthRoute>
+                  <AuthRoute path='/login' user={user} roles={['UNAUTHORIZED']}><LoginPage userLogin={userLogin} loginError={loginError}/></AuthRoute>
+                  <AuthRoute path='/registration/:token' user={user} roles={['UNAUTHORIZED']}><RegistrationPage/></AuthRoute>
+                  <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
+                  <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
+                  <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
+                  <Route path='/error' component={ErrorPage} />
+                  <Redirect to='/' />
+                </Switch>
+              </BrowserRouter>}
+          </MuiThemeProvider>
+        </ErrorsContext.Provider>
+      </UserContext.Provider>
+    </LoadingContext.Provider>
   );
 }
 

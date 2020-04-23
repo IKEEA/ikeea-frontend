@@ -11,5 +11,9 @@ export const useStyles = makeStyles(theme => ({
     },
     title: {
       paddingRight: '16px'
+    },
+    limitButton: {
+      position: 'absolute',
+      right: '24px'
     }
 }));

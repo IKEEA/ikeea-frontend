@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { LoadingContext } from '../../context/LoadingContext';
 import axios from 'axios';
 
 //components
@@ -9,17 +10,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const UserDeleteDialog = ({open, setOpen, user, getUsers, setAlert}) => {
+  const [setLoading] = useContext(LoadingContext);
 
   const deleteUser = () => {
+    setLoading(true);
     axios
         .delete(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/delete`)
         .then(res => {
           getUsers();
           setOpen(false);
+          setLoading(false);
           setAlert({ open: true, message: 'User deleted successfully!', severity: 'success' });
         })
         .catch(err => {
           setOpen(false);
+          setLoading(false);
           setAlert({ open: true, message: err.message, severity: 'error' });
         });
   };
@@ -28,7 +33,7 @@ const UserDeleteDialog = ({open, setOpen, user, getUsers, setAlert}) => {
     <Dialog open={open} onClose={() => setOpen(false)} fullWidth={true}>
         <DialogTitle>Delete user</DialogTitle>
         <DialogContent>
-            <div>{`Are you sure you want to delete ${user.firstName} ${user.lastName}?`}</div>
+            <div>{`Are you sure you want to delete ${user.email}?`}</div>
         </DialogContent>
         <DialogActions>
             <Button onClick={() => setOpen(false)} color="primary">
