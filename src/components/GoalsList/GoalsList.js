@@ -33,6 +33,20 @@ const GoalsList = ({ setLoading, setAlert }) => {
             });
     };
 
+    const deleteGoal = (goal) => {
+        setLoading(true);
+        axios
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}/delete`)
+            .then(res => {
+                console.log(res.data);
+                getGoals();
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+    };
+
     const getGoals = () => {
         setLoading(true);
         axios
@@ -46,7 +60,7 @@ const GoalsList = ({ setLoading, setAlert }) => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
-    }
+    };
 
     return (
         <Grid container spacing={3} direction="row">
@@ -61,7 +75,7 @@ const GoalsList = ({ setLoading, setAlert }) => {
             <Grid item xs={12}>
                 {
                     goals.map(goal =>
-                        <GoalCard goal={goal} updateGoal={updateGoal} />
+                        <GoalCard goal={goal} updateGoal={updateGoal} deleteGoal={deleteGoal} />
                     )
                 }
             </Grid>

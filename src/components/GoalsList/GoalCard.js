@@ -11,12 +11,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import { useStyles } from './GoalCard.styles';
 
-const GoalCard = ({ goal, updateGoal }) => {
+const GoalCard = ({ goal, updateGoal, deleteGoal }) => {
     const [user] = useContext(UserContext);
-    const [status, setStatus] =useState(goal.status);
+    const [status, setStatus] = useState(goal.status);
     const classes = useStyles();
 
     const handleStatusChange = (e) => {
@@ -25,6 +27,10 @@ const GoalCard = ({ goal, updateGoal }) => {
         goal.status = newStatus;
         updateGoal(goal);
     };
+
+    const handleDeleteClick = (e) => {
+        deleteGoal(goal);
+    }
 
     return (
         <Card className={classes.root}>
@@ -39,6 +45,11 @@ const GoalCard = ({ goal, updateGoal }) => {
                         {goal.topicTitle}
                     </Typography>}
                 subheader={`Last Updated: ${new Date(goal.lastUpdated).toDateString()}`}
+                action={
+                    <IconButton aria-label="delete" onClick={(e) => handleDeleteClick(e)}>
+                        <DeleteOutlineIcon />
+                    </IconButton>
+                }
             />
             <CardContent>
                 <FormControl className={classes.formControl}>
