@@ -20,14 +20,16 @@ const AllUsersEditDialog = ({open, setOpen, getUsers, setAlert}) => {
     setLoading(true);
     setOpen(false);
     axios
-        .put(`${process.env.REACT_APP_SERVER_URL}/api/team/${user.id}/set-restriction-days?restrictionDays=${limit}`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/team/${user.id}/set-restriction-days?restrictionDays=${limit}`)
         .then(res => {
           getUsers();
           setLoading(false);
+          setLimit(0);
           setAlert({ open: true, message: 'Learning days limit updated successfully!', severity: 'success' });
         })
         .catch(err => {
           setLoading(false);
+          setLimit(0);
           setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
   };
