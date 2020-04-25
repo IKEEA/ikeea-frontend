@@ -14,18 +14,17 @@ const UserDeleteDialog = ({open, setOpen, user, getUsers, setAlert}) => {
 
   const deleteUser = () => {
     setLoading(true);
+    setOpen(false);
     axios
         .delete(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/delete`)
         .then(res => {
           getUsers();
-          setOpen(false);
           setLoading(false);
           setAlert({ open: true, message: 'User deleted successfully!', severity: 'success' });
         })
         .catch(err => {
-          setOpen(false);
           setLoading(false);
-          setAlert({ open: true, message: err.message, severity: 'error' });
+          setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
   };
 

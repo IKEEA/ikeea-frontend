@@ -26,16 +26,15 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
 
   const editUser = () => {
     setLoading(true);
+    setOpen(false);
     axios
         .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${currentUser.id}/update-restriction-days?restrictionDays=${currentUser.restrictionDays}`)
         .then(res => {
           getUsers();
-          setOpen(false);
           setLoading(false);
           setAlert({ open: true, message: 'Learning days limit updated successfully!', severity: 'success' });
         })
         .catch(err => {
-          setOpen(false);
           setLoading(false);
           setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
