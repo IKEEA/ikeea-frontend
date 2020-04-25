@@ -15,8 +15,22 @@ const GoalsList = ({ setLoading, setAlert }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const updateGoal = () => {
-        console.log('To Do');
+    const updateGoal = (goal) => {
+        setLoading(true);
+        axios
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}/update`, {
+                status: goal.status,
+                topicId: goal.topicId,
+                userId: goal.userId
+            })
+            .then(res => {
+                console.log(res.data);
+                getGoals();
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
     };
 
     const getGoals = () => {

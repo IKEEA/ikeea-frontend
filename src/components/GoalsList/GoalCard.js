@@ -20,7 +20,10 @@ const GoalCard = ({ goal, updateGoal }) => {
     const classes = useStyles();
 
     const handleStatusChange = (e) => {
-        setStatus(e.target.value);
+        const newStatus = e.target.value;
+        setStatus(newStatus);
+        goal.status = newStatus;
+        updateGoal(goal);
     };
 
     return (
