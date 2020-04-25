@@ -24,7 +24,7 @@ const LearningDayCard = ({ learningDay }) => {
                 <CardHeader
                     avatar={
                         <Avatar aria-label="learning-day" className={classes.avatar}>
-                            X
+                            {learningDay.userId}
                         </Avatar>
                     }
                     title={

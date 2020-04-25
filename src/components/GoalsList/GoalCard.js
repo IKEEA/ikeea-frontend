@@ -19,7 +19,7 @@ const GoalCard = ({ goal }) => {
             <CardHeader
                 avatar={
                     <Avatar aria-label="learning-day" className={classes.avatar}>
-                        X
+                        {goal.userId}
                     </Avatar>
                 }
                 title={
@@ -29,8 +29,7 @@ const GoalCard = ({ goal }) => {
                 subheader={new Date(goal.lastUpdated).toDateString()}
             />
             <CardContent>
-                Test
-                </CardContent>
+            </CardContent>
         </Card>
     );
 }
