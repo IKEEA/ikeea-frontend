@@ -26,6 +26,7 @@ const MainPage = () => {
       .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`)
       .then(res => {
         setLearningDays(res.data);
+        console.log(res.data);
         setLoading(false);
       })
       .catch(err => {
@@ -45,7 +46,7 @@ const MainPage = () => {
         <Grid container spacing={3}>
           <Grid item xs={6}
             alignItems="flex-start">
-            <LearningDaysList />
+            <LearningDaysList learningDays={learningDays} getLearningDays={getLearningDays} setLearningDays={setLearningDays} />
           </Grid>
           <Grid item xs={6}>
           </Grid>

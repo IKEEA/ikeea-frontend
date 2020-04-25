@@ -6,15 +6,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LearningDayCard from './LearningDayCard';
 
-const LearningDaysList = () => {
+const LearningDaysList = ({ learningDays, getLearningDays, setLearningDays }) => {
     const [user] = useContext(UserContext);
-
-    
 
     return (
         <Grid container spacing={3} direction="row">
             <Grid item xs={6}>
-                <Typography variant="h5">
+                <Typography variant="h4">
                     Learning Days
                     </Typography>
             </Grid>
@@ -22,7 +20,11 @@ const LearningDaysList = () => {
                 <Button variant="contained" color="primary">Add New Learning Day</Button>
             </Grid>
             <Grid item xs={12}>
-                <LearningDayCard/>
+                {
+                    learningDays.map(learningDay =>
+                        <LearningDayCard key={learningDay.id} learningDay={learningDay} />
+                    )
+                }
             </Grid>
         </Grid>
     );
