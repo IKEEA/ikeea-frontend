@@ -14,44 +14,6 @@ const MainPage = () => {
   const [user] = useContext(UserContext);
   const [setLoading] = useContext(LoadingContext);
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
-  const [learningDays, setLearningDays] = useState([]);
-  const [goals, setGoals] = useState([]);
-
-  useEffect(() => {
-    getLearningDays();
-    getGoals();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  function getLearningDays() {
-    setLoading(true);
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`)
-      .then(res => {
-        setLearningDays(res.data);
-        console.log(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-        setLoading(false);
-      });
-  }
-
-  function getGoals() {
-    setLoading(true);
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/list`)
-      .then(res => {
-        setGoals(res.data);
-        console.log(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-        setLoading(false);
-      });
-  }
 
   return (
     <div>
@@ -64,10 +26,10 @@ const MainPage = () => {
         <Grid container spacing={3}>
           <Grid item xs={6}
             alignItems="flex-start">
-            <LearningDaysList learningDays={learningDays} getLearningDays={getLearningDays} setLearningDays={setLearningDays} />
+            <LearningDaysList setLoading={setLoading} setAlert={setAlert} />
           </Grid>
           <Grid item xs={6}>
-            <GoalsList goals={goals} getGoals={getGoals} setGoals={setGoals} setLoading={setLoading} />
+            <GoalsList setLoading={setLoading} setAlert={setAlert} />
           </Grid>
         </Grid>
       </Menu>
