@@ -12,5 +12,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
+  },
+  formControl: {
+    minWidth: '40%'
   }
 }));

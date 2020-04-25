@@ -5,8 +5,12 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import GoalCard from './GoalCard';
 
-const GoalsList = ({ goals, getGoals, setGoals }) => {
+const GoalsList = ({ goals, getGoals, setGoals, setLoading }) => {
     const [user] = useContext(UserContext);
+
+    const updateGoal = () => {
+        console.log('To Do');
+    };
 
     return (
         <Grid container spacing={3} direction="row">
@@ -21,7 +25,7 @@ const GoalsList = ({ goals, getGoals, setGoals }) => {
             <Grid item xs={12}>
                 {
                     goals.map(goal =>
-                        <GoalCard goal={goal}/>
+                        <GoalCard goal={goal} updateGoal={updateGoal} />
                     )
                 }
             </Grid>

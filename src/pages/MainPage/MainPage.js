@@ -67,7 +67,7 @@ const MainPage = () => {
             <LearningDaysList learningDays={learningDays} getLearningDays={getLearningDays} setLearningDays={setLearningDays} />
           </Grid>
           <Grid item xs={6}>
-            <GoalsList goals={goals} getGoals={getGoals} setGoals={setGoals} />
+            <GoalsList goals={goals} getGoals={getGoals} setGoals={setGoals} setLoading={setLoading} />
           </Grid>
         </Grid>
       </Menu>
