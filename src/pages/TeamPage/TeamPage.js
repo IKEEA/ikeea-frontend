@@ -48,18 +48,18 @@ const TeamPage = () => {
 
   const sendInvitation = () => {
     setLoading(true);
+    setInvitationDialog(false);
     const errors = [];
     errors.push(validator.validateField(email.input, setEmail, validator.validateEmail));
     if (!errors.find(error => error === true)) {
       axios
         .post(`${process.env.REACT_APP_SERVER_URL}/api/user/invite?email=${email.input.value}`)
         .then(res => {
-          setInvitationDialog(false);
+          getUsers();
           setLoading(false);
           setAlert({ open: true, message: 'An invitation email for the employee was sent successfully!', severity: 'success' });
         })
         .catch(err => {
-          setInvitationDialog(false);
           setLoading(false);
           setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
