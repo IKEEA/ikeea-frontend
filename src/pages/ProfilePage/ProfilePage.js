@@ -73,7 +73,7 @@ export default function ProfilePage() {
                 <Grid item xs={12}>
                   <Paper className={classes.paper}>
                     <div>Learning days limit this quarter</div>
-                    <div>{user.learningDays}</div>
+                    <div>{user.restrictionDays} days</div>
                   </Paper>
                 </Grid>
                 <Grid item xs={12}>
