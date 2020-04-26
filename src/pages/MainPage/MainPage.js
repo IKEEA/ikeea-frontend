@@ -14,6 +14,27 @@ const MainPage = () => {
   const [user] = useContext(UserContext);
   const [setLoading] = useContext(LoadingContext);
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
+  const [topics, setTopics] = useState([]);
+
+  useEffect(() => {
+    getTopics();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const getTopics = () => {
+    setLoading(true);
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
+      .then(res => {
+        setTopics(res.data);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+        setLoading(false);
+      });
+  };
 
   return (
     <div>
@@ -26,10 +47,10 @@ const MainPage = () => {
         <Grid container spacing={3}>
           <Grid item xs={6}
             alignItems="flex-start">
-            <LearningDaysList setLoading={setLoading} setAlert={setAlert} />
+            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} />
           </Grid>
           <Grid item xs={6}>
-            <GoalsList setLoading={setLoading} setAlert={setAlert} />
+            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} />
           </Grid>
         </Grid>
       </Menu>

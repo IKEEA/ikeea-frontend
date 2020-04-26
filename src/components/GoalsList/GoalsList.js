@@ -7,16 +7,14 @@ import GoalCard from './GoalCard/GoalCard';
 import NewGoalCard from './NewGoalCard/NewGoalCard';
 import axios from 'axios';
 
-const GoalsList = ({ setLoading, setAlert }) => {
+const GoalsList = ({ setLoading, setAlert, topics }) => {
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
     const [newGoalCard, setNewGoalCard] = useState(false);
-    const [topics, setTopics] = useState([]);
     const [topic, setTopic] = useState();
 
     useEffect(() => {
         getGoals();
-        getTopics();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -80,22 +78,6 @@ const GoalsList = ({ setLoading, setAlert }) => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
             });
     };
-
-    const getTopics = () => {
-        setLoading(true);
-        axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
-            .then(res => {
-                setTopics(res.data);
-                console.log(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
-                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-                setLoading(false);
-            });
-    };
-
 
     return (
         <Grid container spacing={3} direction="row">
