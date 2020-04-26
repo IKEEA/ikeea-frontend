@@ -13,6 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { useStyles } from './AllGoalsDialog.styles';
 
@@ -103,7 +104,7 @@ const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
             <DialogContent>
                 {goals.length !== 0 ? goals.map(goal =>{
                     return <Chip key={goal.id} label={goal.topicTitle} className={classes.chip}/>
-                }) : <div>User do not have any goals.</div>}
+                }) : <div>User does not have any goals.</div>}
             </DialogContent>
             <DialogTitle>Add new goal</DialogTitle>
             <DialogContent>
@@ -111,7 +112,7 @@ const AddGoalsDialog = ({open, setOpen, user, setAlert}) => {
                     <InputLabel>Topics</InputLabel>
                     <Select onChange={(e) => setSelectedTopic(e.target.value)} value={selectedTopic}>
                       {filteredTopics.map(topic => {
-                        return <option key={topic.id} value={topic.id}>{topic.title}</option>
+                        return <MenuItem key={topic.id} value={topic.id}>{topic.title}</MenuItem>
                       })}
                     </Select>
                 </FormControl>
