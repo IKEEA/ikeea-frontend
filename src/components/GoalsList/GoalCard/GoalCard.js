@@ -58,10 +58,6 @@ const GoalCard = ({ goal, updateGoal, deleteGoal }) => {
                         native
                         value={status}
                         onChange={handleStatusChange}
-                        inputProps={{
-                            name: 'age',
-                            id: 'age-native-simple',
-                        }}
                     >
                         <option value={'ASSIGNED'}>Assigned</option>
                         <option value={'IN_PROGRESS'}>In Progress</option>

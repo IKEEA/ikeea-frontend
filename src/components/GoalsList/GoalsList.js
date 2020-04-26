@@ -4,14 +4,19 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import GoalCard from './GoalCard/GoalCard';
+import NewGoalCard from './NewGoalCard/NewGoalCard';
 import axios from 'axios';
 
 const GoalsList = ({ setLoading, setAlert }) => {
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
+    const [newGoalCard, setNewGoalCard] = useState(false);
+    const [topics, setTopics] = useState([]);
+    const [topic, setTopic] = useState();
 
     useEffect(() => {
         getGoals();
+        getTopics();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -62,6 +67,36 @@ const GoalsList = ({ setLoading, setAlert }) => {
             });
     };
 
+    const addGoal = (goal) => {
+        setLoading(true);
+        axios
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/goal/add`, { topicId: topic, userId: user.id })
+            .then(res => {
+                getGoals();
+                setAlert({ open: true, message: 'Goal added successfully!', severity: 'success' });
+            })
+            .catch(err => {
+                setLoading(false);
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+            });
+    };
+
+    const getTopics = () => {
+        setLoading(true);
+        axios
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
+            .then(res => {
+                setTopics(res.data);
+                console.log(res.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+    };
+
+
     return (
         <Grid container spacing={3} direction="row">
             <Grid item xs={6}>
@@ -70,9 +105,10 @@ const GoalsList = ({ setLoading, setAlert }) => {
                     </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Button variant="contained" color="primary">Add New Goal</Button>
+                <Button variant="contained" color="primary" onClick={(e) => setNewGoalCard(true)}>Add New Goal</Button>
             </Grid>
             <Grid item xs={12}>
+                {newGoalCard ? <NewGoalCard topics={topics} setNewGoalCard={setNewGoalCard} addGoal={addGoal} topic={topic} setTopic={setTopic} /> : ''}
                 {
                     goals.map(goal =>
                         <GoalCard goal={goal} updateGoal={updateGoal} deleteGoal={deleteGoal} />
