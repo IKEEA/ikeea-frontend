@@ -37,7 +37,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
     }
 
     return (
-        <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} className={classes.LearningDayModal} open={(e) => handleLearningDayClose(e)}>
+        <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={(e) => handleLearningDayClose(e)} classes={{paper: classes.LearningDayModal}}>
             <DialogTitle>
                 <TextField
                     className={classes.title}
