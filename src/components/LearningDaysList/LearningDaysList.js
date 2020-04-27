@@ -22,7 +22,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
     const getLearningDays = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/user-list`)
             .then(res => {
                 setLearningDays(res.data);
                 console.log(res.data);
@@ -41,14 +41,14 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
     return (
         <div>
             {learningDayModal ? <LearningDay setLearningDayModal={setLearningDayModal} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} allTopics={topics} /> : ''}
-            <Grid container spacing={3} direction="row">
+            <Grid container spacing={3} direction="row" justify="space-evenly">
                 <Grid item xs={6}>
                     <Typography variant="h4">
                         Learning Days
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)}>Add New Learning Day</Button>
+                    <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{float: 'right'}}>Add New Learning Day</Button>
                 </Grid>
                 <Grid item xs={12}>
                     {

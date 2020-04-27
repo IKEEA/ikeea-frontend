@@ -87,7 +87,7 @@ const GoalsList = ({ setLoading, setAlert, topics }) => {
                     </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Button variant="contained" color="primary" onClick={(e) => setNewGoalCard(true)}>Add New Goal</Button>
+                <Button variant="contained" color="primary" onClick={(e) => setNewGoalCard(true)} style={{float: 'right'}}>Add New Goal</Button>
             </Grid>
             <Grid item xs={12}>
                 {newGoalCard ? <NewGoalCard topics={topics} setNewGoalCard={setNewGoalCard} addGoal={addGoal} topic={topic} setTopic={setTopic} /> : ''}

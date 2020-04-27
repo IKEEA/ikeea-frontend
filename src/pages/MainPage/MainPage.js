@@ -44,7 +44,7 @@ const MainPage = () => {
         </Alert>
       </Snackbar>
       <Menu>
-        <Grid container spacing={3}>
+        <Grid container spacing={10}>
           <Grid item xs={6}
             alignItems="flex-start">
             <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} />
