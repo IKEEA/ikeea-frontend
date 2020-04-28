@@ -16,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
@@ -29,16 +30,30 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
     const [user] = useContext(UserContext);
     const [date, setDate] = useState(new Date());
     const [topics, setTopics] = useState([]);
+    const [subtopics, setSubtopics] = useState([]);
     const classes = useStyles();
 
     const handleLearningDayClose = (e) => {
         setLearningDayEditable(false);
         setLearningDayModal(false);
+    };
+
+    const handleTopicsChange = (e) => {
+        const newTopics = e.target.value;
+        setTopics(newTopics);
+        setSubtopics(subtopics.filter((subtopic) => {
+            newTopics.some(topic => topic.id === subtopic.parentId)
+        }))
+    };
+
+    const handleCreateLearningDay = (e) => {
+        console.log(date);
+        console.log([...topics, ...subtopics]);
     }
 
     return (
-        <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={(e) => handleLearningDayClose(e)} classes={{paper: classes.LearningDayModal}}>
-            <DialogTitle>
+        <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={(e) => handleLearningDayClose(e)} classes={{ paper: classes.LearningDayModal }}>
+            <DialogTitle className={classes.dialogTitle}>
                 <TextField
                     className={classes.title}
                     required
@@ -83,7 +98,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
                                         id="demo-mutiple-chip"
                                         multiple
                                         value={topics}
-                                        onChange={(e) => setTopics(e.target.value)}
+                                        onChange={(e) => handleTopicsChange(e)}
                                         input={<Input id="select-multiple-chip" />}
                                         renderValue={(selected) => (
                                             <div className={classes.chips}>
@@ -94,9 +109,39 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
                                         )}
                                     >
                                         {allTopics.map((topic) => (
-                                            <MenuItem key={topic.id} value={topic}>
-                                                {topic.title}
-                                            </MenuItem>
+                                            !topic.parentId ?
+                                                <MenuItem key={topic.id} value={topic}>
+                                                    {topic.title}
+                                                </MenuItem> : ''
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.formControl} fullWidth>
+                                    <InputLabel id="demo-mutiple-chip-label">Subtopics</InputLabel>
+                                    <Select
+                                        labelId="demo-mutiple-chip-label"
+                                        id="demo-mutiple-chip"
+                                        multiple
+                                        value={subtopics}
+                                        onChange={(e) => setSubtopics(e.target.value)}
+                                        input={<Input id="select-multiple-chip" />}
+                                        renderValue={(selected) => (
+                                            <div className={classes.chips}>
+                                                {selected.map((topic) => (
+                                                    <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
+                                                ))}
+                                            </div>
+                                        )}
+                                    >
+                                        {topics.map((masterTopic) => (
+                                            allTopics.map((topic) => (
+                                                topic.parentId === masterTopic.id ?
+                                                    <MenuItem key={topic.id} value={topic}>
+                                                        <Chip color="primary" label={masterTopic.title} className={classes.topicChip} /> {topic.title}
+                                                    </MenuItem> : ''
+                                            ))
                                         ))}
                                     </Select>
                                 </FormControl>
@@ -109,7 +154,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary">
+                <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
                     Create Learning Day
           </Button>
             </DialogActions>

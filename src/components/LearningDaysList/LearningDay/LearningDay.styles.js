@@ -15,6 +15,10 @@ export const useStyles = makeStyles((theme) => ({
         width: '100%',
         fontSize: '24px'
     },
+    dialogTitle: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(5)
+    },
     input: {
         widt: '100%'
     },

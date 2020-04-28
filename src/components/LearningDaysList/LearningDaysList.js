@@ -12,7 +12,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
     const [user] = useContext(UserContext);
     const [learningDays, setLearningDays] = useState([]);
     const [learningDayModal, setLearningDayModal] = useState(false);
-    const [learningDayEditable, setLearningDayEditable] = useState(true);
+    const [learningDayEditable, setLearningDayEditable] = useState(false);
 
     useEffect(() => {
         getLearningDays();
@@ -35,6 +35,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
     }
 
     const handleNewLearningDayClick = (e) => {
+        setLearningDayEditable(true);
         setLearningDayModal(true);
     };
 
