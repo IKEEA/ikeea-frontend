@@ -51,7 +51,6 @@ const NewTopicCard = ({setOpenNew, getTopics, setAlert}) => {
      setTopic(topic);
   }
 
-
   return (
     <ExpansionPanel expanded={true}>
         <ExpansionPanelSummary
@@ -60,7 +59,7 @@ const NewTopicCard = ({setOpenNew, getTopics, setAlert}) => {
             <Typography className={classes.heading}>
                 <TextField
                     label='Title'
-                    className={classes.root}
+                    className={classes.fullWidth}
                     onChange={(e) => changeTopicTitle(e)}
                 />
             </Typography>
@@ -70,7 +69,7 @@ const NewTopicCard = ({setOpenNew, getTopics, setAlert}) => {
             <div>
                 <TextField
                     label='Description'
-                    className={classes.root}
+                    className={classes.fullWidth}
                     onChange={(e) => changeTopicDescription(e)}
                 />
             </div>

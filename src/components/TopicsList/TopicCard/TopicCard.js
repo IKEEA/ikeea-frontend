@@ -16,6 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 
 import { useStyles } from './TopicCard.styles';
+import NewSubtopicCard from '../NewSubtopicCard/NewSubtopicCard';
 
 const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
   const [editMode, setEditMode] = useState(false);
@@ -84,8 +85,8 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
             </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.content}>
-                <b className={classes.title}>Description</b>
                 <div className={classes.edit} onClick={() => saveChanges()}><SaveIcon/></div>
+                <b className={classes.title}>Description</b>
                 <div>
                     <TextField
                         className={classes.root}
@@ -127,8 +128,8 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
             </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.content}>
-                <b className={classes.title}>Description</b>
                 <div className={classes.edit} onClick={() => setEditMode(true)}><EditIcon/></div>
+                <b className={classes.title}>Description</b>
                 <div>{topic.description}</div>
                 <b className={classes.title}>Subtopics</b>
                 {subtopics.length !== 0 ? subtopics.map((subtopic, index) => {
@@ -141,6 +142,7 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
                         </Card>
                     )
                 }) : <div>There are no subtopics created.</div>}
+                <NewSubtopicCard topic={topic} getTopics={getTopics} setAlert={setAlert}/>
             </ExpansionPanelDetails>
         </ExpansionPanel>
         }

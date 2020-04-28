@@ -4,13 +4,9 @@ export const useStyles = makeStyles(theme => ({
     fullWidth: {
         width: '100%',
     },
-    heading: {
-        width: '100%',
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-    },
-    content: {
-        display: 'block'
+    subtopic: {
+        marginBottom: '8px',
+        padding: '8px'
     },
     edit: {
         float: 'right',
