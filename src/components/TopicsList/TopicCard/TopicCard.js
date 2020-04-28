@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { LoadingContext } from '../../context/LoadingContext';
+import { LoadingContext } from '../../../context/LoadingContext';
 import axios from 'axios';
 
 //components
@@ -17,7 +17,7 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import { useStyles } from './TopicCard.styles';
 
-const TopicsPage = ({ topic, subtopics, getTopics, setAlert }) => {
+const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
   const [editMode, setEditMode] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [editTopic, setEditTopic] = useState(JSON.parse(JSON.stringify(topic)));
@@ -147,4 +147,4 @@ const TopicsPage = ({ topic, subtopics, getTopics, setAlert }) => {
     </div>);
 }
 
-export default TopicsPage;
+export default TopicCard;
