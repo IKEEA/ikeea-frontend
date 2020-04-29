@@ -26,7 +26,7 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import { useStyles } from './LearningDay.styles';
 
-const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
+const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
     const [user] = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [date, setDate] = useState(new Date());
@@ -36,7 +36,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningD
 
     useEffect(() => {
         setTitle(learningDay.title);
-        setDate(learningDay.date);
+        setDate(new Date(learningDay.date));
         setTopics(learningDay.topics.filter(topic => !topic.parentId))
         setSubtopics(learningDay.topics.filter(topic => topic.parentId))
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,12 +48,20 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningD
     };
 
     const handleTopicsChange = (e) => {
-        const newTopics = e.target.value;
-        setTopics(newTopics);
-        setSubtopics(subtopics.filter((subtopic) => {
-            newTopics.some(topic => topic.id === subtopic.parentId)
-        }))
+        if (learningDayEditable) {
+            const newTopics = e.target.value;
+            setTopics(newTopics);
+            setSubtopics(subtopics.filter((subtopic) => {
+                newTopics.some(topic => topic.id === subtopic.parentId)
+            }))
+        }
     };
+
+    const handleSubtopicsChange = (e) => {
+        if (learningDayEditable) {
+            setSubtopics(e.target.value);
+        }
+    }
 
     const handleCreateLearningDay = (e) => {
         console.log(title);
@@ -65,6 +73,20 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningD
             topicIds: [...topics, ...subtopics].map(topic => topic.id),
             userId: user.id
         })
+    }
+
+    const handleSaveLearningDay = (e) => {
+        updateLearningDay(learningDay.id, {
+            title: title,
+            date: date.toISOString(),
+            topicIds: [...topics, ...subtopics].map(topic => topic.id),
+            userId: user.id
+        })
+    }
+
+    const validateInputs = () => {
+        console.log('To Do');
+
     }
 
     return (
@@ -99,6 +121,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningD
                                         format="yyyy-MM-dd"
                                         margin="normal"
                                         label="Date"
+                                        readOnly={learningDayEditable}
                                         value={date}
                                         onChange={(date) => setDate(date)}
                                         KeyboardButtonProps={{
@@ -143,7 +166,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningD
                                         id="demo-mutiple-chip"
                                         multiple
                                         value={subtopics}
-                                        onChange={(e) => setSubtopics(e.target.value)}
+                                        onChange={(e) => handleSubtopicsChange(e.target.value)}
                                         input={<Input id="select-multiple-chip" />}
                                         renderValue={(selected) => (
                                             <div className={classes.chips}>
@@ -172,9 +195,18 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningD
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
-                    Create Learning Day
-          </Button>
+                {learningDayNew ?
+                    <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
+                        Create Learning Day
+                    </Button> :
+                    learningDayEditable ?
+                        <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
+                            Save
+                        </Button> :
+                        <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)}>
+                            Edit
+                        </Button>
+                }
             </DialogActions>
         </Dialog>
     );

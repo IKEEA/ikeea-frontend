@@ -24,6 +24,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
     const [learningDays, setLearningDays] = useState([]);
     const [learningDayModal, setLearningDayModal] = useState(false);
     const [learningDayEditable, setLearningDayEditable] = useState(false);
+    const [learningDayNew, setLearningDayNew] = useState(false);
     const [selectedLearningDay, setSelectedLearningDay] = useState(emptyLearningDay);
 
     useEffect(() => {
@@ -62,21 +63,39 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
             });
     }
 
+    const updateLearningDay = (id, learningDay) => {
+        setLoading(true);
+        axios
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}/update`, learningDay)
+            .then(res => {
+                console.log(res.data);
+                getLearningDays();
+                setLearningDayEditable(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+    }
+
     const handleNewLearningDayClick = (e) => {
         setSelectedLearningDay(emptyLearningDay);
+        setLearningDayNew(true);
         setLearningDayEditable(true);
         setLearningDayModal(true);
     };
 
     const handleLearningDayClick = (e, learningDay) => {
         setSelectedLearningDay(learningDay);
+        setLearningDayNew(false);
         setLearningDayEditable(false);
         setLearningDayModal(true);
     }
 
     return (
         <div>
-            {learningDayModal ? <LearningDay setLearningDayModal={setLearningDayModal} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
+            {learningDayModal ? <LearningDay setLearningDayModal={setLearningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
             <Grid container spacing={3} direction="row" justify="space-evenly">
                 <Grid item xs={6}>
                     <Typography variant="h4">
