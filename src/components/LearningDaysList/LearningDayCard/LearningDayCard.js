@@ -11,11 +11,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useStyles } from './LearningDayCard.styles';
 
 
-const LearningDayCard = ({ learningDay }) => {
+const LearningDayCard = ({ learningDay, handleLearningDayClick }) => {
     const classes = useStyles();
 
     const onCardClick = (e) => {
-        console.log('To Do: implement learning day page.');
+        handleLearningDayClick(e, learningDay);
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -26,12 +26,21 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import { useStyles } from './LearningDay.styles';
 
-const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayEditable, allTopics }) => {
+const LearningDay = ({ setLearningDayModal, learningDayEditable, createLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
     const [user] = useContext(UserContext);
+    const [title, setTitle] = useState('');
     const [date, setDate] = useState(new Date());
     const [topics, setTopics] = useState([]);
     const [subtopics, setSubtopics] = useState([]);
     const classes = useStyles();
+
+    useEffect(() => {
+        setTitle(learningDay.title);
+        setDate(learningDay.date);
+        setTopics(learningDay.topics.filter(topic => !topic.parentId))
+        setSubtopics(learningDay.topics.filter(topic => topic.parentId))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleLearningDayClose = (e) => {
         setLearningDayEditable(false);
@@ -47,8 +56,15 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
     };
 
     const handleCreateLearningDay = (e) => {
-        console.log(date);
+        console.log(title);
+        console.log(date.toISOString());
         console.log([...topics, ...subtopics]);
+        createLearningDay({
+            title: title,
+            date: date.toISOString(),
+            topicIds: [...topics, ...subtopics].map(topic => topic.id),
+            userId: user.id
+        })
     }
 
     return (
@@ -58,6 +74,8 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, setLearningDayE
                     className={classes.title}
                     required
                     placeholder="Title"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
                     InputProps={{
                         readOnly: !learningDayEditable,
                         classes: { input: classes.title }
