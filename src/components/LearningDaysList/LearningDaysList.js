@@ -79,6 +79,23 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
             });
     }
 
+    const deleteLearningDay = (id) => {
+        setLoading(true);
+        axios
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}/delete`)
+            .then(res => {
+                console.log(res.data);
+                getLearningDays();
+                setLearningDayEditable(false);
+                setLearningDayModal(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+    }
+
     const handleNewLearningDayClick = (e) => {
         setSelectedLearningDay(emptyLearningDay);
         setLearningDayNew(true);
@@ -95,7 +112,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
 
     return (
         <div>
-            {learningDayModal ? <LearningDay setLearningDayModal={setLearningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
+            {learningDayModal ? <LearningDay setLearningDayModal={setLearningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} deleteLearningDay={deleteLearningDay} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
             <Grid container spacing={3} direction="row" justify="space-evenly">
                 <Grid item xs={6}>
                     <Typography variant="h4">

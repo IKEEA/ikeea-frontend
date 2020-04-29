@@ -26,7 +26,7 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import { useStyles } from './LearningDay.styles';
 
-const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
+const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
     const [user] = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [date, setDate] = useState(new Date());
@@ -82,6 +82,10 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
             topicIds: [...topics, ...subtopics].map(topic => topic.id),
             userId: user.id
         })
+    }
+
+    const handleDeleteLearningDay = (e) => {
+        deleteLearningDay(learningDay.id);
     }
 
     const validateInputs = () => {
@@ -196,16 +200,21 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
             </DialogContent>
             <DialogActions>
                 {learningDayNew ?
-                    <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
+                    <Button autoFocus variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
                         Create Learning Day
                     </Button> :
                     learningDayEditable ?
-                        <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
+                        <Button autoFocus variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
                             Save
                         </Button> :
-                        <Button autoFocus onClick={console.log("To Do")} variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)}>
+                        <Button autoFocus variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)}>
                             Edit
                         </Button>
+                }
+                {!learningDayNew && !learningDayEditable ?
+                    <Button autoFocus variant="contained" color="primary" onClick={(e) => handleDeleteLearningDay(e)}>
+                        Delete
+                    </Button> : ''
                 }
             </DialogActions>
         </Dialog>
