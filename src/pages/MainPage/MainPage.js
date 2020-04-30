@@ -47,7 +47,7 @@ const MainPage = () => {
         <Grid container spacing={10}>
           <Grid item xs={6}
             alignItems="flex-start">
-            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} />
+            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={false} />
           </Grid>
           <Grid item xs={6}>
             <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} />

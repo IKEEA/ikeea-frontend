@@ -32,6 +32,8 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
     const [date, setDate] = useState(new Date());
     const [topics, setTopics] = useState([]);
     const [subtopics, setSubtopics] = useState([]);
+    const [topicsOpen, setTopicsOpen] = useState(false);
+    const [subtopicsOpen, setSubtopicsOpen] = useState(false);
     const classes = useStyles();
 
     useEffect(() => {
@@ -79,8 +81,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
         updateLearningDay(learningDay.id, {
             title: title,
             date: date.toISOString(),
-            topicIds: [...topics, ...subtopics].map(topic => topic.id),
-            userId: user.id
+            topicIds: [...topics, ...subtopics].map(topic => topic.id)
         })
     }
 
@@ -144,6 +145,9 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                                         multiple
                                         value={topics}
                                         onChange={(e) => handleTopicsChange(e)}
+                                        open={topicsOpen}
+                                        onOpen={(e) => learningDayEditable ? setTopicsOpen(true) : setTopicsOpen(false)}
+                                        onClose={(e) => setTopicsOpen(false)}
                                         input={<Input id="select-multiple-chip" />}
                                         renderValue={(selected) => (
                                             <div className={classes.chips}>
@@ -171,6 +175,9 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                                         multiple
                                         value={subtopics}
                                         onChange={(e) => handleSubtopicsChange(e.target.value)}
+                                        open={subtopicsOpen}
+                                        onOpen={(e) => learningDayEditable ? setSubtopicsOpen(true) : setSubtopicsOpen(false)}
+                                        onClose={(e) => setSubtopicsOpen(false)}
                                         input={<Input id="select-multiple-chip" />}
                                         renderValue={(selected) => (
                                             <div className={classes.chips}>

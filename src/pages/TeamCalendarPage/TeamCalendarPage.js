@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from './../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { LoadingContext } from '../../context/LoadingContext';
 import Menu from '../../components/Menu/Menu';
 import Grid from '@material-ui/core/Grid';
@@ -47,10 +47,10 @@ const TeamCalendarPage = () => {
         <Grid container spacing={10}>
           <Grid item xs={6}
             alignItems="flex-start">
-            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} />
+            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} />
           </Grid>
           <Grid item xs={6}>
-            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} />
+            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} />
           </Grid>
         </Grid>
       </Menu>

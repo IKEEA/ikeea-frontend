@@ -8,7 +8,7 @@ import LearningDayCard from './LearningDayCard/LearningDayCard';
 import LearningDay from './LearningDay/LearningDay';
 import axios from 'axios';
 
-const LearningDaysList = ({ setLoading, setAlert, topics }) => {
+const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
 
     const emptyLearningDay = {
         date: null,
@@ -35,7 +35,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
     const getLearningDays = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/user-list`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`)
             .then(res => {
                 setLearningDays(res.data);
                 console.log(res.data);
@@ -120,7 +120,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics }) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{ float: 'right' }}>Add New Learning Day</Button>
+                    {isTeamCalendar ? '' : <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{ float: 'right' }}>Add New Learning Day</Button>}
                 </Grid>
                 <Grid item xs={12}>
                     {
