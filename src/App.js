@@ -8,6 +8,7 @@ import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 import TeamPage from './pages/TeamPage/TeamPage';
+import TeamCalendarPage from './pages/TeamCalendarPage/TeamCalendarPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { ErrorsContext } from './context/ErrorsContext';
@@ -95,6 +96,7 @@ const App = () => {
                   <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
                   <AuthRoute exact path='/profile' user={user} roles={['DEVELOPER', 'LEADER']}><ProfilePage/></AuthRoute>
                   <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
+                  <AuthRoute exact path='/teamCalendar' user={user} roles={['LEADER']}><TeamCalendarPage/></AuthRoute>
                   <Route path='/error' component={ErrorPage} />
                   <Redirect to='/' />
                 </Switch>

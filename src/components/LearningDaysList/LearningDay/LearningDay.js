@@ -199,6 +199,11 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                 </Grid>
             </DialogContent>
             <DialogActions>
+                {!learningDayNew && !learningDayEditable ?
+                    <Button autoFocus variant="contained" color="primary" onClick={(e) => handleDeleteLearningDay(e)}>
+                        Delete
+                    </Button> : ''
+                }
                 {learningDayNew ?
                     <Button autoFocus variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
                         Create Learning Day
@@ -210,11 +215,6 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                         <Button autoFocus variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)}>
                             Edit
                         </Button>
-                }
-                {!learningDayNew && !learningDayEditable ?
-                    <Button autoFocus variant="contained" color="primary" onClick={(e) => handleDeleteLearningDay(e)}>
-                        Delete
-                    </Button> : ''
                 }
             </DialogActions>
         </Dialog>
