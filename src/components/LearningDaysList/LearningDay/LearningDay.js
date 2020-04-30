@@ -53,7 +53,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
             const newTopics = e.target.value;
             setTopics(newTopics);
             setSubtopics(subtopics.filter((subtopic) => {
-                newTopics.some(topic => topic.id === subtopic.parentId)
+                return newTopics.some(topic => topic.id === subtopic.parentId);
             }))
         }
     };
