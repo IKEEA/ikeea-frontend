@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../../../context/UserContext';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -15,7 +14,6 @@ import Grid from '@material-ui/core/Grid';
 import { useStyles } from './NewGoalCard.styles';
 
 const NewGoalCard = ({ topics, addGoal, setNewGoalCard, topic, setTopic }) => {
-    const [user] = useContext(UserContext);
     const classes = useStyles();
 
     const handleAddButtonClick = (e) => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
 import { LoadingContext } from '../../context/LoadingContext';
 import Menu from '../../components/Menu/Menu';
 import Grid from '@material-ui/core/Grid';
@@ -11,7 +10,6 @@ import LearningDaysList from '../../components/LearningDaysList/LearningDaysList
 import GoalsList from '../../components/GoalsList/GoalsList';
 
 const TeamCalendarPage = () => {
-  const [user] = useContext(UserContext);
   const [setLoading] = useContext(LoadingContext);
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
   const [topics, setTopics] = useState([]);

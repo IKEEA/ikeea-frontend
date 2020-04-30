@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../../context/UserContext';
+import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -13,7 +12,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useStyles } from './GoalCard.styles';
 
 const GoalCard = ({ goal, updateGoal }) => {
-    const [user] = useContext(UserContext);
     const [status, setStatus] = useState(goal.status);
     const classes = useStyles();
 

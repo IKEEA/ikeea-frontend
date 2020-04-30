@@ -85,11 +85,6 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
         deleteLearningDay(learningDay.id);
     }
 
-    const validateInputs = () => {
-        console.log('To Do');
-
-    }
-
     return (
         <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={(e) => handleLearningDayClose(e)} classes={{ paper: classes.LearningDayModal }}>
             <DialogTitle className={classes.dialogTitle}>
@@ -128,7 +123,6 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
                                         }}
-                                        readOnly={!learningDayEditable}
                                     />
                                 </MuiPickersUtilsProvider>
                             </Grid>
