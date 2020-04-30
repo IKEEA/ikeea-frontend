@@ -35,19 +35,6 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
             });
     };
 
-    const deleteGoal = (goal) => {
-        setLoading(true);
-        axios
-            .delete(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}/delete`)
-            .then(res => {
-                getGoals();
-            })
-            .catch(err => {
-                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-                setLoading(false);
-            });
-    };
-
     const getGoals = () => {
         setLoading(true);
         axios
@@ -91,7 +78,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 {newGoalCard ? <NewGoalCard topics={topics} setNewGoalCard={setNewGoalCard} addGoal={addGoal} topic={topic} setTopic={setTopic} /> : ''}
                 {
                     goals.map(goal =>
-                        <GoalCard goal={goal} updateGoal={updateGoal} deleteGoal={deleteGoal} />
+                        <GoalCard goal={goal} updateGoal={updateGoal} />
                     )
                 }
             </Grid>
