@@ -11,7 +11,7 @@ import axios from 'axios';
 const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
 
     const emptyLearningDay = {
-        date: null,
+        date: new Date().toISOString(),
         id: null,
         title: null,
         firstName: null,
