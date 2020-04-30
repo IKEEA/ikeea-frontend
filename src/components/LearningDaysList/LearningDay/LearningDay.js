@@ -17,6 +17,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
@@ -152,7 +153,9 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                                         renderValue={(selected) => (
                                             <div className={classes.chips}>
                                                 {selected.map((topic) => (
-                                                    <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
+                                                    <Tooltip title={topic.description} arrow>
+                                                        <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
+                                                    </Tooltip>
                                                 ))}
                                             </div>
                                         )}
@@ -182,7 +185,9 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                                         renderValue={(selected) => (
                                             <div className={classes.chips}>
                                                 {selected.map((topic) => (
-                                                    <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
+                                                    <Tooltip title={topic.description} arrow>
+                                                        <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
+                                                    </Tooltip>
                                                 ))}
                                             </div>
                                         )}

@@ -13,6 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { useStyles } from './GoalCard.styles';
 
@@ -36,9 +37,11 @@ const GoalCard = ({ goal, updateGoal, deleteGoal }) => {
         <Card className={classes.root}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="learning-day" className={classes.avatar}>
-                        {goal.userId}
-                    </Avatar>
+                    <Tooltip title={`${goal.firstName} ${goal.lastName}`} arrow>
+                        <Avatar aria-label="learning-day" className={classes.avatar}>
+                        {`${goal.firstName} ${goal.lastName}`.split(" ").map((n, i, a) => i === 0 || i + 1 === a.length ? n[0] : null).join("")}
+                        </Avatar>
+                    </Tooltip>
                 }
                 title={
                     <Typography variant="h5">
