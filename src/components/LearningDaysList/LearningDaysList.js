@@ -38,7 +38,6 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
             .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`)
             .then(res => {
                 setLearningDays(res.data);
-                console.log(res.data);
                 setLoading(false);
             })
             .catch(err => {
@@ -52,12 +51,10 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
         axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/add`, learningDay)
             .then(res => {
-                console.log(res.data);
                 getLearningDays();
                 setLearningDayModal(false);
             })
             .catch(err => {
-                console.log(err);
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
@@ -68,12 +65,10 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
         axios
             .put(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}/update`, learningDay)
             .then(res => {
-                console.log(res.data);
                 getLearningDays();
                 setLearningDayEditable(false);
             })
             .catch(err => {
-                console.log(err);
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
@@ -84,13 +79,11 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
         axios
             .delete(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}/delete`)
             .then(res => {
-                console.log(res.data);
                 getLearningDays();
                 setLearningDayEditable(false);
                 setLearningDayModal(false);
             })
             .catch(err => {
-                console.log(err);
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });

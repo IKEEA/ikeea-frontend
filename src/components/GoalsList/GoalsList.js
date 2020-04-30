@@ -27,7 +27,6 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 userId: goal.userId
             })
             .then(res => {
-                console.log(res.data);
                 getGoals();
             })
             .catch(err => {
@@ -41,7 +40,6 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
         axios
             .delete(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}/delete`)
             .then(res => {
-                console.log(res.data);
                 getGoals();
             })
             .catch(err => {
@@ -57,7 +55,6 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
             .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? 'list' : `${user.id}/list`}`)
             .then(res => {
                 setGoals(res.data);
-                console.log(res.data);
                 setLoading(false);
             })
             .catch(err => {

@@ -67,9 +67,6 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
     }
 
     const handleCreateLearningDay = (e) => {
-        console.log(title);
-        console.log(date.toISOString());
-        console.log([...topics, ...subtopics]);
         createLearningDay({
             title: title,
             date: date.toISOString(),

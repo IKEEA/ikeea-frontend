@@ -27,7 +27,6 @@ const TeamCalendarPage = () => {
       .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
       .then(res => {
         setTopics(res.data);
-        console.log(res.data);
         setLoading(false);
       })
       .catch(err => {
