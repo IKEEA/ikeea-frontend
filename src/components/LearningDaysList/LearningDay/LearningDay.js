@@ -8,7 +8,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -16,7 +15,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Tooltip from '@material-ui/core/Tooltip';
 import {
     MuiPickersUtilsProvider,

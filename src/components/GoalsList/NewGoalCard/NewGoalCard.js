@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -10,7 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import CardActions from '@material-ui/core/CardActions';
 import Grid from '@material-ui/core/Grid';
 
 import { useStyles } from './NewGoalCard.styles';
