@@ -172,7 +172,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                                         id="demo-mutiple-chip"
                                         multiple
                                         value={subtopics}
-                                        onChange={(e) => handleSubtopicsChange(e.target.value)}
+                                        onChange={(e) => handleSubtopicsChange(e)}
                                         open={subtopicsOpen}
                                         onOpen={(e) => learningDayEditable ? setSubtopicsOpen(true) : setSubtopicsOpen(false)}
                                         onClose={(e) => setSubtopicsOpen(false)}
