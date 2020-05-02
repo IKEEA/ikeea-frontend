@@ -97,7 +97,6 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
             })
             .then(res => {
                 getComments();
-                console.log(res);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -111,7 +110,6 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
             .delete(`${process.env.REACT_APP_SERVER_URL}/api/comment/${commentId}/delete`)
             .then(res => {
                 getComments();
-                console.log(res);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -125,10 +123,8 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/comment/list`)
             .then(res => {
-                console.log(res.data);
                 setComments(res.data);
                 setCommentsLoading(false);
-                console.log(res);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
