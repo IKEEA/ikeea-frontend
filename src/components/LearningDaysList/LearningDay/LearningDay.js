@@ -55,11 +55,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
 
     const handleTopicsChange = (e) => {
         if (learningDayEditable) {
-            const newTopics = e.target.value;
-            setTopics(newTopics);
-            setSubtopics(subtopics.filter((subtopic) => {
-                return newTopics.some(topic => topic.id === subtopic.parentId);
-            }))
+            setTopics(e.target.value);
         }
     };
 
@@ -231,13 +227,13 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                                                 <div className={classes.chips}>
                                                     {selected.map((topic) => (
                                                         <Tooltip title={topic.description} arrow>
-                                                            <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
+                                                            <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} variant={"outlined"}/>
                                                         </Tooltip>
                                                     ))}
                                                 </div>
                                             )}
                                         >
-                                            {topics.map((masterTopic) => (
+                                            {allTopics.filter(topic => !topic.parentId).map((masterTopic) => (
                                                 allTopics.map((topic) => (
                                                     topic.parentId === masterTopic.id ?
                                                         <MenuItem key={topic.id} value={topic}>
