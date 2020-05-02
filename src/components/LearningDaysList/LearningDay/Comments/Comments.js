@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
+import { UserContext } from '../../../../context/UserContext';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import AddCommentIcon from '@material-ui/icons/AddComment';
+import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 
 import { useStyles } from './Comments.styles';
 
-const Comments = ({ commentsLoading, addComment, getComments, comments }) => {
+const Comments = ({ commentsLoading, addComment, getComments, deleteComment, comments }) => {
 
+    const [user] = useContext(UserContext);
     const [comment, setComment] = useState('');
 
     const classes = useStyles();
@@ -27,6 +27,10 @@ const Comments = ({ commentsLoading, addComment, getComments, comments }) => {
 
     const handleAddCommentClick = (e) => {
         addComment(comment);
+    }
+
+    const handleDeleteCommentClick = (e, commentId) => {
+        deleteComment(commentId);
     }
 
     return (
@@ -47,6 +51,11 @@ const Comments = ({ commentsLoading, addComment, getComments, comments }) => {
                                 <Avatar aria-label="learning-day" className={classes.avatar}>
                                     {comment.userId}
                                 </Avatar>
+                            }
+                            action={user.id === comment.userId ?
+                                <IconButton aria-label="settings" onClick={(e) => handleDeleteCommentClick(e, comment.id)}>
+                                    <DeleteIcon />
+                                </IconButton> : ''
                             }
                             title={comment.userId}
                             subheader={new Date(comment.date).toDateString()}

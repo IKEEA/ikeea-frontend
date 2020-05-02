@@ -109,6 +109,21 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
             });
     }
 
+    const deleteComment = (commentId) => {
+        setCommentsLoading(true);
+        axios
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/comment/${commentId}/delete`)
+            .then(res => {
+                getComments();
+                console.log(res);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setCommentsLoading(false);
+            });
+    }
+
+    // backend should be updated to provide /api/comment/{learning-day-id}/list instead of this
     const getComments = () => {
         setCommentsLoading(true);
         axios
@@ -236,7 +251,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                             </Grid>
                         </Grid>
                         <Grid item xs={3} id="comments">
-                            {learningDayNew ? '' : <Comments commentsLoading={commentsLoading} setCommentsLoading={setCommentsLoading} addComment={addComment} getComments={getComments} comments={comments} />}
+                            {learningDayNew ? '' : <Comments commentsLoading={commentsLoading} setCommentsLoading={setCommentsLoading} addComment={addComment} deleteComment={deleteComment} getComments={getComments} comments={comments} />}
                         </Grid>
                     </Grid>
                 </DialogContent>
