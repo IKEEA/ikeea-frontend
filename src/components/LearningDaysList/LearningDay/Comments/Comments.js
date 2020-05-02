@@ -27,6 +27,7 @@ const Comments = ({ commentsLoading, addComment, getComments, deleteComment, com
 
     const handleAddCommentClick = (e) => {
         addComment(comment);
+        setComment('');
     }
 
     const handleDeleteCommentClick = (e, commentId) => {
