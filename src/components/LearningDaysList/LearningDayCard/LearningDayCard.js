@@ -11,11 +11,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useStyles } from './LearningDayCard.styles';
 
 
-const LearningDayCard = ({ learningDay }) => {
+const LearningDayCard = ({ learningDay, handleLearningDayClick }) => {
     const classes = useStyles();
 
     const onCardClick = (e) => {
-        console.log('To Do: implement learning day page.');
+        handleLearningDayClick(e, learningDay);
     }
 
     return (
@@ -23,9 +23,11 @@ const LearningDayCard = ({ learningDay }) => {
             <ButtonBase className={classes.cardAction} onClick={e => onCardClick(e)}>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="learning-day" className={classes.avatar}>
-                            {learningDay.userId}
-                        </Avatar>
+                        <Tooltip title={`${learningDay.firstName} ${learningDay.lastName}`} arrow>
+                            <Avatar aria-label="learning-day" className={classes.avatar}>
+                                {`${learningDay.firstName} ${learningDay.lastName}`.split(" ").map((n, i, a) => i === 0 || i + 1 === a.length ? n[0] : null).join("")}
+                            </Avatar>
+                        </Tooltip>
                     }
                     title={
                         <Typography variant="h5">

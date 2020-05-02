@@ -7,7 +7,7 @@ import GoalCard from './GoalCard/GoalCard';
 import NewGoalCard from './NewGoalCard/NewGoalCard';
 import axios from 'axios';
 
-const GoalsList = ({ setLoading, setAlert, topics }) => {
+const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
     const [newGoalCard, setNewGoalCard] = useState(false);
@@ -27,21 +27,6 @@ const GoalsList = ({ setLoading, setAlert, topics }) => {
                 userId: goal.userId
             })
             .then(res => {
-                console.log(res.data);
-                getGoals();
-            })
-            .catch(err => {
-                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-                setLoading(false);
-            });
-    };
-
-    const deleteGoal = (goal) => {
-        setLoading(true);
-        axios
-            .delete(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}/delete`)
-            .then(res => {
-                console.log(res.data);
                 getGoals();
             })
             .catch(err => {
@@ -53,10 +38,10 @@ const GoalsList = ({ setLoading, setAlert, topics }) => {
     const getGoals = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/list`)
+            // workaround for now till we get a proper endpoint in the backend
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? 'list' : `${user.id}/list`}`)
             .then(res => {
                 setGoals(res.data);
-                console.log(res.data);
                 setLoading(false);
             })
             .catch(err => {
@@ -87,13 +72,13 @@ const GoalsList = ({ setLoading, setAlert, topics }) => {
                     </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Button variant="contained" color="primary" onClick={(e) => setNewGoalCard(true)}>Add New Goal</Button>
+                {isTeamCalendar ? '' : <Button variant="contained" color="primary" onClick={(e) => setNewGoalCard(true)} style={{float: 'right'}}>Add New Goal</Button>}
             </Grid>
             <Grid item xs={12}>
                 {newGoalCard ? <NewGoalCard topics={topics} setNewGoalCard={setNewGoalCard} addGoal={addGoal} topic={topic} setTopic={setTopic} /> : ''}
                 {
                     goals.map(goal =>
-                        <GoalCard goal={goal} updateGoal={updateGoal} deleteGoal={deleteGoal} />
+                        <GoalCard goal={goal} updateGoal={updateGoal} />
                     )
                 }
             </Grid>

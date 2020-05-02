@@ -9,7 +9,7 @@ import axios from 'axios';
 import LearningDaysList from '../../components/LearningDaysList/LearningDaysList';
 import GoalsList from '../../components/GoalsList/GoalsList';
 
-const MainPage = () => {
+const TeamCalendarPage = () => {
   const [setLoading] = useContext(LoadingContext);
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
   const [topics, setTopics] = useState([]);
@@ -44,10 +44,10 @@ const MainPage = () => {
         <Grid container spacing={10}>
           <Grid item xs={6}
             alignItems="flex-start">
-            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={false} />
+            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} />
           </Grid>
           <Grid item xs={6}>
-            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} />
+            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} />
           </Grid>
         </Grid>
       </Menu>
@@ -55,4 +55,4 @@ const MainPage = () => {
   );
 }
 
-export default MainPage;
+export default TeamCalendarPage;
