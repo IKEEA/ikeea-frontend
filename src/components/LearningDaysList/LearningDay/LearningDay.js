@@ -16,16 +16,18 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
+import axios from 'axios';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
+import Comments from '../LearningDay/Comments/Comments';
 
 import { useStyles } from './LearningDay.styles';
 
-const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
+const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
     const [user] = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [date, setDate] = useState(new Date());
@@ -34,6 +36,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
     const [topicsOpen, setTopicsOpen] = useState(false);
     const [subtopicsOpen, setSubtopicsOpen] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(false);
+    const [commentsLoading, setCommentsLoading] = useState(false);
     const classes = useStyles();
 
     useEffect(() => {
@@ -87,6 +90,24 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
         deleteLearningDay(learningDay.id);
     }
 
+    const addComment = (comment) => {
+        setCommentsLoading(true);
+        axios
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/comment/add`, {
+                comment: comment,
+                learningDayId: learningDay.id,
+                userId: user.id
+            })
+            .then(res => {
+                setCommentsLoading(false);
+                console.log(res);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setCommentsLoading(false);
+            });
+    }
+
     return (
         <div>
             <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={(e) => handleLearningDayClose(e)} classes={{ paper: classes.LearningDayModal }}>
@@ -108,7 +129,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                     </IconButton>
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={1} direction="row">
+                    <Grid container spacing={1} direction="row" className={classes.container}>
                         <Grid item xs={9} id="contents">
                             <Grid container spacing={10} direction="column" justify="space-around">
                                 <Grid item xs={12}>
@@ -198,7 +219,7 @@ const LearningDay = ({ setLearningDayModal, learningDayEditable, learningDayNew,
                             </Grid>
                         </Grid>
                         <Grid item xs={3} id="comments">
-
+                            <Comments commentsLoading={commentsLoading} setCommentsLoading={setCommentsLoading} addComment={addComment} />
                         </Grid>
                     </Grid>
                 </DialogContent>
