@@ -20,7 +20,7 @@ const AllUsersEditDialog = ({open, setOpen, getUsers, setAlert}) => {
     setLoading(true);
     setOpen(false);
     axios
-        .post(`${process.env.REACT_APP_SERVER_URL}/api/team/${user.id}/set-restriction-days?restrictionDays=${limit}`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/set-restriction-days?restrictionDays=${limit}`)
         .then(res => {
           getUsers();
           setLoading(false);
