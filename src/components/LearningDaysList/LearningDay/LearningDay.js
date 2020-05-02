@@ -162,7 +162,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                 </DialogTitle>
                 <DialogContent>
                     <Grid container spacing={1} direction="row" className={classes.container}>
-                        <Grid item xs={9} id="contents">
+                        <Grid item xs={8} id="contents">
                             <Grid container spacing={10} direction="column" justify="space-around">
                                 <Grid item xs={12}>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -250,7 +250,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={3} id="comments">
+                        <Grid item xs={4} id="comments">
                             {learningDayNew ? '' : <Comments commentsLoading={commentsLoading} setCommentsLoading={setCommentsLoading} addComment={addComment} deleteComment={deleteComment} getComments={getComments} comments={comments} />}
                         </Grid>
                     </Grid>

@@ -27,7 +27,8 @@ export const useStyles = makeStyles((theme) => ({
         backgroundColor: red[500],
     },
     card: {
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(1),
+        marginLeft: theme.spacing(1)
     },
     paper: {
         padding: theme.spacing(2),
