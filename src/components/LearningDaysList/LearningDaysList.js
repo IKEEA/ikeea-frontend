@@ -116,7 +116,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 </Grid>
                 <Grid item xs={12}>
                     {
-                        learningDays.map(learningDay =>
+                        learningDays.sort((learningDay1, learningDay2) => new Date(learningDay1.date).getTime() > new Date(learningDay2.date).getTime() ? -1 : 1).map(learningDay =>
                             <LearningDayCard key={learningDay.id} learningDay={learningDay} handleLearningDayClick={handleLearningDayClick} />
                         )
                     }
