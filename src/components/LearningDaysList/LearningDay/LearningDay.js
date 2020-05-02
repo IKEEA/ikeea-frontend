@@ -37,6 +37,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
     const [subtopicsOpen, setSubtopicsOpen] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(false);
     const [commentsLoading, setCommentsLoading] = useState(false);
+    const [comments, setComments] = useState([]);
     const classes = useStyles();
 
     useEffect(() => {
@@ -99,6 +100,22 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                 userId: user.id
             })
             .then(res => {
+                getComments();
+                console.log(res);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setCommentsLoading(false);
+            });
+    }
+
+    const getComments = () => {
+        setCommentsLoading(true);
+        axios
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/comment/list`)
+            .then(res => {
+                console.log(res.data);
+                setComments(res.data);
                 setCommentsLoading(false);
                 console.log(res);
             })
@@ -219,7 +236,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                             </Grid>
                         </Grid>
                         <Grid item xs={3} id="comments">
-                            <Comments commentsLoading={commentsLoading} setCommentsLoading={setCommentsLoading} addComment={addComment} />
+                            {learningDayNew ? '' : <Comments commentsLoading={commentsLoading} setCommentsLoading={setCommentsLoading} addComment={addComment} getComments={getComments} comments={comments} />}
                         </Grid>
                     </Grid>
                 </DialogContent>
