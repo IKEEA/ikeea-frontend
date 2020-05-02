@@ -169,7 +169,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                                             format="yyyy-MM-dd"
                                             margin="normal"
                                             label="Date"
-                                            readOnly={learningDayEditable}
+                                            readOnly={!learningDayEditable}
                                             value={date}
                                             onChange={(date) => setDate(date)}
                                             KeyboardButtonProps={{
@@ -258,11 +258,11 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                     </Button> : ''
                     }
                     {learningDayNew ?
-                        <Button autoFocus variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
+                    <Button disabled={!title || !(topics.length || subtopics.length || !date)} autoFocus variant="contained" color="primary" onClick={(e) => handleCreateLearningDay(e)}>
                             Create Learning Day
                     </Button> :
                         learningDayEditable ?
-                            <Button autoFocus variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
+                            <Button disabled={!title || !(topics.length || subtopics.length || !date)} autoFocus variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
                                 Save
                         </Button> :
                             <Button autoFocus variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)}>
