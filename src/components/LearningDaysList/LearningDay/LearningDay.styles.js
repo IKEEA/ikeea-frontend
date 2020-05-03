@@ -4,6 +4,9 @@ export const useStyles = makeStyles((theme) => ({
     LearningDayModal: {
         height: '80%'
     },
+    container: {
+        height: '100%'
+    },
     closeButton: {
         position: 'absolute',
         right: theme.spacing(1),

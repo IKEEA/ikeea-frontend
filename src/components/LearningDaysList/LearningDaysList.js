@@ -104,7 +104,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
 
     return (
         <div>
-            {learningDayModal ? <LearningDay setLearningDayModal={setLearningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} deleteLearningDay={deleteLearningDay} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
+            {learningDayModal ? <LearningDay setAlert={setAlert} setLearningDayModal={setLearningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} deleteLearningDay={deleteLearningDay} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
             <Grid container spacing={3} direction="row" justify="space-evenly">
                 <Grid item xs={6}>
                     <Typography variant="h4">
@@ -116,7 +116,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 </Grid>
                 <Grid item xs={12}>
                     {
-                        learningDays.map(learningDay =>
+                        learningDays.sort((learningDay1, learningDay2) => new Date(learningDay1.date).getTime() > new Date(learningDay2.date).getTime() ? -1 : 1).map(learningDay =>
                             <LearningDayCard key={learningDay.id} learningDay={learningDay} handleLearningDayClick={handleLearningDayClick} />
                         )
                     }
