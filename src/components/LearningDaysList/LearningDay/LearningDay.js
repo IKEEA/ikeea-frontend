@@ -27,7 +27,7 @@ import Comments from '../LearningDay/Comments/Comments';
 
 import { useStyles } from './LearningDay.styles';
 
-const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay }) => {
+const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay, isTeamCalendar }) => {
     const [user] = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [date, setDate] = useState(new Date());
@@ -258,10 +258,10 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                             Create Learning Day
                     </Button> :
                         learningDayEditable ?
-                            <Button disabled={!title || !(topics.length || subtopics.length || !date)} autoFocus variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
+                            <Button disabled={!title || !(topics.length || subtopics.length || !date || isTeamCalendar)} autoFocus variant="contained" color="primary" onClick={(e) => handleSaveLearningDay(e)}>
                                 Save
                         </Button> :
-                            <Button autoFocus variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)}>
+                            <Button autoFocus variant="contained" color="primary" onClick={(e) => setLearningDayEditable(true)} disabled={isTeamCalendar}>
                                 Edit
                         </Button>
                     }
