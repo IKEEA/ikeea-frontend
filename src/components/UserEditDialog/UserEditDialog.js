@@ -9,11 +9,18 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import { useStyles } from './UserEditDialog.styles';
 
 const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
   const [allUsers, setAllUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [setLoading] = useContext(LoadingContext);
+  const classes = useStyles();
 
   useEffect(() => {
     setCurrentUser(user);
@@ -26,7 +33,6 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
     axios
         .get(`${process.env.REACT_APP_SERVER_URL}/api/user/list`)
         .then(res => {
-          console.log(res.data)
           setAllUsers(res.data);
           setLoading(false);
         })
@@ -36,9 +42,15 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
         });
   };
 
-  function changeLimit(e) {
+  const changeLimit = (e) => {
     let editUser = {...currentUser};
     editUser.restrictionDays = e.target.value;
+    setCurrentUser(editUser);
+  }
+
+  const changeManager = (e) => {
+    let editUser = {...currentUser};
+    editUser.managerId = e.target.value;
     setCurrentUser(editUser);
   }
 
@@ -71,6 +83,17 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
                 onChange={(e) => changeLimit(e)}
             />
         </DialogContent>
+        <DialogTitle>Change manager</DialogTitle>
+            <DialogContent>
+                <FormControl className={classes.fullWidth}>
+                    <InputLabel>Users</InputLabel>
+                    <Select onChange={(e) => changeManager(e)} value={currentUser.managerId}>
+                      {allUsers.filter(user => user.id !== currentUser.id).map(user => {
+                        return <MenuItem key={user.id} value={user.id}>{user.email}</MenuItem>
+                      })}
+                    </Select>
+                </FormControl>
+            </DialogContent>
         <DialogActions>
             <Button onClick={() => setOpen(false)} color="primary">
                 Cancel
