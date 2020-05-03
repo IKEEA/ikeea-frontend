@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiDialog-root {
+  z-index: auto !important;
+}
+
+header {
+  z-index: 0 !important;
+}
