@@ -78,7 +78,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 {newGoalCard ? <NewGoalCard topics={topics} setNewGoalCard={setNewGoalCard} addGoal={addGoal} topic={topic} setTopic={setTopic} /> : ''}
                 {
                     goals.sort((goal1, goal2) => new Date(goal1.lastUpdated).getTime() > new Date(goal2.lastUpdated).getTime() ? -1 : 1).map(goal =>
-                        <GoalCard goal={goal} updateGoal={updateGoal} />
+                        <GoalCard goal={goal} updateGoal={updateGoal} isTeamCalendar={isTeamCalendar} />
                     )
                 }
             </Grid>

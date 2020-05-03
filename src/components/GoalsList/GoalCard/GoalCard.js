@@ -11,7 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { useStyles } from './GoalCard.styles';
 
-const GoalCard = ({ goal, updateGoal }) => {
+const GoalCard = ({ goal, updateGoal, isTeamCalendar }) => {
     const [status, setStatus] = useState(goal.status);
     const classes = useStyles();
 
@@ -45,6 +45,7 @@ const GoalCard = ({ goal, updateGoal }) => {
                         native
                         value={status}
                         onChange={handleStatusChange}
+                        readOnly={isTeamCalendar}
                     >
                         <option value={'ASSIGNED'}>Assigned</option>
                         <option value={'IN_PROGRESS'}>In Progress</option>
