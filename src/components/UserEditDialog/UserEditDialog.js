@@ -11,12 +11,30 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
+  const [allUsers, setAllUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [setLoading] = useContext(LoadingContext);
 
   useEffect(() => {
     setCurrentUser(user);
+    getAllUsers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
+
+  const getAllUsers = () => {
+    setLoading(true);
+    axios
+        .get(`${process.env.REACT_APP_SERVER_URL}/api/user/list`)
+        .then(res => {
+          console.log(res.data)
+          setAllUsers(res.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setLoading(false);
+          setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+        });
+  };
 
   function changeLimit(e) {
     let editUser = {...currentUser};
@@ -28,7 +46,7 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
     setLoading(true);
     setOpen(false);
     axios
-        .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${currentUser.id}/update-restriction-days?restrictionDays=${currentUser.restrictionDays}`)
+        .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${currentUser.id}/update-for-leader`, {restrictionDays: currentUser.restrictionDays, managerId: currentUser.managerId})
         .then(res => {
           getUsers();
           setLoading(false);
@@ -39,9 +57,9 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
           setAlert({ open: true, message: err.response.data.message, severity: 'error' });
         });
   };
-
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} fullWidth={true}>
+    <div>
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth={true}>
         <DialogTitle>Change learning days limit</DialogTitle>
         <DialogContent>
             <TextField
@@ -61,7 +79,9 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
                 Update
         </Button>
         </DialogActions>
-    </Dialog>
+      </Dialog>
+    </div>
+    
   );
 }
 
