@@ -121,7 +121,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
     const getComments = () => {
         setCommentsLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/comment/list`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/comment/${learningDay.id}/list`)
             .then(res => {
                 setComments(res.data);
                 setCommentsLoading(false);
