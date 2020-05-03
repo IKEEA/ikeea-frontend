@@ -45,11 +45,11 @@ const NewGoalCard = ({ topics, addGoal, setNewGoalCard, topic, setTopic }) => {
                                 value={topic}
                                 onChange={(e) => setTopic(e.target.value)}
                             >
-                                {topics.map(topic => <option value={topic.id}>{topic.title}</option>)}
+                                {topics.map(topic => <option key={topic.id} value={topic.id}>{topic.title}</option>)}
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={6} justify="flex-end">
+                    <Grid item xs={6}>
                         <Button variant="contained" color="primary" className={classes.addButton} onClick={(e) => handleAddButtonClick(e)}>ADD</Button>
                     </Grid>
                 </Grid>

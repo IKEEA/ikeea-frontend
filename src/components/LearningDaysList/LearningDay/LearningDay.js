@@ -27,7 +27,7 @@ import Comments from '../LearningDay/Comments/Comments';
 
 import { useStyles } from './LearningDay.styles';
 
-const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay, isTeamCalendar }) => {
+const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay, isTeamCalendar }) => {
     const [user] = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [date, setDate] = useState(new Date());
@@ -134,7 +134,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
 
     return (
         <div>
-            <Dialog fullWidth="lg" maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={(e) => handleLearningDayClose(e)} classes={{ paper: classes.LearningDayModal }}>
+            <Dialog fullWidth maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={learningDayModal} classes={{ paper: classes.LearningDayModal }}>
                 <DialogTitle className={classes.dialogTitle}>
                     <TextField
                         className={classes.title}
@@ -190,7 +190,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                                             renderValue={(selected) => (
                                                 <div className={classes.chips}>
                                                     {selected.map((topic) => (
-                                                        <Tooltip title={topic.description} arrow>
+                                                        <Tooltip key={topic.id} title={topic.description} arrow>
                                                             <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} />
                                                         </Tooltip>
                                                     ))}
@@ -222,7 +222,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayEditable, learn
                                             renderValue={(selected) => (
                                                 <div className={classes.chips}>
                                                     {selected.map((topic) => (
-                                                        <Tooltip title={topic.description} arrow>
+                                                        <Tooltip key={topic.id} title={topic.description} arrow>
                                                             <Chip color="primary" key={topic.id} label={topic.title} className={classes.topicChip} variant={"outlined"}/>
                                                         </Tooltip>
                                                     ))}

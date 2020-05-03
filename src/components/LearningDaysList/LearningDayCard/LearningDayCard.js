@@ -37,7 +37,7 @@ const LearningDayCard = ({ learningDay, handleLearningDayClick }) => {
                 />
                 <CardContent>
                     {learningDay.topics.map(topic =>
-                        <Tooltip title={topic.description} arrow>
+                        <Tooltip key={topic.id} title={topic.description} arrow>
                             <Chip color="primary" className={classes.topicChip} key={topic.id} label={topic.title} variant={topic.parentId ? 'outlined' : 'default'}></Chip>
                         </Tooltip>
                     )}
