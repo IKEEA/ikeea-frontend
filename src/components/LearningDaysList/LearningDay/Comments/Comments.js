@@ -61,7 +61,7 @@ const Comments = ({ commentsLoading, addComment, getComments, deleteComment, com
                                     <DeleteIcon />
                                 </IconButton> : ''
                             }
-                            title={comment.userId}
+                            title={`${comment.firstName} ${comment.lastName}`}
                             subheader={new Date(comment.date).toDateString()}
 
                         />
