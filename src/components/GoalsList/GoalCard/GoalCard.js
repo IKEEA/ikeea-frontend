@@ -8,18 +8,22 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { useStyles } from './GoalCard.styles';
 
-const GoalCard = ({ goal, updateGoal }) => {
+const GoalCard = ({ goal, updateGoal, isTeamCalendar }) => {
     const [status, setStatus] = useState(goal.status);
+    const [statusSelect, setStatusSelect] = useState(false);
     const classes = useStyles();
 
     const handleStatusChange = (e) => {
-        const newStatus = e.target.value;
-        setStatus(newStatus);
-        goal.status = newStatus;
-        updateGoal(goal);
+        if (!isTeamCalendar) {
+            const newStatus = e.target.value;
+            setStatus(newStatus);
+            goal.status = newStatus;
+            updateGoal(goal);
+        }
     };
 
     return (
@@ -28,7 +32,7 @@ const GoalCard = ({ goal, updateGoal }) => {
                 avatar={
                     <Tooltip title={`${goal.firstName} ${goal.lastName}`} arrow>
                         <Avatar aria-label="learning-day" className={classes.avatar}>
-                        {`${goal.firstName} ${goal.lastName}`.split(" ").map((n, i, a) => i === 0 || i + 1 === a.length ? n[0] : null).join("")}
+                            {`${goal.firstName} ${goal.lastName}`.split(" ").map((n, i, a) => i === 0 || i + 1 === a.length ? n[0] : null).join("")}
                         </Avatar>
                     </Tooltip>
                 }
@@ -42,13 +46,16 @@ const GoalCard = ({ goal, updateGoal }) => {
                 <FormControl className={classes.formControl}>
                     <InputLabel>Status</InputLabel>
                     <Select
-                        native
                         value={status}
                         onChange={handleStatusChange}
+                        readOnly={isTeamCalendar}
+                        open={statusSelect}
+                        onOpen={(e) => isTeamCalendar ? setStatusSelect(false) : setStatusSelect(true)}
+                        onClose={(e) => setStatusSelect(false)}
                     >
-                        <option value={'ASSIGNED'}>Assigned</option>
-                        <option value={'IN_PROGRESS'}>In Progress</option>
-                        <option value={'FINISHED'}>Finished</option>
+                        <MenuItem key={1} value={'ASSIGNED'}>Assigned</MenuItem>
+                        <MenuItem key={2} value={'IN_PROGRESS'}>In Progress</MenuItem>
+                        <MenuItem key={3} value={'FINISHED'}>Finished</MenuItem>
                     </Select>
                 </FormControl>
             </CardContent>

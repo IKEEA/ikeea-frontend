@@ -42,8 +42,7 @@ const MainPage = () => {
       </Snackbar>
       <Menu>
         <Grid container spacing={10}>
-          <Grid item xs={6}
-            alignItems="flex-start">
+          <Grid item xs={6}>
             <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={false} />
           </Grid>
           <Grid item xs={6}>

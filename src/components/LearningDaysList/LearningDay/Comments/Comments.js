@@ -10,6 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { useStyles } from './Comments.styles';
 
@@ -46,19 +47,21 @@ const Comments = ({ commentsLoading, addComment, getComments, deleteComment, com
             <Grid item xs className={classes.commentsList}>
                 {commentsLoading ? <LinearProgress /> : ''}
                 {comments.sort((comment1, comment2) => new Date(comment1.date).getTime() > new Date(comment2.date).getTime() ? 1 : -1).map(comment => (
-                    <Card className={classes.card}>
+                    <Card key={comment.id} className={classes.card}>
                         <CardHeader
                             avatar={
-                                <Avatar aria-label="learning-day" className={classes.avatar}>
-                                    {comment.userId}
-                                </Avatar>
+                                <Tooltip title={`${comment.firstName} ${comment.lastName}`} arrow>
+                                    <Avatar className={classes.avatar}>
+                                        {`${comment.firstName} ${comment.lastName}`.split(" ").map((n, i, a) => i === 0 || i + 1 === a.length ? n[0] : null).join("")}
+                                    </Avatar>
+                                </Tooltip>
                             }
                             action={user.id === comment.userId ?
                                 <IconButton aria-label="settings" onClick={(e) => handleDeleteCommentClick(e, comment.id)}>
                                     <DeleteIcon />
                                 </IconButton> : ''
                             }
-                            title={comment.userId}
+                            title={`${comment.firstName} ${comment.lastName}`}
                             subheader={new Date(comment.date).toDateString()}
 
                         />

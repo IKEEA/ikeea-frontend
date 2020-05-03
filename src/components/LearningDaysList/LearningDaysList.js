@@ -104,7 +104,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
 
     return (
         <div>
-            {learningDayModal ? <LearningDay setAlert={setAlert} setLearningDayModal={setLearningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} deleteLearningDay={deleteLearningDay} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} /> : ''}
+            {learningDayModal ? <LearningDay setAlert={setAlert} setLearningDayModal={setLearningDayModal} learningDayModal={learningDayModal} learningDayNew={learningDayNew} learningDayEditable={learningDayEditable} setLearningDayEditable={setLearningDayEditable} deleteLearningDay={deleteLearningDay} updateLearningDay={updateLearningDay} createLearningDay={createLearningDay} allTopics={topics} learningDay={selectedLearningDay} isTeamCalendar={isTeamCalendar} /> : ''}
             <Grid container spacing={3} direction="row" justify="space-evenly">
                 <Grid item xs={6}>
                     <Typography variant="h4">
