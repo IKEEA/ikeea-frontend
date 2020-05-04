@@ -39,7 +39,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
         setLoading(true);
         axios
             // workaround for now till we get a proper endpoint in the backend
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? 'list' : `${user.id}/list`}`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`)
             .then(res => {
                 setGoals(res.data);
                 setLoading(false);
