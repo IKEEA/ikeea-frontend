@@ -41,7 +41,7 @@ const MainPage = () => {
         </Alert>
       </Snackbar>
       <Menu>
-        <Grid container spacing={10}>
+        <Grid container spacing={4}>
           <Grid item xs={6}>
             <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={false} />
           </Grid>
