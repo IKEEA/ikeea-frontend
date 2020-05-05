@@ -7,6 +7,8 @@ import LearningDayCard from './LearningDayCard/LearningDayCard';
 import LearningDay from './LearningDay/LearningDay';
 import axios from 'axios';
 
+import { useStyles } from './LearningDaysList.styles';
+
 const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
 
     const emptyLearningDay = {
@@ -25,6 +27,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     const [learningDayEditable, setLearningDayEditable] = useState(false);
     const [learningDayNew, setLearningDayNew] = useState(false);
     const [selectedLearningDay, setSelectedLearningDay] = useState(emptyLearningDay);
+    const classes = useStyles();
 
     useEffect(() => {
         getLearningDays();
@@ -112,7 +115,18 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    {isTeamCalendar ? '' : <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{ float: 'right' }}>Add New Learning Day</Button>}
+                    {
+                        isTeamCalendar ? 
+                        null : 
+                        <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{ float: 'right' }} disabled={user.restrictionDays === 0}>
+                            Add New Learning Day
+                        </Button>
+                    }
+                    {
+                        user.restrictionDays === 0 ?
+                        <div className={classes.warning}>You have reached learning days limit this quarter</div> :
+                        null
+                    }
                 </Grid>
                 <Grid item xs={12}>
                     {
