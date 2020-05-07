@@ -23,9 +23,9 @@ export const validateEmail = (value) => {
     }
 }
 
-export const validatePassword = (value, feedback) => {
+export const validatePassword = (value) => {
     if (value) {
-        if(value.length < 8) {
+        if(value.length < 6) {
             return constants.TOO_SHORT_PASSWORD_TEXT;
         } else {
             return false;

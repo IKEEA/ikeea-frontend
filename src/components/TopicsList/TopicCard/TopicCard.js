@@ -69,12 +69,18 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
     setEditSubtopics(editSubtopics);
   }
 
+  const clickOnExpand = () => {
+    setExpanded(!expanded);
+    setEditMode(false);
+  }
+  
   return (
     <div>
        { editMode ?
         <ExpansionPanel expanded={expanded}>
             <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon onClick={() => setExpanded(!expanded)}/>}
+                expandIcon={<ExpandMoreIcon onClick={() => clickOnExpand()} className={classes.accordionIcon}/>}
+                className={classes.accordion}
             >
             <Typography className={classes.heading}>
                 <TextField
@@ -117,11 +123,13 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
                         </Card>
                     )
                 }) : <div>There are no subtopics created.</div>}
+                <NewSubtopicCard topic={topic} getTopics={getTopics} setAlert={setAlert}/>
             </ExpansionPanelDetails>
         </ExpansionPanel> :
         <ExpansionPanel expanded={expanded}>
             <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon onClick={() => setExpanded(!expanded)}/>}
+                expandIcon={<ExpandMoreIcon onClick={() => setExpanded(!expanded)} className={classes.accordionIcon}/>}
+                className={classes.accordion}
             >
             <Typography className={classes.heading}>
                 {topic.title}
