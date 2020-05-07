@@ -30,23 +30,30 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
   const saveChanges = () => {
     setLoading(true);
     let promises = [];
+    let error = false;
     if(editSubtopics.length !== 0) {
          promises = editSubtopics.map(value => {
+            if(value.title.length < 3 || value.description.length < 3) error = true;
             return axios.put(`${process.env.REACT_APP_SERVER_URL}/api/topic/${value.id}/update`, value)
         });
     }
-    promises.push(axios.put(`${process.env.REACT_APP_SERVER_URL}/api/topic/${editTopic.id}/update`, editTopic))
-    Promise.all(promises).then(res => {
-        getTopics();
-        setEditMode(false);
-        setAlert({ open: true, message: 'Topic updated successfully!', severity: 'success' });
-    })
-    .catch(err => {
+    if(editTopic.title.length < 3 || editTopic.description.length < 3) error = true;
+    if(!error) {
+        promises.push(axios.put(`${process.env.REACT_APP_SERVER_URL}/api/topic/${editTopic.id}/update`, editTopic))
+        Promise.all(promises).then(res => {
+            getTopics();
+            setEditMode(false);
+            setAlert({ open: true, message: 'Topic updated successfully!', severity: 'success' });
+        })
+        .catch(err => {
+            setLoading(false);
+            setEditMode(false);
+            setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+        });
+    } else {
         setLoading(false);
-        setEditMode(false);
-        setAlert({ open: true, message: err.response.data.message, severity: 'error' });
-    });
-    
+        setAlert({ open: true, message: 'Field values can not be shorter that 3 characters!', severity: 'error' })
+    }
   }
 
   const changeTopicTitle = (e) => {
