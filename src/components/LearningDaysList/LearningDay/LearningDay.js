@@ -205,7 +205,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                                     </MenuItem> : ''
                                             ))}
                                         </Select>
-                                        {learningDayEditable ? <Link to='/manageTopics'>Manage subtopics</Link> : null}
+                                        {learningDayEditable ? <Link to='/manageTopics'>Manage topics</Link> : null}
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -240,7 +240,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                                 ))
                                             ))}
                                         </Select>
-                                        {learningDayEditable ? <Link to='/manageTopics'>Manage topics</Link> : null}
+                                        {learningDayEditable ? <Link to='/manageTopics'>Manage subtopics</Link> : null}
                                     </FormControl>
                                 </Grid>
                             </Grid>
