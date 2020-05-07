@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -47,6 +48,7 @@ const NewGoalCard = ({ topics, addGoal, setNewGoalCard, topic, setTopic }) => {
                             >
                                 {topics.map(topic => <option key={topic.id} value={topic.id}>{topic.title}</option>)}
                             </Select>
+                            <Link to='/manageTopics'>Manage topics</Link>
                         </FormControl>
                     </Grid>
                     <Grid item xs={6}>

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -204,6 +205,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                                     </MenuItem> : ''
                                             ))}
                                         </Select>
+                                        {learningDayEditable ? <Link to='/manageTopics'>Manage subtopics</Link> : null}
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -238,6 +240,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                                 ))
                                             ))}
                                         </Select>
+                                        {learningDayEditable ? <Link to='/manageTopics'>Manage topics</Link> : null}
                                     </FormControl>
                                 </Grid>
                             </Grid>
