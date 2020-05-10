@@ -29,7 +29,9 @@ export default function ProfilePage() {
   const changePassword = () => {
     setLoading(true);
     const errors = [];
-    errors.push(validator.validateField(oldPassword.input, setOldPassword, validator.validateRequiredField));
+    errors.push(validator.validateField(oldPassword.input, setOldPassword, validator.validatePassword));
+    errors.push(validator.validateField(newPassword.input, setNewPassword, validator.validatePassword));
+    errors.push(validator.validateField(repeatPassword.input, setRepeatPassword, validator.validatePassword));
     errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
     if (!errors.find(error => error === true)) {
       axios

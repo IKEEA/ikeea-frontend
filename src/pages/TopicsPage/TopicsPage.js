@@ -66,7 +66,6 @@ const TopicsPage = () => {
          }) :
          null
      }
-     
      </Menu>
     </div>
   );

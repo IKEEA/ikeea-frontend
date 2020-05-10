@@ -32,5 +32,11 @@ export const useStyles = makeStyles(theme => ({
     edit: {
         float: 'right',
         cursor: 'pointer'
+    },
+    accordion: {
+        cursor: 'default !important'
+    },
+    accordionItem: {
+        cursor: 'pointer'
     }
 }));

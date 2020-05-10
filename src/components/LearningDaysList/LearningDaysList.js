@@ -118,14 +118,16 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                     {
                         isTeamCalendar ? 
                         null : 
-                        <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{ float: 'right' }} disabled={user.restrictionDays === 0}>
+                        <span>
+                            <Button variant="contained" color="primary" onClick={(e) => handleNewLearningDayClick(e)} style={{ float: 'right' }} disabled={user.restrictionDays === 0}>
                             Add New Learning Day
-                        </Button>
-                    }
-                    {
-                        user.restrictionDays === 0 ?
-                        <div className={classes.warning}>You have reached learning days limit this quarter</div> :
-                        null
+                            </Button>
+                           { 
+                                user.restrictionDays === 0 ?
+                                <div className={classes.warning}>You have reached learning days limit this quarter</div> :
+                                null
+                           }
+                        </span>
                     }
                 </Grid>
                 <Grid item xs={12}>

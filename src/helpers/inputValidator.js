@@ -23,9 +23,9 @@ export const validateEmail = (value) => {
     }
 }
 
-export const validatePassword = (value, feedback) => {
+export const validatePassword = (value) => {
     if (value) {
-        if(value.length < 8) {
+        if(value.length < 6) {
             return constants.TOO_SHORT_PASSWORD_TEXT;
         } else {
             return false;
@@ -44,11 +44,6 @@ export const validateRequiredField = (value) => {
 }
 
 export const ensurePasswordMatching = (passwordInput, repeatPasswordInput, setPassword, setRepeatPassword) => {
-    if (!passwordInput.value || !repeatPasswordInput.value) {
-        setPassword({ input: passwordInput.value, error: true, helperText: constants.REQUIRED_FIELD});
-        setRepeatPassword({ input: repeatPasswordInput.value, error: true, helperText: constants.REQUIRED_FIELD });
-        return true;
-    }
     if (passwordInput.value !== repeatPasswordInput.value) {
         setPassword({ input: passwordInput.value, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
         setRepeatPassword({ input: repeatPasswordInput.value, error: true, helperText: constants.PASSWORDS_DO_NOT_MATCH_TEXT });
