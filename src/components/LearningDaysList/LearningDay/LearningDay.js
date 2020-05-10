@@ -25,6 +25,8 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import Comments from '../LearningDay/Comments/Comments';
 
+import * as constants from '../../../constants/learningDay.constants';
+
 import { useStyles } from './LearningDay.styles';
 
 const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay, isTeamCalendar }) => {
@@ -57,7 +59,10 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
 
     const handleTopicsChange = (e) => {
         if (learningDayEditable) {
-            console.log(e.target.value);
+            if (e.target.value.length > constants.MAX_TOPICS_PER_LEARNING_DAY) {
+                setAlert({ open: true, message: constants.MAX_TOPICS_PER_LEARNING_DAY_EXCEEDED_ERROR, severity: 'error' });
+                return;
+            }
             setTopics(e.target.value.filter((topic, index, self) => index === self.findIndex(t => t.id === topic.id)));
         }
     };
