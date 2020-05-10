@@ -28,9 +28,11 @@ const TeamCalendarPage = () => {
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
   const [topics, setTopics] = useState([]);
   const [users, setUsers] = useState([]);
-  const [filteredUser, setFilteredUser] = useState(0);
-  const [filteredTopic, setFilteredTopic] = useState(0);
-  const [filteredDate, setFilteredDate] = useState(null);
+  const [filters, setFilters] = useState({
+      date: null,
+      topicId: 0,
+      userId: 0 
+  });
 
   const classes = useStyles();
 
@@ -67,7 +69,16 @@ const TeamCalendarPage = () => {
       setLoading(false);
     });
   }
-  console.log(filteredDate)
+
+  function removeNullValues(obj) {
+    for (let propName in obj) {
+      if (obj[propName] === null || obj[propName] === undefined || obj[propName] === 0) {
+        delete obj[propName];
+      }
+    }
+    return obj;
+  }
+
   return (
     <div>
       <Snackbar open={alert.open} autoHideDuration={600000} onClose={() => setAlert({ open: false, message: null })} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
@@ -77,7 +88,7 @@ const TeamCalendarPage = () => {
       </Snackbar>
       <Menu>
         <Grid container spacing={4}>
-        <Grid item xs={3}>
+        <Grid item lg={3}>
           <FormControl className={classes.dateSelect}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
@@ -86,18 +97,18 @@ const TeamCalendarPage = () => {
                     format="MM/dd/yyyy"
                     margin="normal"
                     label='Date'
-                    value={filteredDate}
-                    onChange={(date) => setFilteredDate(date)}
+                    value={filters.date}
+                    onChange={(value) => setFilters(Object.assign({}, filters, { date: value }))}
                   />
               </MuiPickersUtilsProvider>  
           </FormControl>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item lg={3}>
           <FormControl className={classes.select}>
             <InputLabel>Employee</InputLabel>
             <Select
-              value={filteredUser}
-              onChange={(e) => setFilteredUser(e.target.value)}
+              value={filters.employee}
+              onChange={(e) => setFilters(Object.assign({}, filters, { userId: e.target.value }))}
             >
               <MenuItem value={0}>All employees</MenuItem>
              { 
@@ -108,12 +119,12 @@ const TeamCalendarPage = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item lg={3}>
           <FormControl className={classes.select}>
             <InputLabel>Topic</InputLabel>
             <Select
-              value={filteredTopic}
-              onChange={(e) => setFilteredTopic(e.target.value)}
+              value={filters.topic}
+              onChange={(e) => setFilters(Object.assign({}, filters, { topicId: e.target.value }))}
             >
               <MenuItem value={0}>All topics</MenuItem>
               { 
@@ -124,11 +135,11 @@ const TeamCalendarPage = () => {
             </Select>
           </FormControl>
         </Grid>
-          <Grid item xs={6}>
-            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} />
+          <Grid item lg={6}>
+            <LearningDaysList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} filters={removeNullValues(filters)}/>
           </Grid>
-          <Grid item xs={6}>
-            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} />
+          <Grid item lg={6}>
+            <GoalsList setLoading={setLoading} setAlert={setAlert} topics={topics} isTeamCalendar={true} filters={removeNullValues(filters)}/>
           </Grid>
         </Grid>
       </Menu>

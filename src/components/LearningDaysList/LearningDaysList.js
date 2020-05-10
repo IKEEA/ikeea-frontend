@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import { useStyles } from './LearningDaysList.styles';
 
-const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
+const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) => {
 
     const emptyLearningDay = {
         date: new Date().toISOString(),
@@ -37,7 +37,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     const getLearningDays = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`, filters)
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);

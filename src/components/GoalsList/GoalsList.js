@@ -7,7 +7,7 @@ import GoalCard from './GoalCard/GoalCard';
 import NewGoalCard from './NewGoalCard/NewGoalCard';
 import axios from 'axios';
 
-const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
+const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) => {
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
     const [newGoalCard, setNewGoalCard] = useState(false);
@@ -38,8 +38,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     const getGoals = () => {
         setLoading(true);
         axios
-            // workaround for now till we get a proper endpoint in the backend
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`, filters)
             .then(res => {
                 setGoals(res.data);
                 setLoading(false);
