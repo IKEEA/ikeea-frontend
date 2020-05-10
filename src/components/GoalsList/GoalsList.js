@@ -16,7 +16,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
     useEffect(() => {
         getGoals();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [filters])
 
     const updateGoal = (goal) => {
         setLoading(true);
@@ -36,9 +36,11 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
     };
 
     const getGoals = () => {
+        let goalsFilters = {...filters};
+        delete goalsFilters.date;
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`, filters)
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`, goalsFilters)
             .then(res => {
                 setGoals(res.data);
                 setLoading(false);

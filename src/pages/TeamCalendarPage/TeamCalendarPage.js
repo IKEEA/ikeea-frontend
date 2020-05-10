@@ -93,10 +93,11 @@ const TeamCalendarPage = () => {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                     disableToolbar
-                    variant="inline"
+                    variant="dialog"
                     format="MM/dd/yyyy"
                     margin="normal"
                     label='Date'
+                    clearable
                     value={filters.date}
                     onChange={(value) => setFilters(Object.assign({}, filters, { date: value }))}
                   />
@@ -107,7 +108,7 @@ const TeamCalendarPage = () => {
           <FormControl className={classes.select}>
             <InputLabel>Employee</InputLabel>
             <Select
-              value={filters.employee}
+              value={filters.userId}
               onChange={(e) => setFilters(Object.assign({}, filters, { userId: e.target.value }))}
             >
               <MenuItem value={0}>All employees</MenuItem>
@@ -123,7 +124,7 @@ const TeamCalendarPage = () => {
           <FormControl className={classes.select}>
             <InputLabel>Topic</InputLabel>
             <Select
-              value={filters.topic}
+              value={filters.topicId}
               onChange={(e) => setFilters(Object.assign({}, filters, { topicId: e.target.value }))}
             >
               <MenuItem value={0}>All topics</MenuItem>

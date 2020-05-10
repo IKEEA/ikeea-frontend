@@ -32,12 +32,12 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
     useEffect(() => {
         getLearningDays();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [filters])
 
     const getLearningDays = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`, filters)
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`, filters)
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);
