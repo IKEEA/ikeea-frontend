@@ -41,10 +41,12 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
     const classes = useStyles();
 
     useEffect(() => {
+        const learningDayTopics = learningDay.topics.filter(topic => !topic.parentId);
+        const learningDaySubtopics = learningDay.topics.filter(topic => topic.parentId);
         setTitle(learningDay.title);
         setDate(new Date(learningDay.date));
-        setTopics(learningDay.topics.filter(topic => !topic.parentId))
-        setSubtopics(learningDay.topics.filter(topic => topic.parentId))
+        setTopics(allTopics.filter(topic => learningDayTopics.some(t => t.id === topic.id)))
+        setSubtopics(allTopics.filter(topic => learningDaySubtopics.some(t => t.id === topic.id)))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -55,7 +57,8 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
 
     const handleTopicsChange = (e) => {
         if (learningDayEditable) {
-            setTopics(e.target.value);
+            console.log(e.target.value);
+            setTopics(e.target.value.filter((topic, index, self) => index === self.findIndex(t => t.id === topic.id)));
         }
     };
 
