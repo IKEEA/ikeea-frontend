@@ -39,8 +39,8 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
         let goalsFilters = {...filters};
         delete goalsFilters.date;
         setLoading(true);
-        axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`, goalsFilters)
+        if(isTeamCalendar) {
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/team-list`, goalsFilters)
             .then(res => {
                 setGoals(res.data);
                 setLoading(false);
@@ -49,6 +49,17 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
+        } else {
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/list`)
+            .then(res => {
+                setGoals(res.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+        }
     };
 
     const addGoal = (goal) => {

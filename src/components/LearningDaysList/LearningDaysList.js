@@ -36,8 +36,8 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
 
     const getLearningDays = () => {
         setLoading(true);
-        axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`, filters)
+        if(isTeamCalendar) {
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, filters)
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);
@@ -46,6 +46,17 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
+        } else {
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/user-list`)
+            .then(res => {
+                setLearningDays(res.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+        }
     }
 
     const createLearningDay = (learningDay) => {
