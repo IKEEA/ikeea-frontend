@@ -13,11 +13,11 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
 
     const emptyLearningDay = {
         date: new Date().toISOString(),
-        id: null,
-        title: null,
-        firstName: null,
-        lastName: null,
-        userId: null,
+        id: NaN,
+        title: '',
+        firstName: '',
+        lastName: '',
+        userId: NaN,
         topics: []
     }
 
