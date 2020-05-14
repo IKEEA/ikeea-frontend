@@ -5,10 +5,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import Menu from '../../components/Menu/Menu';
 import axios from 'axios';
-import * as d3 from 'd3';
+import Typography from '@material-ui/core/Typography';
 import LearningTree from '../../components/LearningTree/LearningTree';
-
-
 
 const LearningTreePage = () => {
     const [user] = useContext(UserContext);
@@ -19,7 +17,7 @@ const LearningTreePage = () => {
     const getLearningDays = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`)
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, {})
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);
@@ -44,6 +42,9 @@ const LearningTreePage = () => {
                 </Alert>
             </Snackbar>
             <Menu>
+                <Typography variant="h5">
+                    Learning Tree
+                </Typography>
                 <LearningTree learningDays={learningDays} />
             </Menu>
         </div>
