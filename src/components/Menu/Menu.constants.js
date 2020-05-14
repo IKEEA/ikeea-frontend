@@ -41,7 +41,7 @@ export const userMenuItems = [
     }, {
       title: 'Team Learning Tree',
       icon: <AccountTree />,
-      path: '/learningTree'
+      path: '/teamLearningTree'
     }
   ];
   

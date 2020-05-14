@@ -11,6 +11,8 @@ import TeamPage from './pages/TeamPage/TeamPage';
 import TeamCalendarPage from './pages/TeamCalendarPage/TeamCalendarPage';
 import TopicsPage from './pages/TopicsPage/TopicsPage';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LearningTreePage from './pages/LearningTreePage/LearningTreePage';
+import TeamLearingTreePage from './pages/TeamLearningTreePage/TeamLearningTreePage';
 
 import { ErrorsContext } from './context/ErrorsContext';
 import { UserContext } from './context/UserContext';
@@ -99,6 +101,8 @@ const App = () => {
                   <AuthRoute exact path='/manageTopics' user={user} roles={['DEVELOPER', 'LEADER']}><TopicsPage/></AuthRoute>
                   <AuthRoute exact path='/myTeam' user={user} roles={['LEADER']}><TeamPage/></AuthRoute>
                   <AuthRoute exact path='/teamCalendar' user={user} roles={['LEADER']}><TeamCalendarPage/></AuthRoute>
+                  <AuthRoute exact path='/learningTree' user={user} roles={['DEVELOPER', 'LEADER']}><LearningTreePage/></AuthRoute>
+                  <AuthRoute exact path='/teamLearningTree' user={user} roles={['LEADER']}><TeamLearingTreePage/></AuthRoute>
                   <Route path='/error' component={ErrorPage} />
                   <Redirect to='/' />
                 </Switch>
