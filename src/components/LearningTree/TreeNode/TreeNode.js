@@ -11,13 +11,9 @@ import { useStyles } from './TreeNode.styles';
 const TreeNode = ({ className, nodeData }) => {
     const classes = useStyles();
 
-    useEffect(() => {
-        //console.log(nodeData);
-    }, [])
-
     return (
         <div className={className}>
-            <Tooltip arrow title={
+            <Tooltip disableHoverListener={!nodeData.attributes} arrow title={
                 <div>
                     <Typography>
                         Studied by:
