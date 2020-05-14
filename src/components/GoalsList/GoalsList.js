@@ -7,7 +7,7 @@ import GoalCard from './GoalCard/GoalCard';
 import NewGoalCard from './NewGoalCard/NewGoalCard';
 import axios from 'axios';
 
-const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
+const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) => {
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
     const [newGoalCard, setNewGoalCard] = useState(false);
@@ -16,7 +16,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     useEffect(() => {
         getGoals();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [filters])
 
     const updateGoal = (goal) => {
         setLoading(true);
@@ -36,10 +36,11 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     };
 
     const getGoals = () => {
+        let goalsFilters = {...filters};
+        delete goalsFilters.date;
         setLoading(true);
-        axios
-            // workaround for now till we get a proper endpoint in the backend
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${isTeamCalendar? `${user.id}/team-list` : `${user.id}/list`}`)
+        if(isTeamCalendar) {
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/team-list`, goalsFilters)
             .then(res => {
                 setGoals(res.data);
                 setLoading(false);
@@ -48,6 +49,17 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
+        } else {
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/list`)
+            .then(res => {
+                setGoals(res.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+        }
     };
 
     const addGoal = (goal) => {

@@ -9,15 +9,15 @@ import axios from 'axios';
 
 import { useStyles } from './LearningDaysList.styles';
 
-const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
+const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) => {
 
     const emptyLearningDay = {
         date: new Date().toISOString(),
-        id: null,
-        title: null,
-        firstName: null,
-        lastName: null,
-        userId: null,
+        id: NaN,
+        title: '',
+        firstName: '',
+        lastName: '',
+        userId: NaN,
         topics: []
     }
 
@@ -32,12 +32,12 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
     useEffect(() => {
         getLearningDays();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [filters])
 
     const getLearningDays = () => {
         setLoading(true);
-        axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/${isTeamCalendar ? 'list' : 'user-list'}`)
+        if(isTeamCalendar) {
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, filters)
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);
@@ -46,6 +46,17 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar }) => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
                 setLoading(false);
             });
+        } else {
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/user-list`)
+            .then(res => {
+                setLearningDays(res.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+                setLoading(false);
+            });
+        }
     }
 
     const createLearningDay = (learningDay) => {
