@@ -18,7 +18,6 @@ const LearningTree = ({ learningDays }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log(learningDays);
         const processedData = prepareData(learningDays);
         setData(processedData);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,7 +25,6 @@ const LearningTree = ({ learningDays }) => {
 
     useLayoutEffect(() => {
         if (treeWrapperRef.current) {
-            console.log(treeWrapperRef.current);
             const dimensions = treeWrapperRef.current.getBoundingClientRect();
             setTranslate({
                 x: dimensions.width / 10,
@@ -36,7 +34,6 @@ const LearningTree = ({ learningDays }) => {
     }, [])
 
     const prepareData = (days) => {
-        console.log(days);
         const topics = [];
         days.forEach(learningDay => {
             learningDay.topics.forEach(topic => {
@@ -60,8 +57,6 @@ const LearningTree = ({ learningDays }) => {
             name: 'Top Level',
             children: []
         };
-
-        console.log(topics);
 
         mainTopics.forEach(topic => {
             const subtopicsOfTopic = subTopics.filter(subtopic => subtopic.parentId === topic.id);
