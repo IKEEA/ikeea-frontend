@@ -44,7 +44,9 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
         if(isTeamCalendar) {
             axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, learningDaysFilters)
             .then(res => {
-                let loadedLearningDays = [...learningDays];
+                let loadedLearningDays = [];
+                if(pageNumber !== 0)
+                    loadedLearningDays = [...learningDays];
                 let newLearningDays = res.data;
                 setHasMore(newLearningDays.length !== 0);
                 setLearningDays([...loadedLearningDays, ...newLearningDays]);

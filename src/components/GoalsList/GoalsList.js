@@ -46,7 +46,9 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
         if(isTeamCalendar) {
             axios.post(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/team-list`, goalsFilters)
             .then(res => {
-                let loadedGoals = [...goals];
+                let loadedGoals = [];
+                if(pageNumber !== 0)
+                    loadedGoals = [...goals];
                 let newGoals = res.data;
                 setHasMore(newGoals.length !== 0);
                 setGoals([...loadedGoals, ...newGoals]);
