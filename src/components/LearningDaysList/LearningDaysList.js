@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import LearningDayCard from './LearningDayCard/LearningDayCard';
 import LearningDay from './LearningDay/LearningDay';
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroller';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import { useStyles } from './LearningDaysList.styles';
 
@@ -27,19 +29,25 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
     const [learningDayEditable, setLearningDayEditable] = useState(false);
     const [learningDayNew, setLearningDayNew] = useState(false);
     const [selectedLearningDay, setSelectedLearningDay] = useState(emptyLearningDay);
+    const [hasMore, setHasMore] = useState(true);
     const classes = useStyles();
 
     useEffect(() => {
-        getLearningDays();
+        setLoading(true);
+        getLearningDays(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filters])
 
-    const getLearningDays = () => {
-        setLoading(true);
+    const getLearningDays = (pageNumber) => {
+        let learningDaysFilters = {...filters};
+        learningDaysFilters.page = pageNumber;
         if(isTeamCalendar) {
-            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, filters)
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, learningDaysFilters)
             .then(res => {
-                setLearningDays(res.data);
+                let loadedLearningDays = [...learningDays];
+                let newLearningDays = res.data;
+                setHasMore(newLearningDays.length !== 0);
+                setLearningDays([...loadedLearningDays, ...newLearningDays]);
                 setLoading(false);
             })
             .catch(err => {
@@ -143,6 +151,26 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
                 </Grid>
                 <Grid item xs={12}>
                     {
+                        isTeamCalendar ? 
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={getLearningDays}
+                            hasMore={hasMore}
+                            loader={
+                                <div>
+                                    <Skeleton />
+                                    <Skeleton animation={false} />
+                                    <Skeleton animation="wave" />
+                                </div>
+                            }
+                            initialLoad={false}
+                        >
+                            {
+                                learningDays.sort((learningDay1, learningDay2) => new Date(learningDay1.date).getTime() > new Date(learningDay2.date).getTime() ? -1 : 1).map(learningDay =>
+                                    <LearningDayCard key={learningDay.id} learningDay={learningDay} handleLearningDayClick={handleLearningDayClick} />
+                                )
+                            }
+                        </InfiniteScroll> :
                         learningDays.sort((learningDay1, learningDay2) => new Date(learningDay1.date).getTime() > new Date(learningDay2.date).getTime() ? -1 : 1).map(learningDay =>
                             <LearningDayCard key={learningDay.id} learningDay={learningDay} handleLearningDayClick={handleLearningDayClick} />
                         )
