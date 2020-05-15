@@ -6,15 +6,19 @@ import Typography from '@material-ui/core/Typography';
 import GoalCard from './GoalCard/GoalCard';
 import NewGoalCard from './NewGoalCard/NewGoalCard';
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroller';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) => {
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
     const [newGoalCard, setNewGoalCard] = useState(false);
     const [topic, setTopic] = useState();
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
-        getGoals();
+        setLoading(true);
+        getGoals(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filters])
 
@@ -35,14 +39,19 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
             });
     };
 
-    const getGoals = () => {
+    const getGoals = (pageNumber) => {
         let goalsFilters = {...filters};
         delete goalsFilters.date;
-        setLoading(true);
+        goalsFilters.page = pageNumber;
         if(isTeamCalendar) {
             axios.post(`${process.env.REACT_APP_SERVER_URL}/api/goal/${user.id}/team-list`, goalsFilters)
             .then(res => {
-                setGoals(res.data);
+                let loadedGoals = [];
+                if(pageNumber !== 0)
+                    loadedGoals = [...goals];
+                let newGoals = res.data;
+                setHasMore(newGoals.length !== 0);
+                setGoals([...loadedGoals, ...newGoals]);
                 setLoading(false);
             })
             .catch(err => {
@@ -62,7 +71,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
         }
     };
 
-    const addGoal = (goal) => {
+    const addGoal = () => {
         setLoading(true);
         axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/goal/add`, { topicId: topic, userId: user.id })
@@ -89,6 +98,26 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
             <Grid item xs={12}>
                 {newGoalCard ? <NewGoalCard topics={topics} setNewGoalCard={setNewGoalCard} addGoal={addGoal} topic={topic} setTopic={setTopic} /> : ''}
                 {
+                    isTeamCalendar ? 
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={getGoals}
+                        hasMore={hasMore}
+                        loader={
+                            <div>
+                                <Skeleton />
+                                <Skeleton animation={false} />
+                                <Skeleton animation="wave" />
+                            </div>
+                        }
+                        initialLoad={false}
+                    >
+                        {
+                            goals.sort((goal1, goal2) => new Date(goal1.lastUpdated).getTime() > new Date(goal2.lastUpdated).getTime() ? -1 : 1).map(goal =>
+                                <GoalCard key={goal.id} goal={goal} updateGoal={updateGoal} isTeamCalendar={isTeamCalendar} />
+                            )
+                        }
+                    </InfiniteScroll> :
                     goals.sort((goal1, goal2) => new Date(goal1.lastUpdated).getTime() > new Date(goal2.lastUpdated).getTime() ? -1 : 1).map(goal =>
                         <GoalCard key={goal.id} goal={goal} updateGoal={updateGoal} isTeamCalendar={isTeamCalendar} />
                     )
