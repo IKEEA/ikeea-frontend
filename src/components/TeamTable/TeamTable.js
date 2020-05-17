@@ -37,7 +37,7 @@ const TeamTable = ({ users, getUsers, setAlert }) => {
 
   const openDialog = (userId, dialogType) => {
     axios
-    .get(`${process.env.REACT_APP_SERVER_URL}/api/user/${userId}/get`)
+    .get(`${process.env.REACT_APP_SERVER_URL}/api/user/${userId}`)
     .then(res => {
       setSelectedUser(res.data);
       switch(dialogType) {

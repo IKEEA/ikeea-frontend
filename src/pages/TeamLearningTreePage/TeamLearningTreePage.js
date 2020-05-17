@@ -22,7 +22,7 @@ const TeamLearningTreePage = () => {
         }
         setLoading(true);
         axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, {page: pageNumber, size: chunkSize})
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/team-list`, {page: pageNumber, size: chunkSize})
             .then(res => {
                 if (res.data.length !== 0) {
                     learningDaysBuffer = [...learningDaysBuffer, ...res.data]
@@ -38,9 +38,6 @@ const TeamLearningTreePage = () => {
                 setLoading(false);
             });
     }
-
-
-
 
     useEffect(() => {
         getLearningDays(0);

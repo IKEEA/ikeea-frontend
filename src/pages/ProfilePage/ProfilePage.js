@@ -35,7 +35,7 @@ export default function ProfilePage() {
     errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
     if (!errors.find(error => error === true)) {
       axios
-       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/update`, {password: newPassword.input.value, oldPassword: oldPassword.input.value})
+       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}`, {password: newPassword.input.value, oldPassword: oldPassword.input.value})
        .then(res => {
           setLoading(false);
           setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' }); 

@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react';
-import Paper from '@material-ui/core/Paper';
 import Tree from 'react-d3-tree';
-import { useStyles } from './LearningTree.styles';
 
 import TreeNode from './TreeNode/TreeNode';
 
@@ -14,8 +12,6 @@ const LearningTree = ({ learningDays }) => {
     const treeWrapperRef = useRef()
 
     const [translate, setTranslate] = useState();
-
-    const classes = useStyles();
 
     useEffect(() => {
         const processedData = prepareData(learningDays);

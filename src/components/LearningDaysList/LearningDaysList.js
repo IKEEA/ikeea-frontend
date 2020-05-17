@@ -42,7 +42,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
         let learningDaysFilters = {...filters};
         learningDaysFilters.page = pageNumber;
         if(isTeamCalendar) {
-            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, learningDaysFilters)
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/team-list`, learningDaysFilters)
             .then(res => {
                 let loadedLearningDays = [];
                 if(pageNumber !== 0)
@@ -57,7 +57,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
                 setLoading(false);
             });
         } else {
-            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/user-list`)
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`)
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);
@@ -86,7 +86,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
     const updateLearningDay = (id, learningDay) => {
         setLoading(true);
         axios
-            .put(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}/update`, learningDay)
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}`, learningDay)
             .then(res => {
                 getLearningDays();
                 setLearningDayEditable(false);
@@ -100,7 +100,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
     const deleteLearningDay = (id) => {
         setLoading(true);
         axios
-            .delete(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}/delete`)
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${id}`)
             .then(res => {
                 getLearningDays();
                 setLearningDayEditable(false);
