@@ -13,13 +13,28 @@ const TeamLearningTreePage = () => {
     const [setLoading] = useContext(LoadingContext);
     const [alert, setAlert] = useState({ open: false, message: null, severity: null });
     const [learningDays, setLearningDays] = useState([]);
+    const chunkSize = 10;
+    let learningDaysBuffer = [];
 
-    const getLearningDays = () => {
+    const getLearningDays = (pageNumber) => {
+        if (pageNumber === 0) {
+            learningDaysBuffer = [];
+        }
+        setLoading(true);
         axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, {})
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`, {page: pageNumber, size: chunkSize})
             .then(res => {
-                setLearningDays(res.data);
-                setLoading(false);
+                console.log(pageNumber);
+                console.log(learningDays);
+                console.log(res.data);
+                if (res.data.length !== 0) {
+                    learningDaysBuffer = [...learningDaysBuffer, ...res.data]
+                    getLearningDays(++pageNumber);
+                } else {
+                    setLearningDays(learningDaysBuffer);
+                    setLoading(false);
+                    return;
+                }
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -31,7 +46,7 @@ const TeamLearningTreePage = () => {
 
 
     useEffect(() => {
-        getLearningDays();
+        getLearningDays(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
