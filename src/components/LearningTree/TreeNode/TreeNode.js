@@ -19,8 +19,8 @@ const TreeNode = ({ className, nodeData }) => {
                         Studied by:
                     </Typography>
                     <List dense={true}>
-                        {nodeData.attributes ? nodeData.attributes.map(attribute => (
-                            <ListItem>
+                        {nodeData.attributes ? nodeData.attributes.map((attribute, index) => (
+                            <ListItem key={index}>
                                 <ListItemText>{attribute}</ListItemText>
                             </ListItem>
                         )) : ''}
