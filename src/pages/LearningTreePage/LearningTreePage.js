@@ -17,7 +17,7 @@ const LearningTreePage = () => {
     const getLearningDays = () => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/user-list`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/learning-day/${user.id}/list`)
             .then(res => {
                 setLearningDays(res.data);
                 setLoading(false);
@@ -28,7 +28,6 @@ const LearningTreePage = () => {
             });
 
     }
-
 
     useEffect(() => {
         getLearningDays();

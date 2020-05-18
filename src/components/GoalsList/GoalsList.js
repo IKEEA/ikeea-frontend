@@ -25,7 +25,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
     const updateGoal = (goal) => {
         setLoading(true);
         axios
-            .put(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}/update`, {
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/goal/${goal.id}`, {
                 status: goal.status,
                 topicId: goal.topicId,
                 userId: goal.userId

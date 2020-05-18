@@ -79,7 +79,7 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
                 fullWidth
                 type="number"
                 InputProps={{ inputProps: { min: 0, max: 365 } }}
-                value={currentUser.restrictionDays ? currentUser.restrictionDays : 0}
+                value={currentUser.restrictionDays ? currentUser.restrictionDays : null}
                 onChange={(e) => changeLimit(e)}
             />
         </DialogContent>

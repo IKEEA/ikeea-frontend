@@ -16,7 +16,7 @@ const UserDeleteDialog = ({open, setOpen, user, getUsers, setAlert}) => {
     setLoading(true);
     setOpen(false);
     axios
-        .delete(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}/delete`)
+        .delete(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}`)
         .then(res => {
           getUsers();
           setLoading(false);

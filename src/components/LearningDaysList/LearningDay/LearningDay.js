@@ -116,7 +116,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
     const deleteComment = (commentId) => {
         setCommentsLoading(true);
         axios
-            .delete(`${process.env.REACT_APP_SERVER_URL}/api/comment/${commentId}/delete`)
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/comment/${commentId}`)
             .then(res => {
                 getComments();
             })
