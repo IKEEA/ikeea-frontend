@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { useStyles } from './NewGoalCard.styles';
 
@@ -42,11 +43,10 @@ const NewGoalCard = ({ topics, addGoal, setNewGoalCard, topic, setTopic }) => {
                         <FormControl className={classes.formControl}>
                             <InputLabel>Topic</InputLabel>
                             <Select
-                                native
                                 value={topic}
                                 onChange={(e) => setTopic(e.target.value)}
                             >
-                                {topics.map(topic => <option key={topic.id} value={topic.id}>{topic.title}</option>)}
+                                {topics.map(topic => <MenuItem key={topic.id} value={topic.id}>{topic.title}</MenuItem>)}
                             </Select>
                             <Link to='/manageTopics'>Manage topics</Link>
                         </FormControl>

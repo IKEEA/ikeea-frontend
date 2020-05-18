@@ -13,7 +13,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
     const [user] = useContext(UserContext);
     const [goals, setGoals] = useState([]);
     const [newGoalCard, setNewGoalCard] = useState(false);
-    const [topic, setTopic] = useState();
+    const [topic, setTopic] = useState('');
     const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
