@@ -39,10 +39,19 @@ const NewSubtopicCard = ({ topic, getTopics, setAlert }) => {
 
   const createSubtopic = () => {
     setLoading(true);
+    if(newSubtopic.title.length < 3 || newSubtopic.description.length < 3) {
+      setLoading(false);
+      setAlert({ open: true, message: 'Field values can not be shorter that 3 characters!', severity: 'error' })
+    } else {
     axios
        .post(`${process.env.REACT_APP_SERVER_URL}/api/topic/add`, newSubtopic)
        .then(res => {
             setAddSubtopic(false);
+            setNewSubtopic({
+              title: '',
+              description: '',
+              parent: null
+            });
             getTopics();
             setAlert({ open: true, message: 'Topic added successfully!', severity: 'success' });
        })
@@ -50,6 +59,7 @@ const NewSubtopicCard = ({ topic, getTopics, setAlert }) => {
             setLoading(false);
             setAlert({ open: true, message: err.response.data.message, severity: 'error' });
        });
+      }
   }
 
   return (
