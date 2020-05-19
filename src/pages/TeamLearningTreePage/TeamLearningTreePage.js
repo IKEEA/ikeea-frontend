@@ -13,6 +13,7 @@ const TeamLearningTreePage = () => {
     const [setLoading] = useContext(LoadingContext);
     const [alert, setAlert] = useState({ open: false, message: null, severity: null });
     const [learningDays, setLearningDays] = useState([]);
+    const [topics, setTopics] = useState([]);
     const chunkSize = 10;
     let learningDaysBuffer = [];
 
@@ -39,8 +40,23 @@ const TeamLearningTreePage = () => {
             });
     }
 
+    const getTopics = () => {
+        setLoading(true);
+        axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
+          .then(res => {
+            setTopics(res.data);
+            setLoading(false);
+          })
+          .catch(err => {
+            setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+            setLoading(false);
+          });
+      };
+
     useEffect(() => {
         getLearningDays(0);
+        getTopics();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -55,7 +71,7 @@ const TeamLearningTreePage = () => {
                 <Typography variant="h5">
                     Team Learning Tree
                 </Typography>
-                <LearningTree learningDays={learningDays} />
+                <LearningTree learningDays={learningDays} allTopics={topics}/>
             </Menu>
         </div>
     );
