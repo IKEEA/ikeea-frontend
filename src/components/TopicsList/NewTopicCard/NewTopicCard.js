@@ -27,6 +27,10 @@ const NewTopicCard = ({setOpenNew, getTopics, setAlert}) => {
 
   const addTopic = () => {
     setLoading(true);
+    if(topic.title.length < 3 || topic.description.length < 3) {
+        setLoading(false);
+        setAlert({ open: true, message: 'Field values can not be shorter that 3 characters!', severity: 'error' })
+    } else {
     axios
        .post(`${process.env.REACT_APP_SERVER_URL}/api/topic/add`, topic)
        .then(res => {
@@ -38,7 +42,7 @@ const NewTopicCard = ({setOpenNew, getTopics, setAlert}) => {
             setLoading(false);
             setAlert({ open: true, message: err.response.data.message, severity: 'error' });
        });
-    
+    }
   }
 
   const changeTopicTitle = (e) => {

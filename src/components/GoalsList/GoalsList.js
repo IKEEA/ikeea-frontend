@@ -15,6 +15,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
     const [newGoalCard, setNewGoalCard] = useState(false);
     const [topic, setTopic] = useState();
     const [hasMore, setHasMore] = useState(true);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -50,9 +51,10 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
                 if(pageNumber !== 0)
                     loadedGoals = [...goals];
                 let newGoals = res.data;
-                setHasMore(newGoals.length !== 0);
+                setHasMore(newGoals.length === 10);
                 setGoals([...loadedGoals, ...newGoals]);
                 setLoading(false);
+                setDataLoaded(false);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -113,14 +115,18 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
                         initialLoad={false}
                     >
                         {
+                            goals.length !== 0 ?
                             goals.sort((goal1, goal2) => new Date(goal1.lastUpdated).getTime() > new Date(goal2.lastUpdated).getTime() ? -1 : 1).map(goal =>
                                 <GoalCard key={goal.id} goal={goal} updateGoal={updateGoal} isTeamCalendar={isTeamCalendar} />
-                            )
+                            ) :
+                            dataLoaded && <div>There are no goals created.</div>
                         }
                     </InfiniteScroll> :
+                    goals.length !== 0 ?
                     goals.sort((goal1, goal2) => new Date(goal1.lastUpdated).getTime() > new Date(goal2.lastUpdated).getTime() ? -1 : 1).map(goal =>
                         <GoalCard key={goal.id} goal={goal} updateGoal={updateGoal} isTeamCalendar={isTeamCalendar} />
-                    )
+                    ) :
+                    dataLoaded && <div>There are no goals created.</div>
                 }
             </Grid>
         </Grid>

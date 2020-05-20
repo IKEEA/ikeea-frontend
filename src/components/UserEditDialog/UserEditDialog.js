@@ -62,7 +62,7 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
         .then(res => {
           getUsers();
           setLoading(false);
-          setAlert({ open: true, message: 'Learning days limit updated successfully!', severity: 'success' });
+          setAlert({ open: true, message: 'Information updated successfully!', severity: 'success' });
         })
         .catch(err => {
           setLoading(false);

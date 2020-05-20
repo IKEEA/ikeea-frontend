@@ -30,6 +30,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
     const [learningDayNew, setLearningDayNew] = useState(false);
     const [selectedLearningDay, setSelectedLearningDay] = useState(emptyLearningDay);
     const [hasMore, setHasMore] = useState(true);
+    const [dataLoaded, setDataLoaded] = useState(false);
     const classes = useStyles();
 
     useEffect(() => {
@@ -48,9 +49,10 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
                 if(pageNumber !== 0)
                     loadedLearningDays = [...learningDays];
                 let newLearningDays = res.data;
-                setHasMore(newLearningDays.length !== 0);
+                setHasMore(newLearningDays.length === 10);
                 setLearningDays([...loadedLearningDays, ...newLearningDays]);
                 setLoading(false);
+                setDataLoaded(false);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
@@ -168,14 +170,18 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
                             initialLoad={false}
                         >
                             {
+                                learningDays.length !== 0  ?
                                 learningDays.sort((learningDay1, learningDay2) => new Date(learningDay1.date).getTime() > new Date(learningDay2.date).getTime() ? -1 : 1).map(learningDay =>
                                     <LearningDayCard key={learningDay.id} learningDay={learningDay} handleLearningDayClick={handleLearningDayClick} />
-                                )
+                                ) :
+                                dataLoaded && <div>There are no learning days created.</div>
                             }
                         </InfiniteScroll> :
+                        learningDays.length !== 0 ?
                         learningDays.sort((learningDay1, learningDay2) => new Date(learningDay1.date).getTime() > new Date(learningDay2.date).getTime() ? -1 : 1).map(learningDay =>
                             <LearningDayCard key={learningDay.id} learningDay={learningDay} handleLearningDayClick={handleLearningDayClick} />
-                        )
+                        ) :
+                        dataLoaded && <div>There are no learning days created.</div>
                     }
                 </Grid>
             </Grid>
