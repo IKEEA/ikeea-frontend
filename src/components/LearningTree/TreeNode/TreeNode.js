@@ -5,6 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Chip from '@material-ui/core/Chip';
 
 import { useStyles } from './TreeNode.styles';
 
@@ -19,7 +20,7 @@ const TreeNode = ({ className, nodeData }) => {
                         Studied by:
                     </Typography>
                     <List dense={true}>
-                        {nodeData.attributes ? nodeData.attributes.map((attribute, index) => (
+                        {nodeData.attributes && nodeData.attributes.people ? nodeData.attributes.people.map((attribute, index) => (
                             <ListItem key={index}>
                                 <ListItemText>{attribute}</ListItemText>
                             </ListItem>
@@ -29,7 +30,7 @@ const TreeNode = ({ className, nodeData }) => {
             }>
                 <Paper elevation={3} className={classes.nodePaper}>
                     <Typography>
-                        {nodeData.name}
+                        {nodeData.attributes && nodeData.attributes.people ? <Chip className={classes.chip} label={nodeData.attributes.people.length} color={nodeData.attributes.people.length > 0 ? "primary" : "secondary"}/>: ''}{nodeData.name}
                     </Typography>
                 </Paper>
             </Tooltip>

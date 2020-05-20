@@ -13,6 +13,7 @@ const LearningTreePage = () => {
     const [setLoading] = useContext(LoadingContext);
     const [alert, setAlert] = useState({ open: false, message: null, severity: null });
     const [learningDays, setLearningDays] = useState([]);
+    const [topics, setTopics] = useState([]);
 
     const getLearningDays = () => {
         setLoading(true);
@@ -29,8 +30,23 @@ const LearningTreePage = () => {
 
     }
 
+    const getTopics = () => {
+        setLoading(true);
+        axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/api/topic/list`)
+          .then(res => {
+            setTopics(res.data);
+            setLoading(false);
+          })
+          .catch(err => {
+            setAlert({ open: true, message: err.response.data.message, severity: 'error' });
+            setLoading(false);
+          });
+      };
+
     useEffect(() => {
         getLearningDays();
+        getTopics();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -45,7 +61,7 @@ const LearningTreePage = () => {
                 <Typography variant="h5">
                     My Learning Tree
                 </Typography>
-                <LearningTree learningDays={learningDays} />
+                <LearningTree learningDays={learningDays} allTopics={topics} />
             </Menu>
         </div>
     );

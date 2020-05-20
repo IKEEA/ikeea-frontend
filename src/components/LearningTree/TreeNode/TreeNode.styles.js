@@ -7,5 +7,8 @@ export const useStyles = makeStyles(theme => ({
         whiteSpace: 'nowrap',
         float: 'left',
         clear: 'left'
+    },
+    chip: {
+        marginRight: theme.spacing(1)
     }
 }));
