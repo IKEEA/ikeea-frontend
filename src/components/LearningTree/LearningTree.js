@@ -2,10 +2,15 @@ import React, { useRef, useEffect, useLayoutEffect, useState, useContext } from 
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import { LoadingContext } from '../../context/LoadingContext';
 import Tree from 'react-d3-tree';
+import Paper from '@material-ui/core/Paper';
+
+import { useStyles } from './LearningTree.styles';
 
 import TreeNode from './TreeNode/TreeNode';
 
 const LearningTree = ({ learningDays, allTopics }) => {
+
+    const classes = useStyles();
 
     const [data, setData] = useState({
         name: 'Top Level'
@@ -92,8 +97,8 @@ const LearningTree = ({ learningDays, allTopics }) => {
     }
 
     return (
-        <div id="treeWrapper" style={{ width: '100%', height: '1200px' }} ref={treeWrapperRef}>
-            <ToggleButton selected={showAllTopics} onChange={(e) => handleShowAllChange(e)}>
+        <Paper id="treeWrapper" className={classes.wrapper} ref={treeWrapperRef}>
+            <ToggleButton selected={showAllTopics} onChange={(e) => handleShowAllChange(e)} className={classes.toggleButton}>
                 Show All Topics
             </ToggleButton>
             <Tree data={data} separation={{ siblings: 1, nonSiblings: 1 }} depthFactor={500} translate={translate} allowForeignObjects
@@ -104,7 +109,7 @@ const LearningTree = ({ learningDays, allTopics }) => {
                         overflow: 'visible'
                     }
                 }} />
-        </div>
+        </Paper>
     )
 }
 
