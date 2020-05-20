@@ -43,6 +43,11 @@ const GoalCard = ({ goal, updateGoal, isTeamCalendar }) => {
                 subheader={`Last Updated: ${new Date(goal.lastUpdated).toDateString()}`}
             />
             <CardContent>
+                {isTeamCalendar ?
+                    <Typography>
+                        Status: {status}
+                    </Typography>
+                :
                 <FormControl className={classes.formControl}>
                     <InputLabel>Status</InputLabel>
                     <Select
@@ -58,6 +63,7 @@ const GoalCard = ({ goal, updateGoal, isTeamCalendar }) => {
                         <MenuItem key={3} value={'FINISHED'}>Finished</MenuItem>
                     </Select>
                 </FormControl>
+                }
             </CardContent>
         </Card>
     );
