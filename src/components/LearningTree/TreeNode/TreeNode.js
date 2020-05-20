@@ -20,7 +20,6 @@ const TreeNode = ({ className, nodeData }) => {
                         Studied by:
                     </Typography>
                     <List dense={true}>
-                        {console.log(nodeData)}
                         {nodeData.attributes && nodeData.attributes.people ? nodeData.attributes.people.map((attribute, index) => (
                             <ListItem key={index}>
                                 <ListItemText>{attribute}</ListItemText>

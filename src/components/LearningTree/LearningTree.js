@@ -65,8 +65,12 @@ const LearningTree = ({ learningDays, allTopics }) => {
             allTopics[index] = Object.assign(allTopics[index], peopleExtension);
         })
 
-        const mainTopics = allTopics.filter(topic => !topic.parentId && showAllTopics ? true : topic.people.length > 0);
-        const subTopics = allTopics.filter(topic => topic.parentId && showAllTopics ? true : topic.people.length > 0);
+        console.log(allTopics);
+
+        
+        const subTopics = allTopics.filter(topic => topic.parentId !== null && (showAllTopics ? true : topic.people.length > 0));
+
+        const mainTopics = allTopics.filter(topic => topic.parentId === null && (showAllTopics ? true : (topic.people.length > 0 || subTopics.filter(subtopic => subtopic.parentId === topic.id && subtopic.people.length > 0).length > 0)));
 
         let tree = {
             name: 'Top Level',
@@ -98,7 +102,7 @@ const LearningTree = ({ learningDays, allTopics }) => {
 
     return (
         <Paper id="treeWrapper" className={classes.wrapper} ref={treeWrapperRef}>
-            <ToggleButton selected={showAllTopics} onChange={(e) => handleShowAllChange(e)} className={classes.toggleButton}>
+            <ToggleButton selected={showAllTopics} onChange={(e) => handleShowAllChange(e)} value={showAllTopics} className={classes.toggleButton}>
                 Show All Topics
             </ToggleButton>
             <Tree data={data} separation={{ siblings: 1, nonSiblings: 1 }} depthFactor={500} translate={translate} allowForeignObjects
