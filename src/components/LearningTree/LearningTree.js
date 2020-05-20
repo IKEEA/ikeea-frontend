@@ -64,9 +64,6 @@ const LearningTree = ({ learningDays, allTopics }) => {
             }
             allTopics[index] = Object.assign(allTopics[index], peopleExtension);
         })
-
-        console.log(allTopics);
-
         
         const subTopics = allTopics.filter(topic => topic.parentId !== null && (showAllTopics ? true : topic.people.length > 0));
 
