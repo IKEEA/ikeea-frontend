@@ -18,9 +18,9 @@ import { useStyles } from './ProfilePage.styles';
 
 export default function ProfilePage() {
   const classes = useStyles();
-  const [oldPassword, setOldPassword] = useState({ input: { value: '' }, error: false, helperText: null });
-  const [newPassword, setNewPassword] = useState({ input: { value: '' }, error: false, helperText: null });
-  const [repeatPassword, setRepeatPassword] = useState({ input: { value: '' }, error: false, helperText: null });
+  const [oldPassword, setOldPassword] = useState({ input: null, error: false, helperText: null });
+  const [newPassword, setNewPassword] = useState({ input: null, error: false, helperText: null });
+  const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [alert, setAlert] = useState({ open: false, message: null, severity: null });
 
   const [user] = useContext(UserContext);
@@ -35,25 +35,18 @@ export default function ProfilePage() {
     errors.push(validator.ensurePasswordMatching(newPassword.input, repeatPassword.input, setNewPassword, setRepeatPassword));
     if (!errors.find(error => error === true)) {
       axios
-        .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}`, { password: newPassword.input.value, oldPassword: oldPassword.input.value })
-        .then(res => {
+       .put(`${process.env.REACT_APP_SERVER_URL}/api/user/${user.id}`, {password: newPassword.input.value, oldPassword: oldPassword.input.value})
+       .then(res => {
           setLoading(false);
-          clearFields();
-          setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' });
-        })
-        .catch(err => {
+          setAlert({ open: true, message: 'Password was changed successfully!', severity: 'success' }); 
+       })
+       .catch(err => {
           setLoading(false);
           setAlert({ open: true, message: err.response.data.message, severity: 'error' })
-        });
+       });
     } else {
       setLoading(false);
     }
-  }
-
-  const clearFields = () => {
-    oldPassword.input.value = '';
-    newPassword.input.value = '';
-    repeatPassword.input.value = '';
   }
 
   return (
@@ -64,38 +57,38 @@ export default function ProfilePage() {
             {alert.message}
           </Alert>
         </Snackbar>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography variant="h5">
-              User profile
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h5">
+                  User profile
               </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <div>{user.firstName} {user.lastName}</div>
-                  <div>{user.email}</div>
-                  <div>{user.roles[0]}</div>
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <div>Learning days limit this quarter</div>
-                  <div>{user.restrictionDays} days</div>
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <div>MANAGER</div>
-                  <div>{user.managerFirstName} {user.managerLastName}</div>
-                  <div>{user.managerEmail}</div>
-                </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <div>{user.firstName} {user.lastName}</div>
+                    <div>{user.email}</div>
+                    <div>{user.roles[0]}</div>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <div>Learning days limit this quarter</div>
+                    <div>{user.restrictionDays} days</div>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <div>MANAGER</div>
+                    <div>{user.managerFirstName} {user.managerLastName}</div>
+                    <div>{user.managerEmail}</div>
+                  </Paper>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper className={classes.paper}>
+            <Grid item xs={6}>
+              <Paper className={classes.paper}>
               Change password
               <TextField
                 label="Current password"
@@ -127,14 +120,14 @@ export default function ProfilePage() {
                 color="primary"
                 raised="true"
                 className={classes.submitButton}
-                onClick={() => changePassword()}
+                onClick={() => changePassword()} 
               >
                 Change
               </Button>
-            </Paper>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
-      </Menu>
+        </Menu>
     </div>
   );
 }
