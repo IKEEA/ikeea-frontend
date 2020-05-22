@@ -52,7 +52,7 @@ const LearningDaysList = ({ setLoading, setAlert, topics, isTeamCalendar, filter
                 setHasMore(newLearningDays.length === 10);
                 setLearningDays([...loadedLearningDays, ...newLearningDays]);
                 setLoading(false);
-                setDataLoaded(false);
+                setDataLoaded(true);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });

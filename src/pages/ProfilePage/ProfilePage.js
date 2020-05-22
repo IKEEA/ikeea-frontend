@@ -78,13 +78,16 @@ export default function ProfilePage() {
                     <div>{user.restrictionDays} days</div>
                   </Paper>
                 </Grid>
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <div>MANAGER</div>
-                    <div>{user.managerFirstName} {user.managerLastName}</div>
-                    <div>{user.managerEmail}</div>
-                  </Paper>
-                </Grid>
+                {
+                  user.managerEmail ?
+                  <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                      <div>MANAGER</div>
+                      <div>{user.managerFirstName} {user.managerLastName}</div>
+                      <div>{user.managerEmail}</div>
+                    </Paper>
+                  </Grid> : null
+                }
               </Grid>
             </Grid>
             <Grid item xs={6}>
