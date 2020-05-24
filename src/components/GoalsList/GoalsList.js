@@ -54,7 +54,7 @@ const GoalsList = ({ setLoading, setAlert, topics, isTeamCalendar, filters }) =>
                 setHasMore(newGoals.length === 10);
                 setGoals([...loadedGoals, ...newGoals]);
                 setLoading(false);
-                setDataLoaded(false);
+                setDataLoaded(true);
             })
             .catch(err => {
                 setAlert({ open: true, message: err.response.data.message, severity: 'error' });
