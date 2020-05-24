@@ -6,6 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Chip from '@material-ui/core/Chip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 import { useStyles } from './LearningTree.styles';
 
@@ -118,6 +121,33 @@ const LearningTree = ({ learningDays, allTopics }) => {
                     label="Show Legend"
                 />
             </FormGroup>
+            <Paper hidden={!showLegend} className={classes.legend}>
+                <div>
+                    <List>
+                        <ListItem>
+                            Each parent node of the "Top Level" node represents a topic.
+                        </ListItem>
+                        <ListItem>
+                            Each parent node of the topic indicates a subtopic of that topic.
+                        </ListItem>
+                        <ListItem>
+                            Parents of the node can be collapsed/expanded by clicking on a node.
+                        </ListItem>
+                        <ListItem>
+                            <Chip className={classes.chip} label={0} color={"secondary"} /> - indicates that no one has studied this topic.
+                        </ListItem>
+                        <ListItem>
+                            <Chip className={classes.chip} label={1} color={"primary"} /> - indicates that a single person has studied this topic.
+                        </ListItem>
+                        <ListItem>
+                            A full list of people that have studied particular topic can be seen by hovering on the node.
+                        </ListItem>
+                        <ListItem>
+                            Enable "Show All Topics" to see all the available topics. By default, only the topics/subtopics that were studied by at least one person are shown.
+                        </ListItem>
+                    </List>
+                </div>
+            </Paper>
             <Tree data={data} separation={{ siblings: 1, nonSiblings: 1 }} depthFactor={500} translate={translate} allowForeignObjects
                 nodeLabelComponent={{
                     render: <TreeNode className='myLabelComponentInSvg' />,
