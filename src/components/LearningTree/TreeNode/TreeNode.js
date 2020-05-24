@@ -17,10 +17,10 @@ const TreeNode = ({ className, nodeData }) => {
             <Tooltip disableHoverListener={!nodeData.attributes} arrow title={
                 <div>
                     <Typography>
-                        Studied by:
+                        {nodeData.attributes && nodeData.attributes.people && nodeData.attributes.people.length ? 'Studied by:' : 'Studied by no one' }
                     </Typography>
                     <List dense={true}>
-                        {nodeData.attributes && nodeData.attributes.people ? nodeData.attributes.people.map((attribute, index) => (
+                        {nodeData.attributes && nodeData.attributes.people && nodeData.attributes.people.length ? nodeData.attributes.people.map((attribute, index) => (
                             <ListItem key={index}>
                                 <ListItemText>{attribute}</ListItemText>
                             </ListItem>
