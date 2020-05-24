@@ -25,7 +25,7 @@ export const validateEmail = (value) => {
 
 export const validatePassword = (value) => {
     if (value) {
-        if(value.length < 6) {
+        if (value.length < 6) {
             return constants.TOO_SHORT_PASSWORD_TEXT;
         } else {
             return false;
@@ -40,6 +40,18 @@ export const validateRequiredField = (value) => {
         return constants.REQUIRED_FIELD;
     } else {
         return null;
+    }
+}
+
+export const validateFieldLength = (value) => {
+    if (value) {
+        if (value.length < 3 || value.length > 15) {
+            return constants.INVALID_INPUT_LENGTH;
+        } else {
+            return false;
+        }
+    } else {
+        return constants.REQUIRED_FIELD;
     }
 }
 
