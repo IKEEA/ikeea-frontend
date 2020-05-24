@@ -24,7 +24,7 @@ const RegistrationPage = () => {
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [registrationError, setRegistrationError] = useState('');
-  const [setErrors] = useContext(ErrorsContext);
+  const [errors, setErrors] = useContext(ErrorsContext);
 
   const params = useParams();
   const classes = useStyles();
