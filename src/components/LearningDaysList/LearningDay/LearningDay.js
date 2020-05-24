@@ -126,7 +126,6 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
             });
     }
 
-    // backend should be updated to provide /api/comment/{learning-day-id}/list instead of this
     const getComments = () => {
         setCommentsLoading(true);
         axios
