@@ -24,7 +24,8 @@ const RegistrationPage = () => {
   const [repeatPassword, setRepeatPassword] = useState({ input: null, error: false, helperText: null });
   const [redirect, setRedirect] = useState({ shouldRedirect: false, route: '' });
   const [registrationError, setRegistrationError] = useState('');
-  const [setErrors] = useContext(ErrorsContext);
+  /* eslint-disable no-unused-vars */
+  const [_errors, setErrors] = useContext(ErrorsContext);
 
   const params = useParams();
   const classes = useStyles();
@@ -48,8 +49,8 @@ const RegistrationPage = () => {
 
   const register = e => {
     const haveErrors = [];
-    haveErrors.push(validator.validateField(firstName.input, setFirstName, validator.validateRequiredField));
-    haveErrors.push(validator.validateField(lastName.input, setLastName, validator.validateRequiredField));
+    haveErrors.push(validator.validateField(firstName.input, setFirstName, validator.validateFieldLength));
+    haveErrors.push(validator.validateField(lastName.input, setLastName, validator.validateFieldLength));
     haveErrors.push(validator.validateField(password.input, setPassword, validator.validatePassword));
     haveErrors.push(validator.validateField(repeatPassword.input, setRepeatPassword, validator.validatePassword));
     haveErrors.push(validator.ensurePasswordMatching(password.input, repeatPassword.input, setPassword, setRepeatPassword));
