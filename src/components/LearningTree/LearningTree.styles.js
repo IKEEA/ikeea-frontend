@@ -4,7 +4,9 @@ export const useStyles = makeStyles(theme => ({
     wrapper: {
         width: '100%', height: '88vh'
     },
-    toggleButton: {
-        position: 'absolute'
+    formGroup: {
+        position: 'absolute',
+        marginTop: theme.spacing(1),
+        marginLeft: theme.spacing(1)
     }
 }));
