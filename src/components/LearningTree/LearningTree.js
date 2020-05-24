@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useLayoutEffect, useState, useContext } from 'react';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 import { LoadingContext } from '../../context/LoadingContext';
 import Tree from 'react-d3-tree';
 import Paper from '@material-ui/core/Paper';
