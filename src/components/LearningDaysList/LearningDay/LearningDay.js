@@ -174,6 +174,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                             format="yyyy-MM-dd"
                                             margin="normal"
                                             label="Date"
+                                            disablePast={true}
                                             readOnly={!learningDayEditable}
                                             value={date}
                                             onChange={(date) => setDate(date)}
