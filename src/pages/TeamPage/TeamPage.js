@@ -48,10 +48,10 @@ const TeamPage = () => {
 
   const sendInvitation = () => {
     setLoading(true);
-    setInvitationDialog(false);
     const errors = [];
     errors.push(validator.validateField(email.input, setEmail, validator.validateEmail));
     if (!errors.find(error => error === true)) {
+      setInvitationDialog(false);
       axios
         .post(`${process.env.REACT_APP_SERVER_URL}/api/user/invite?email=${email.input.value}`)
         .then(res => {
@@ -66,6 +66,11 @@ const TeamPage = () => {
     } else {
       setLoading(false);
     }
+  }
+
+  const closeInvitationDialog = () => {
+      setInvitationDialog(false);
+      setEmail({ input: null, error: false, helperText: null });
   }
 
   return (
@@ -85,7 +90,7 @@ const TeamPage = () => {
         </div>
         <TeamTable users={users} getUsers={getUsers} setAlert={setAlert} />
       </Menu>
-      <InvitationDialog invitationDialog={invitationDialog} setInvitationDialog={setInvitationDialog} email={email} sendInvitation={sendInvitation} />
+      <InvitationDialog invitationDialog={invitationDialog} closeInvitationDialog={closeInvitationDialog} email={email} sendInvitation={sendInvitation} />
       <AllUsersEditDialog open={editDialogOpen} setOpen={setEditDialogOpen} getUsers={getUsers} setAlert={setAlert}/>
     </div>
   );

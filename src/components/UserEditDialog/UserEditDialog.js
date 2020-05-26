@@ -78,9 +78,12 @@ const UserEditDialog = ({open, setOpen, user, getUsers, setAlert}) => {
                 label="Limit"
                 fullWidth
                 type="number"
-                InputProps={{ inputProps: { min: 0, max: 365 } }}
+                InputProps={{ inputProps: { min: 0, max: 99 } }}
                 value={currentUser.restrictionDays ? currentUser.restrictionDays : null}
                 onChange={(e) => changeLimit(e)}
+                onInput={(e)=>{ 
+                  e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,2)
+                }}
             />
         </DialogContent>
         <DialogTitle>Change manager</DialogTitle>

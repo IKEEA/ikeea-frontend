@@ -22,7 +22,7 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
   const [editMode, setEditMode] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [editTopic, setEditTopic] = useState(JSON.parse(JSON.stringify(topic)));
-  const [editSubtopics, setEditSubtopics] = useState([...subtopics]);
+  const [editSubtopics, setEditSubtopics] = useState(JSON.parse(JSON.stringify(subtopics)));
   const [setLoading] = useContext(LoadingContext);
 
   const classes = useStyles();
@@ -33,11 +33,11 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
     let error = false;
     if(editSubtopics.length !== 0) {
          promises = editSubtopics.map(value => {
-            if(value.title.length < 3 || value.description.length < 3) error = true;
+            if(value.title.length < 3 || value.description.length < 3 || value.title.length > 100 || value.description.length > 255) error = true;
             return axios.put(`${process.env.REACT_APP_SERVER_URL}/api/topic/${value.id}`, value)
         });
     }
-    if(editTopic.title.length < 3 || editTopic.description.length < 3) error = true;
+    if(editTopic.title.length < 3 || editTopic.description.length < 3 || editTopic.title.length > 100 || editTopic.description.length > 255) error = true;
     if(!error) {
         promises.push(axios.put(`${process.env.REACT_APP_SERVER_URL}/api/topic/${editTopic.id}`, editTopic))
         Promise.all(promises).then(res => {
@@ -52,7 +52,7 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
         });
     } else {
         setLoading(false);
-        setAlert({ open: true, message: 'Field values can not be shorter that 3 characters!', severity: 'error' })
+        setAlert({ open: true, message: 'Field values can not be shorter that 3 or longer than 255 characters!', severity: 'error' })
     }
   }
 

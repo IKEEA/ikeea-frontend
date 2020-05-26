@@ -9,9 +9,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const InvitationDialog = ({ invitationDialog, setInvitationDialog, email, sendInvitation }) => {
+const InvitationDialog = ({ invitationDialog, closeInvitationDialog, email, sendInvitation }) => {
     return (
-        <Dialog open={invitationDialog} onClose={() => setInvitationDialog(false)} aria-labelledby="form-dialog-title">
+        <Dialog open={invitationDialog} onClose={() => closeInvitationDialog()} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Send Invitation</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -27,7 +27,7 @@ const InvitationDialog = ({ invitationDialog, setInvitationDialog, email, sendIn
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setInvitationDialog(false)} color="primary">
+                <Button onClick={() => closeInvitationDialog()} color="primary">
                     Cancel
           </Button>
                 <Button onClick={sendInvitation} color="primary">
