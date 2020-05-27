@@ -27,6 +27,8 @@ export const validatePassword = (value) => {
     if (value) {
         if (value.length < 6) {
             return constants.TOO_SHORT_PASSWORD_TEXT;
+        } else if (value.length > 20) {
+            return constants.TOO_LONG_PASSWORD_TEXT;
         } else {
             return false;
         }

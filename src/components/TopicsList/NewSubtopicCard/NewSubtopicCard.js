@@ -39,9 +39,12 @@ const NewSubtopicCard = ({ topic, getTopics, setAlert }) => {
 
   const createSubtopic = () => {
     setLoading(true);
-    if(newSubtopic.title.length < 3 || newSubtopic.description.length < 3) {
-      setLoading(false);
-      setAlert({ open: true, message: 'Field values can not be shorter that 3 characters!', severity: 'error' })
+    if(newSubtopic.title.length < 3 || newSubtopic.title.length > 100) {
+        setLoading(false);
+        setAlert({ open: true, message: 'Title value can not be shorter that 3 or longer than 100 characters!', severity: 'error' })
+    } else if(newSubtopic.description.length < 3 || newSubtopic.description.length > 255) {
+        setLoading(false);
+        setAlert({ open: true, message: 'Description value can not be shorter that 3 or longer that 255 characters!', severity: 'error' })
     } else {
     axios
        .post(`${process.env.REACT_APP_SERVER_URL}/api/topic/add`, newSubtopic)
