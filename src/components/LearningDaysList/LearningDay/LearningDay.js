@@ -70,6 +70,10 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
 
     const handleSubtopicsChange = (e) => {
         if (learningDayEditable) {
+            if (e.target.value.length > constants.MAX_TOPICS_PER_LEARNING_DAY) {
+                setAlert({ open: true, message: constants.MAX_TOPICS_PER_LEARNING_DAY_EXCEEDED_ERROR, severity: 'error' });
+                return;
+            }
             setSubtopics(e.target.value);
         }
     }
@@ -154,6 +158,9 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                             readOnly: !learningDayEditable,
                             classes: { input: classes.title }
                         }}
+                        inputProps={{
+                            maxLength: 100
+                        }}
                         size="medium"
                     />
                     <IconButton aria-label="close" className={classes.closeButton} onClick={(e) => handleLearningDayClose(e)}>
@@ -173,7 +180,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                             format="yyyy-MM-dd"
                                             margin="normal"
                                             label="Date"
-                                            disablePast={true}
+                                            disablePast={learningDayEditable}
                                             readOnly={!learningDayEditable}
                                             value={date}
                                             onChange={(date) => setDate(date)}
