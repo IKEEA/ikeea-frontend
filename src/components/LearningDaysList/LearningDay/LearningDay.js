@@ -154,6 +154,9 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                             readOnly: !learningDayEditable,
                             classes: { input: classes.title }
                         }}
+                        inputProps={{
+                            maxLength: 100
+                        }}
                         size="medium"
                     />
                     <IconButton aria-label="close" className={classes.closeButton} onClick={(e) => handleLearningDayClose(e)}>
