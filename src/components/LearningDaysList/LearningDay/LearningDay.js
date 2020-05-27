@@ -70,6 +70,10 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
 
     const handleSubtopicsChange = (e) => {
         if (learningDayEditable) {
+            if (e.target.value.length > constants.MAX_TOPICS_PER_LEARNING_DAY) {
+                setAlert({ open: true, message: constants.MAX_TOPICS_PER_LEARNING_DAY_EXCEEDED_ERROR, severity: 'error' });
+                return;
+            }
             setSubtopics(e.target.value);
         }
     }
