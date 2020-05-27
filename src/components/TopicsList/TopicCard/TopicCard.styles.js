@@ -36,6 +36,10 @@ export const useStyles = makeStyles(theme => ({
     accordion: {
         cursor: 'default !important'
     },
+    activeAccordion: {
+        cursor: 'default !important',
+        backgroundColor: '#d1d8ff'
+    },
     accordionItem: {
         cursor: 'pointer'
     }

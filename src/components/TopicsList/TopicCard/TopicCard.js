@@ -87,7 +87,7 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
         <ExpansionPanel expanded={expanded}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon onClick={() => clickOnExpand()} className={classes.accordionIcon}/>}
-                className={classes.accordion}
+                className={expanded ? classes.activeAccordion : classes.accordion}
             >
             <Typography className={classes.heading}>
                 <TextField
@@ -136,7 +136,7 @@ const TopicCard = ({ topic, subtopics, getTopics, setAlert }) => {
         <ExpansionPanel expanded={expanded}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon onClick={() => setExpanded(!expanded)} className={classes.accordionIcon}/>}
-                className={classes.accordion}
+                className={expanded ? classes.activeAccordion : classes.accordion}
             >
             <Typography className={classes.heading}>
                 {topic.title}
