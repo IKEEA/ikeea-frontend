@@ -39,7 +39,7 @@ const Comments = ({ commentsLoading, addComment, getComments, deleteComment, com
         <Grid container spacing={1} direction="column-reverse" alignItems="stretch" justify="space-between" className={classes.container}>
             <Grid item>
                 <TextField multiline label="Comment" variant="outlined" rows={3} className={classes.commentField} value={comment}
-                    onChange={e => setComment(e.target.value)} />
+                    onChange={e => setComment(e.target.value)} inputProps={{ maxLength: 100 }}/>
                 <IconButton className={classes.commentButton} onClick={(e) => handleAddCommentClick(e)} disabled={!comment}>
                     <AddCommentIcon></AddCommentIcon>
                 </IconButton>
