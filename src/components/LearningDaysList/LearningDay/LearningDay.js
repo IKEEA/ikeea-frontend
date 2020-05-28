@@ -31,9 +31,12 @@ import * as constants from '../../../constants/learningDay.constants';
 import { useStyles } from './LearningDay.styles';
 
 const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learningDayEditable, learningDayNew, createLearningDay, updateLearningDay, deleteLearningDay, setLearningDayEditable, allTopics, learningDay, isTeamCalendar }) => {
+    const today = new Date();
+
     const [user] = useContext(UserContext);
     const [title, setTitle] = useState('');
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(today);
+    const [initialDate, setInitialDate] = useState(today);
     const [topics, setTopics] = useState([]);
     const [subtopics, setSubtopics] = useState([]);
     const [topicsOpen, setTopicsOpen] = useState(false);
@@ -43,11 +46,14 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
     const [comments, setComments] = useState([]);
     const classes = useStyles();
 
+    
+    
     useEffect(() => {
         const learningDayTopics = learningDay.topics.filter(topic => !topic.parentId);
         const learningDaySubtopics = learningDay.topics.filter(topic => topic.parentId);
         setTitle(learningDay.title);
         setDate(new Date(learningDay.date));
+        setInitialDate(new Date(learningDay.date));
         setTopics(allTopics.filter(topic => learningDayTopics.some(t => t.id === topic.id)))
         setSubtopics(allTopics.filter(topic => learningDaySubtopics.some(t => t.id === topic.id)))
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,6 +94,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
     }
 
     const handleSaveLearningDay = (e) => {
+        setInitialDate(date);
         updateLearningDay(learningDay.id, {
             title: title,
             date: date.toISOString(),
@@ -144,6 +151,11 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
             });
     }
 
+    const disableDates = (d) => {
+        const isAllowed = ((d.setHours(12,0,0,0) >= today.setHours(12,0,0,0)) || (d.setHours(12,0,0,0) == initialDate.setHours(12,0,0,0)));
+        return !isAllowed;
+    }
+
     return (
         <div>
             <Dialog fullWidth maxWidth="lg" onClose={(e) => handleLearningDayClose(e)} open={learningDayModal} classes={{ paper: classes.LearningDayModal }}>
@@ -180,7 +192,9 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
                                             format="yyyy-MM-dd"
                                             margin="normal"
                                             label="Date"
-                                            disablePast={learningDayEditable}
+                                            error={false}
+                                            helperText={null}
+                                            shouldDisableDate={disableDates}
                                             readOnly={!learningDayEditable}
                                             value={date}
                                             onChange={(date) => setDate(date)}
