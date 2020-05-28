@@ -152,7 +152,7 @@ const LearningDay = ({ setAlert, setLearningDayModal, learningDayModal, learning
     }
 
     const disableDates = (d) => {
-        const isAllowed = ((d.setHours(0,0,0,0) >= today.setHours(0,0,0,0)) || (d.setHours(0,0,0,0) == initialDate.setHours(0,0,0,0)));
+        const isAllowed = ((d.setHours(12,0,0,0) >= today.setHours(12,0,0,0)) || (d.setHours(12,0,0,0) == initialDate.setHours(12,0,0,0)));
         return !isAllowed;
     }
 
